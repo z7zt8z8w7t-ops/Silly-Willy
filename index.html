@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#191726" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v6</title>
+<title>Silly Willy v7</title>
 <style>
   :root{
     --bg:#151321; --panel:#221f33; --panel2:#2b2740; --text:#fff7ef; --muted:#c9c2d3;
@@ -65,8 +65,8 @@
   .close{width:100%;margin-top:10px}
   .win-title{font-size:44px;font-weight:950;text-align:center}.win-sub{text-align:center;color:var(--muted);font-size:18px}
   .scorebar{position:relative;height:27px;margin-top:7px;border-radius:5px;background:#e7c982;border:1px solid #6f5420;overflow:hidden;box-shadow:inset 0 2px 3px #0004}
-  .ruler-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#ffe56b;transition:width .28s ease}
-  .ruler-unbanked{position:absolute;top:0;bottom:0;width:0;background:repeating-linear-gradient(135deg,#fff3a4 0 6px,#e5b94b 6px 12px);opacity:.95;transition:left .28s ease,width .28s ease}
+  .ruler-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#fff;transition:width .28s ease;box-shadow:inset 0 0 8px #fff8}
+  .ruler-unbanked{position:absolute;top:0;bottom:0;width:0;background:repeating-linear-gradient(135deg,#fff 0 6px,#ececec 6px 12px);opacity:.95;transition:left .28s ease,width .28s ease;box-shadow:inset 0 0 8px #fff8}
   .ruler-ticks{position:absolute;inset:0;display:grid;grid-template-columns:repeat(7,1fr);pointer-events:none}
   .ruler-inch{position:relative;border-right:2px solid #5c4316}
   .ruler-inch::before{content:"";position:absolute;right:24%;top:0;width:1px;height:42%;background:#6f5420}
@@ -76,7 +76,7 @@
 </style>
 </head>
 <body>
-<div class="version">v6</div>
+<div class="version">v7</div>
 
 <section id="start" class="screen">
   <div class="title">Silly Willy</div>
@@ -185,7 +185,7 @@
 </div>
 
 <script>
-const VERSION='v6';
+const VERSION='v7';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null};
 
@@ -394,10 +394,64 @@ function updateHUD(){
   bankBtn.disabled=state.spinning||available<=0;
 }
 function vibrate(p){ if(navigator.vibrate) navigator.vibrate(p) }
-function beep(freq=400,dur=.09,type='sine',gain=.035){
-  try{const ac=beep.ac||(beep.ac=new (window.AudioContext||window.webkitAudioContext)());const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=freq;g.gain.value=gain;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+dur)}catch(e){}
+function audioCtx(){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return null;
+    const ac=audioCtx.ac||(audioCtx.ac=new AC());
+    if(ac.state==='suspended') ac.resume().catch(()=>{});
+    return ac;
+  }catch(e){return null}
 }
-function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.16,'triangle',.06),i*130))}
+function tone(freq=440,dur=.08,type='sine',gain=.035,when=0,slideTo=null){
+  const ac=audioCtx(); if(!ac) return;
+  const t=ac.currentTime+when;
+  const o=ac.createOscillator(), g=ac.createGain();
+  o.type=type; o.frequency.setValueAtTime(freq,t);
+  if(slideTo) o.frequency.exponentialRampToValueAtTime(Math.max(20,slideTo),t+dur);
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(Math.max(.0002,gain),t+.008);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+dur+.02);
+}
+function noiseBurst(dur=.035,gain=.018,when=0,highpass=900){
+  const ac=audioCtx(); if(!ac) return;
+  const t=ac.currentTime+when;
+  const length=Math.max(1,Math.floor(ac.sampleRate*dur));
+  const buffer=ac.createBuffer(1,length,ac.sampleRate); const data=buffer.getChannelData(0);
+  for(let i=0;i<length;i++) data[i]=(Math.random()*2-1)*(1-i/length);
+  const src=ac.createBufferSource(), filter=ac.createBiquadFilter(), g=ac.createGain();
+  src.buffer=buffer; filter.type='highpass'; filter.frequency.value=highpass;
+  g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  src.connect(filter); filter.connect(g); g.connect(ac.destination); src.start(t);
+}
+function rouletteClick(intensity=1){
+  noiseBurst(.026,.011+intensity*.008,0,1200);
+  tone(720+intensity*180,.026,'triangle',.012+intensity*.006,0,520);
+}
+function whoosh(power=1,dir=1){
+  const ac=audioCtx(); if(!ac) return;
+  const dur=.24+Math.min(.18,power*.05), t=ac.currentTime;
+  const length=Math.floor(ac.sampleRate*dur); const buffer=ac.createBuffer(1,length,ac.sampleRate); const data=buffer.getChannelData(0);
+  for(let i=0;i<length;i++) data[i]=(Math.random()*2-1)*Math.sin(Math.PI*i/length);
+  const src=ac.createBufferSource(), filter=ac.createBiquadFilter(), g=ac.createGain();
+  src.buffer=buffer; filter.type='bandpass'; filter.Q.value=.7; filter.frequency.setValueAtTime(dir>0?700:560,t); filter.frequency.exponentialRampToValueAtTime(dir>0?1700:1450,t+dur);
+  g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.035,t+.05); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  src.connect(filter); filter.connect(g); g.connect(ac.destination); src.start(t);
+}
+function successSting(cat){
+  const base=cat==='Both'?620:cat==='Emma'?560:520;
+  tone(base,.10,'sine',.035); tone(base*1.25,.12,'triangle',.028,.075); tone(base*1.5,.15,'sine',.022,.15);
+}
+function bustSting(){ tone(240,.16,'triangle',.045,0,145); tone(135,.24,'sine',.04,.09,88); noiseBurst(.08,.02,.08,300); }
+function bankSound(){
+  rouletteClick(.8); tone(760,.08,'triangle',.035,.04); tone(1020,.13,'sine',.04,.11); tone(1320,.08,'triangle',.025,.19);
+}
+function completeSound(){ tone(610,.08,'sine',.028); tone(820,.13,'triangle',.032,.07); }
+function skipSound(){ tone(240,.10,'sine',.022,0,185); }
+function fanfare(){
+  [[523,0],[659,.12],[784,.24],[1046,.36],[1318,.5]].forEach(([f,w],i)=>tone(f,i===4?.28:.16,i===4?'sine':'triangle',i===4?.055:.038,w));
+}
 function randomCard(cat){const a=cat==='Emma'?emmaCards:cat==='Jim'?jimCards:bothCards;return a[Math.floor(Math.random()*a.length)]}
 function retractWilly(){
   spinnerWilly.style.transition='transform .24s ease-out';
@@ -405,7 +459,7 @@ function retractWilly(){
 }
 function spin(power=1,dir=1){
   if(state.spinning) return;
-  state.spinning=true; retractWilly(); updateHUD(); vibrate(20); beep(180,.08,'square',.03);
+  state.spinning=true; retractWilly(); updateHUD(); vibrate(20); whoosh(power,dir);
   const extraTurns=5+Math.floor(Math.random()*4)+Math.min(5,Math.floor(power*3));
   const idx=Math.floor(Math.random()*8);
   const center=idx*45+22.5;
@@ -428,9 +482,22 @@ function spin(power=1,dir=1){
   wheel.style.transform=`rotate(${state.wheelRotation}deg)`;
   spinnerWilly.style.transition=`transform ${duration*.9}s cubic-bezier(.08,.74,.12,1)`;
   spinnerWilly.style.transform=`rotate(${state.willyRotation}deg) scaleY(1)`;
-  const tick=setInterval(()=>beep(110+Math.random()*35,.025,'square',.012),110);
+  // Mechanical roulette clicks follow the easing: rapid at first, progressively slower as the wheel settles.
+  const spinStarted=performance.now();
+  let tickTimer=null;
+  const scheduleTick=()=>{
+    if(!state.spinning) return;
+    const elapsed=(performance.now()-spinStarted)/1000;
+    const p=Math.max(0,Math.min(1,elapsed/duration));
+    // Mirrors the visual deceleration: around 55 ms initially, stretching to ~340 ms near the end.
+    const eased=1-Math.pow(1-p,2.4);
+    const interval=55 + eased*285;
+    rouletteClick(Math.max(.25,1-p*.65));
+    tickTimer=setTimeout(scheduleTick,interval);
+  };
+  scheduleTick();
   setTimeout(()=>{
-    clearInterval(tick);
+    if(tickTimer) clearTimeout(tickTimer);
     state.currentCategory=CATEGORIES[idx];
     // As the spin settles, stretch the Willy outward into the selected segment.
     spinnerWilly.style.transition='transform .34s cubic-bezier(.2,.9,.25,1.15)';
@@ -444,7 +511,7 @@ function spin(power=1,dir=1){
   },duration*1000+20);
 }
 function resolveResult(cat){
-  vibrate([30,40,30]); beep(cat==='Bust'?110:520,.16,cat==='Bust'?'sawtooth':'triangle',.05);
+  vibrate([30,40,30]); if(cat==='Bust') bustSting(); else successSting(cat);
   resultModal.classList.remove('hidden'); resultHead.textContent=cat;
   if(cat==='Bust'){
     const lost=state.unbanked[state.active];
@@ -479,9 +546,9 @@ function finishCard(done){
       state.unbanked.Emma++;
       state.unbanked.Jim++;
     }
-    vibrate(25);beep(700,.12,'triangle',.05);
+    vibrate(25);completeSound();
   } else {
-    beep(160,.09,'sine',.03);
+    skipSound();
   }
   resultModal.classList.add('hidden'); updateHUD();
 }
@@ -519,7 +586,7 @@ bankBtn.onclick=()=>{
   const amount=state.unbanked[player];
   state.banked[player]+=amount;
   state.unbanked[player]=0;
-  beep(820,.12,'triangle',.05); vibrate([30,30,60]);
+  bankSound(); vibrate([30,30,60]);
   if(checkWin()){ updateHUD(); return; }
   state.active=player==='Emma'?'Jim':'Emma';
   updateHUD();
