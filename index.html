@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v9</title>
+<title>Silly Willy v10</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -88,10 +88,10 @@
   .bankbtn.ready:not(:disabled){animation:bankReadyGlow .9s ease-in-out infinite;color:#fff}
 
   .win-modal{background:radial-gradient(circle at 50% 30%,#352642 0,#17131f 58%,#0c0910 100%);overflow:hidden;padding:0}
-  .win-stage{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
-  .win-willy{height:96svh;width:auto;max-width:96vw;filter:drop-shadow(0 18px 28px #0009);animation:winGrow .9s cubic-bezier(.18,.92,.2,1.18) both,winWobble 2.2s ease-in-out 1s infinite;transform-origin:50% 92%}
-  @keyframes winGrow{0%{transform:translateY(35%) scale(.35)}100%{transform:translateY(2%) scale(1)}}
-  @keyframes winWobble{0%,100%{transform:translateY(2%) rotate(-1.2deg)}50%{transform:translateY(1%) rotate(1.2deg)}}
+  .win-stage{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;padding-top:12svh}
+  .win-willy{height:108svh;width:auto;max-width:96vw;filter:drop-shadow(0 18px 28px #0009);animation:winGrow .9s cubic-bezier(.18,.92,.2,1.18) both,winWobble 2.2s ease-in-out 1s infinite;transform-origin:50% 92%}
+  @keyframes winGrow{0%{transform:translateY(46%) scale(.35)}100%{transform:translateY(14%) scale(1)}}
+  @keyframes winWobble{0%,100%{transform:translateY(14%) rotate(-1.2deg)}50%{transform:translateY(13%) rotate(1.2deg)}}
   .win-copy{position:absolute;left:5vw;right:5vw;top:max(6svh,34px);z-index:4;text-align:center;text-shadow:0 3px 12px #000,0 0 24px #000}
   .win-copy .win-title{font-size:clamp(30px,8vw,50px);line-height:1.05;color:#fff;margin:0 auto;max-width:620px}
   .win-copy .win-sub{display:none}
@@ -100,10 +100,26 @@
   .confetti-layer{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
   .confetti{position:absolute;left:50%;top:10%;width:7px;height:18px;border-radius:2px;background:#fff;opacity:0;transform-origin:center;animation:confettiFall var(--dur,3.2s) cubic-bezier(.15,.65,.25,1) var(--delay,0s) forwards}
   @keyframes confettiFall{0%{opacity:0;transform:translate(0,0) rotate(0deg) scale(.7)}8%{opacity:1;transform:translate(var(--burstX),var(--burstY)) rotate(90deg) scale(1)}100%{opacity:.92;transform:translate(var(--driftX),105svh) rotate(var(--spin)) scale(.95)}}
+
+  .vs-restart{appearance:none;border:0;background:transparent;color:var(--accent);font-weight:950;font-size:15px;padding:10px 6px;min-width:34px;border-radius:12px;cursor:pointer;text-shadow:0 0 10px #e9c85b55}
+  .vs-restart:active{transform:scale(.94)}
+  .prize-screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:max(18px,env(safe-area-inset-top)) 16px 22px;gap:12px;background:radial-gradient(circle at top,#392a44 0,var(--bg) 48%,var(--bg-deep) 100%)}
+  .prize-title{font-size:clamp(30px,8vw,48px);font-weight:950;text-align:center;line-height:1;margin-top:6px}
+  .prize-sub{font-size:14px;color:var(--muted);text-align:center}
+  .prize-wheel-shell{position:relative;width:min(92vw,470px);aspect-ratio:1;margin-top:6px;display:grid;place-items:center}
+  .prize-wheel{position:absolute;inset:0;border-radius:50%;border:7px solid var(--cream);box-shadow:0 15px 32px #0008,inset 0 0 0 5px #0003;overflow:hidden;transition:transform 4s cubic-bezier(.08,.74,.12,1)}
+  .prize-wheel::after{content:"";position:absolute;inset:24%;border-radius:50%;background:#211a2a;border:5px solid var(--cream);box-shadow:inset 0 0 30px #0009;z-index:1}
+  .prize-labels{position:absolute;inset:0;pointer-events:none;z-index:2}
+  .prize-label{position:absolute;width:92px;text-align:center;transform-origin:center center;font-weight:900;text-transform:uppercase;text-shadow:0 2px 3px #0008;font-size:clamp(8px,2.4vw,12px);line-height:1.05;color:var(--cream)}
+  .prize-willy{position:absolute;width:58%;z-index:4;touch-action:none;cursor:grab;transform-origin:50% 68%;filter:drop-shadow(0 7px 4px #0008);will-change:transform}
+  .prize-result{position:fixed;inset:0;z-index:45;background:radial-gradient(circle at 50% 25%,#3b2b47 0,#17131f 58%,#0c0910 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:22px}
+  .prize-result h2{font-size:clamp(24px,7vw,40px);margin:0;color:var(--accent)}
+  .prize-position{font-size:clamp(42px,12vw,72px);font-weight:950;line-height:.96;text-shadow:0 4px 18px #000}
+
 </style>
 </head>
 <body>
-<div class="version">v9</div>
+<div class="version">v10</div>
 
 <section id="start" class="screen">
   <div class="title">Silly Willy</div>
@@ -142,7 +158,7 @@
 <section id="game" class="screen hidden">
   <div class="hud">
     <div id="emmaScore" class="score active"><div class="name">Emma</div><div class="inches"><span id="emmaInches">0</span>″</div><div class="turn">banked inches</div><div class="unbanked">+<span id="emmaUnbanked">0</span> unbanked</div><div class="scorebar" id="emmaBar"></div></div>
-    <div style="text-align:center;font-weight:900;color:var(--accent)">VS</div>
+    <button id="vsRestart" class="vs-restart" aria-label="Restart game">VS</button>
     <div id="jimScore" class="score"><div class="name">Jim</div><div class="inches"><span id="jimInches">0</span>″</div><div class="turn">banked inches</div><div class="unbanked">+<span id="jimUnbanked">0</span> unbanked</div><div class="scorebar" id="jimBar"></div></div>
   </div>
 
@@ -191,13 +207,16 @@
   <div class="modalbox">
     <h2>How to Play</h2>
     <ol>
-      <li>Emma starts. Flick the cartoon Willy to spin.</li>
+      <li>Emma starts. Flick the cartoon Willy to spin. The Willy and wheel spin in opposite directions.</li>
       <li>The wheel lands on Emma, Jim, Both or Bust.</li>
       <li>Emma/Jim: that person does the card and earns 1 unbanked inch if completed. If the card belongs to the other player, the turn passes to them after completion.</li>
       <li>Both: both do the card, both earn 1 unbanked inch, and the current player keeps the turn.</li>
-      <li>Press Bank to save the active player's unbanked inches. Banking ends the turn and play passes to the other player.</li>
-      <li>Bust: the active player loses all of their unbanked inches and play immediately swaps to the other player.</li>
-      <li>First to bank 7 inches wins.</li>
+      <li>Press Bank to save the active player’s unbanked inches. Banking ends the turn and play passes to the other player.</li>
+      <li>Bust: if there are no unbanked inches, 0 inches are gained; otherwise all unbanked inches are lost. Play then swaps to the other player.</li>
+      <li>The Willy gets longer as the active player builds their score. At 6 inches it reaches the outside of the wheel.</li>
+      <li>The first player to bank 7 inches wins.</li>
+      <li>On the winner screen, tap Claim Your Prize and flick the Willy again to spin the Prize Wheel. The winning position becomes the prize.</li>
+      <li>Tap the VS between the score panels at any time to restart the game.</li>
     </ol>
     <button id="closeHow" class="btn close">Got it</button>
   </div>
@@ -205,17 +224,18 @@
 
 <div id="winModal" class="modal win-modal hidden">
   <div class="win-stage">
-    <svg class="win-willy" viewBox="0 0 240 280" aria-hidden="true">
+    <svg class="win-willy" viewBox="0 0 240 360" aria-hidden="true">
       <defs>
         <linearGradient id="shaftGradWin" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#efb07f"/><stop offset="100%" stop-color="#d99363"/></linearGradient>
         <linearGradient id="headGradWin" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#f7c294"/><stop offset="100%" stop-color="#e6a474"/></linearGradient>
       </defs>
-      <ellipse cx="120" cy="244" rx="86" ry="20" fill="#000" opacity=".16"/>
-      <ellipse cx="82" cy="198" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="158" cy="198" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
-      <rect x="84" y="63" width="72" height="150" rx="34" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="120" cy="332" rx="88" ry="19" fill="#000" opacity=".16"/>
+      <ellipse cx="82" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="158" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <rect x="84" y="63" width="72" height="238" rx="34" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="120" cy="59" rx="44" ry="30" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="103" cy="53" rx="11" ry="7" fill="#fff3"/><ellipse cx="119" cy="118" rx="23" ry="65" fill="#fff2"/>
+      <ellipse cx="103" cy="53" rx="11" ry="7" fill="#fff3"/>
+      <ellipse cx="119" cy="165" rx="23" ry="105" fill="#fff2"/>
       <circle cx="106" cy="55" r="7" fill="#fff"/><circle cx="108" cy="56" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="55" r="7" fill="#fff"/><circle cx="132" cy="56" r="3.3" fill="#241d31"/>
       <path d="M104 73 Q120 87 136 73" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
@@ -223,13 +243,46 @@
     </svg>
     <div id="confettiLayer" class="confetti-layer"></div>
     <div class="win-copy"><div id="winTitle" class="win-title">Winner!</div><div id="winSub" class="win-sub"></div></div>
-    <button id="restartBtn" class="btn win-restart">Play Again</button>
+    <button id="claimPrizeBtn" class="btn win-restart">Claim Your Prize</button>
   </div>
 </div>
 
+<section id="prizeScreen" class="prize-screen hidden">
+  <div class="prize-title">Claim Your Prize</div>
+  <div class="prize-sub">Flick the Willy and let fate decide.</div>
+  <div class="prize-wheel-shell">
+    <div id="prizeWheel" class="prize-wheel"><div id="prizeLabels" class="prize-labels"></div></div>
+    <svg id="prizeWilly" class="prize-willy" viewBox="0 0 240 280" aria-label="Flick the Willy to spin the prize wheel">
+      <defs>
+        <linearGradient id="shaftGradPrize" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#efb07f"/><stop offset="100%" stop-color="#d99363"/></linearGradient>
+        <linearGradient id="headGradPrize" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#f7c294"/><stop offset="100%" stop-color="#e6a474"/></linearGradient>
+      </defs>
+      <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
+      <ellipse cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="120" cy="62" rx="44" ry="30" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/><ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
+      <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
+      <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <path d="M120 64 L120 70" fill="none" stroke="#b56f50" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="hint">Flick the Willy to spin for your prize</div>
+</section>
+
+<div id="prizeResult" class="prize-result hidden">
+  <h2>Your winning position</h2>
+  <div id="prizePosition" class="prize-position">Missionary</div>
+  <button id="prizePlayAgain" class="btn">Play Again</button>
+</div>
+
 <script>
-const VERSION='v9';
+const VERSION='v10';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
+const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
+const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
 const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null};
 
 const emmaCards=[
@@ -407,6 +460,37 @@ function setupLabels(){
     labels.appendChild(d);
   });
   wheel.appendChild(labels);
+}
+function setupPrizeWheel(){
+  const step=360/PRIZES.length;
+  const colors=['#a75d77','#7e9371','#6c89aa','#b27a4e','#8f6e9a','#6e968a','#b26363','#6f7eaa','#9b8658','#8a6f61','#8b667d','#6e8f6e'];
+  prizeWheel.style.background=`conic-gradient(${PRIZES.map((_,i)=>`${colors[i]} ${i*step}deg ${(i+1)*step}deg`).join(',')})`;
+  prizeLabels.innerHTML='';
+  PRIZES.forEach((name,i)=>{
+    const d=document.createElement('div'); d.className='prize-label';
+    const angle=i*step+step/2, radius=35, rad=angle*Math.PI/180;
+    d.style.left=`${50+Math.sin(rad)*radius}%`; d.style.top=`${50-Math.cos(rad)*radius}%`;
+    d.style.transform=`translate(-50%,-50%) rotate(${angle}deg)`; d.textContent=name; prizeLabels.appendChild(d);
+  });
+}
+function spinPrize(power=1,dir=1){
+  if(prizeState.spinning) return;
+  prizeState.spinning=true; whoosh(power,dir); vibrate(20);
+  const step=360/PRIZES.length, idx=Math.floor(Math.random()*PRIZES.length), center=idx*step+step/2;
+  const turns=6+Math.floor(Math.random()*3)+Math.min(4,Math.floor(power*2)), duration=3.8+Math.min(1.6,power*.55), wheelDir=-dir;
+  const currentRel=((prizeState.willyRotation-prizeState.wheelRotation)%360+360)%360;
+  const required=((currentRel-center)%360+360)%360;
+  let wheelDelta;
+  if(wheelDir>0) wheelDelta=360*turns+required; else wheelDelta=-(360*turns+((360-required)%360));
+  const willyDelta=dir*(360*(4+Math.min(4,Math.floor(power*2))));
+  prizeState.wheelRotation+=wheelDelta; prizeState.willyRotation+=willyDelta;
+  prizeWheel.style.transition=`transform ${duration}s cubic-bezier(.08,.74,.12,1)`;
+  prizeWheel.style.transform=`rotate(${prizeState.wheelRotation}deg)`;
+  prizeWilly.style.transition=`transform ${duration*.9}s cubic-bezier(.08,.74,.12,1)`;
+  prizeWilly.style.transform=`rotate(${prizeState.willyRotation}deg) scaleY(1.12)`;
+  const started=performance.now(); let timer=null;
+  const tick=()=>{ if(!prizeState.spinning)return; const p=Math.min(1,(performance.now()-started)/(duration*1000)); rouletteClick(Math.max(.25,1-p*.65)); timer=setTimeout(tick,55+(1-Math.pow(1-p,2.4))*285); }; tick();
+  setTimeout(()=>{ if(timer)clearTimeout(timer); prizeWilly.style.transition='transform .34s cubic-bezier(.2,.9,.25,1.15)'; prizeWilly.style.transform=`rotate(${prizeState.willyRotation}deg) scaleY(1.34)`; vibrate([30,40,30]); setTimeout(()=>{ prizeState.spinning=false; successSting('Both'); prizePosition.textContent=PRIZES[idx]; prizeResult.classList.remove('hidden'); },340); },duration*1000+20);
 }
 function ruler(id,banked,unbanked){
   const el=document.getElementById(id);
@@ -605,6 +689,7 @@ function finishCard(done){
   }
   resultModal.classList.add('hidden'); updateHUD();
 }
+let winConfettiTimer=null;
 function launchWinConfetti(){
   const layer=document.getElementById('confettiLayer');
   if(!layer) return;
@@ -634,6 +719,8 @@ function checkWin(){
     winSub.textContent='';
     winModal.classList.remove('hidden');
     launchWinConfetti();
+    if(winConfettiTimer) clearInterval(winConfettiTimer);
+    winConfettiTimer=setInterval(()=>{ if(!winModal.classList.contains('hidden')) launchWinConfetti(); },3000);
     fanfare();
     vibrate([80,70,80,70,120]);
     return true;
@@ -641,6 +728,7 @@ function checkWin(){
   return false;
 }
 function reset(){
+  game.classList.remove('hidden');
   state.active='Emma';
   state.banked={Emma:0,Jim:0};
   state.unbanked={Emma:0,Jim:0};
@@ -650,12 +738,14 @@ function reset(){
   state.currentCategory=null;
   wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
   spinnerWilly.style.transition='none'; spinnerWilly.style.transform='rotate(0deg) scaleY(.95)';
-  winModal.classList.add('hidden');resultModal.classList.add('hidden');const c=document.getElementById('confettiLayer');if(c)c.innerHTML='';updateHUD();
+  winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
 }
 
 startBtn.onclick=()=>{start.classList.add('hidden');game.classList.remove('hidden');reset()};
 howBtn.onclick=()=>howModal.classList.remove('hidden'); closeHow.onclick=()=>howModal.classList.add('hidden');
-restartBtn.onclick=reset;
+vsRestart.onclick=()=>{ if(confirm('Restart Silly Willy?')) reset(); };
+claimPrizeBtn.onclick=()=>{ if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} winModal.classList.add('hidden'); game.classList.add('hidden'); prizeScreen.classList.remove('hidden'); prizeResult.classList.add('hidden'); };
+prizePlayAgain.onclick=()=>{ prizeResult.classList.add('hidden'); prizeScreen.classList.add('hidden'); game.classList.remove('hidden'); reset(); };
 
 
 bankBtn.onclick=()=>{
@@ -674,7 +764,11 @@ let pStart=null;
 spinnerWilly.addEventListener('pointerdown',e=>{if(state.spinning)return;pStart={x:e.clientX,y:e.clientY,t:performance.now()};spinnerWilly.setPointerCapture(e.pointerId)});
 spinnerWilly.addEventListener('pointerup',e=>{if(!pStart||state.spinning)return;const dt=Math.max(1,performance.now()-pStart.t);const dx=e.clientX-pStart.x,dy=e.clientY-pStart.y;const dist=Math.hypot(dx,dy);const velocity=dist/dt;const power=Math.max(.5,Math.min(2.8,velocity*1.8+dist/180));const dir=(Math.abs(dx)>=Math.abs(dy)?Math.sign(dx||1):-Math.sign(dy||1));pStart=null;spin(power,dir)});
 spinnerWilly.addEventListener('click',()=>{if(!state.spinning)spin(.7,1)});
-setupLabels();bindResultButtons();updateHUD();
+let prizePStart=null;
+prizeWilly.addEventListener('pointerdown',e=>{if(prizeState.spinning)return;prizePStart={x:e.clientX,y:e.clientY,t:performance.now()};prizeWilly.setPointerCapture(e.pointerId)});
+prizeWilly.addEventListener('pointerup',e=>{if(!prizePStart||prizeState.spinning)return;const dt=Math.max(1,performance.now()-prizePStart.t);const dx=e.clientX-prizePStart.x,dy=e.clientY-prizePStart.y;const dist=Math.hypot(dx,dy);const velocity=dist/dt;const power=Math.max(.5,Math.min(2.8,velocity*1.8+dist/180));const dir=(Math.abs(dx)>=Math.abs(dy)?Math.sign(dx||1):-Math.sign(dy||1));prizePStart=null;spinPrize(power,dir)});
+prizeWilly.addEventListener('click',()=>{if(!prizeState.spinning)spinPrize(.7,1)});
+setupLabels();setupPrizeWheel();bindResultButtons();updateHUD();
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
