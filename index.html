@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v15</title>
+<title>Silly Willy v16</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -32,7 +32,7 @@
   .willy-wrap{width:min(70vw,320px);aspect-ratio:1;display:grid;place-items:center;filter:drop-shadow(0 18px 16px #0007)}
   .willy{width:100%;height:100%;animation:bob 2.2s ease-in-out infinite;transform-origin:50% 68%}
   @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(2deg)}}
-  .eye{animation:blink 4s infinite;transform-origin:center}
+  .eye{animation:blink 4s infinite;transform-box:fill-box;transform-origin:50% 50%}
   @keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.08)}}
   #game{justify-content:flex-start;padding-top:max(14px,env(safe-area-inset-top))}
   .hud{width:min(96vw,620px);display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
@@ -192,7 +192,7 @@
 </style>
 </head>
 <body>
-<div class="version">v15</div>
+<div class="version">v16</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -365,7 +365,7 @@
 </div>
 
 <script>
-const VERSION='v15';
+const VERSION='v16';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -773,11 +773,20 @@ function challengeDuration(text){
   let h=0; for(let i=0;i<text.length;i++) h=(h*31+text.charCodeAt(i))>>>0;
   return [30,45,45,60][h%4];
 }
+let suppressButtonClicksUntil=0;
 function bindPress(button,handler){
   if(!button||button.dataset.pressBound==='1') return;
   button.dataset.pressBound='1';
-  button.addEventListener('click',event=>{
+  const activate=event=>{
+    const now=performance.now();
+    // iPhone Safari can consume the first synthetic click on buttons inserted at runtime.
+    // Act on pointer release instead, then ignore the delayed click generated from that touch.
+    if(event.type==='click'&&now<suppressButtonClicksUntil) return;
     if(button.disabled||button.dataset.pressBusy==='1') return;
+    if(event.type==='pointerup'){
+      suppressButtonClicksUntil=now+700;
+      if(event.cancelable) event.preventDefault();
+    }
     button.dataset.pressBusy='1';
     button.classList.add('pressed');
     try{ handler(event); }
@@ -787,7 +796,9 @@ function bindPress(button,handler){
         button.classList.remove('pressed');
       },320);
     }
-  },{passive:true});
+  };
+  button.addEventListener('pointerup',activate,{passive:false});
+  button.addEventListener('click',activate);
 }
 function randomCard(cat){
   const a=cat==='Emma'?emmaCards:cat==='Jim'?jimCards:bothCards;
