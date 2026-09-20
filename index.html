@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#191726" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v4</title>
+<title>Silly Willy v5</title>
 <style>
   :root{
     --bg:#151321; --panel:#221f33; --panel2:#2b2740; --text:#fff7ef; --muted:#c9c2d3;
@@ -76,7 +76,7 @@
 </style>
 </head>
 <body>
-<div class="version">v4</div>
+<div class="version">v5</div>
 
 <section id="start" class="screen">
   <div class="title">Silly Willy</div>
@@ -185,7 +185,7 @@
 </div>
 
 <script>
-const VERSION='v4';
+const VERSION='v5';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null};
 
@@ -440,7 +440,9 @@ function resolveResult(cat){
     const lost=state.unbanked[state.active];
     state.unbanked[state.active]=0;
     const old=state.active; state.active=old==='Emma'?'Jim':'Emma';
-    resultText.textContent=`BUST! ${old} loses ${lost} inch${lost===1?'':'es'} earned this turn. Play passes to ${state.active}.`;
+    resultText.textContent = lost === 0
+      ? `BUST! 0 inches gained this turn. Play passes to ${state.active}.`
+      : `BUST! ${lost} inch${lost===1?'':'es'} lost this turn. Play passes to ${state.active}.`;
     resultActions.innerHTML='<button id="bustContinue" class="smallbtn done" style="grid-column:1/-1">Carry on</button>';
     document.getElementById('bustContinue').onclick=()=>{resultModal.classList.add('hidden');resultActions.innerHTML='<button id="completeBtn" class="smallbtn done">Completed +1″</button><button id="skipBtn" class="smallbtn skip">Not completed</button>';bindResultButtons();updateHUD();};
     updateHUD(); return;
