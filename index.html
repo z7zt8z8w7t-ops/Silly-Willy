@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v12</title>
+<title>Silly Willy v13</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -108,9 +108,9 @@
   .prize-sub{font-size:13px;color:var(--muted);text-align:center;line-height:1.15}
   .prize-wheel-shell{position:relative;width:min(98vw,calc(100svh - 125px),560px);aspect-ratio:1;margin-top:2px;display:grid;place-items:center;flex:0 0 auto}
   .prize-wheel{position:absolute;inset:0;border-radius:50%;border:7px solid var(--cream);box-shadow:0 15px 32px #0008,inset 0 0 0 5px #0003;overflow:hidden;transition:transform 4s cubic-bezier(.08,.74,.12,1)}
-  .prize-wheel::after{content:"";position:absolute;inset:18%;border-radius:50%;background:#211a2a;border:5px solid var(--cream);box-shadow:inset 0 0 30px #0009;z-index:1}
+  .prize-wheel::after{content:"";position:absolute;inset:25%;border-radius:50%;background:#211a2a;border:5px solid var(--cream);box-shadow:inset 0 0 30px #0009;z-index:1}
   .prize-labels{position:absolute;inset:0;pointer-events:none;z-index:2}
-  .prize-label{position:absolute;width:29%;text-align:left;transform-origin:0 50%;font-weight:950;text-transform:uppercase;text-shadow:0 2px 3px #0008;line-height:1;letter-spacing:.15px;color:var(--cream);white-space:nowrap;overflow:visible}
+  .prize-label{position:absolute;width:21.5%;text-align:left;transform-origin:0 50%;font-weight:950;text-transform:uppercase;text-shadow:0 2px 3px #0008;line-height:1;letter-spacing:.05px;color:var(--cream);white-space:nowrap;overflow:visible}
   .prize-willy{position:absolute;width:58%;z-index:4;touch-action:none;cursor:grab;transform-origin:50% 68%;filter:drop-shadow(0 7px 4px #0008);will-change:transform}
   .prize-result{position:fixed;inset:0;z-index:45;background:radial-gradient(circle at 50% 25%,#3b2b47 0,#17131f 58%,#0c0910 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:22px}
   .prize-result h2{font-size:clamp(24px,7vw,40px);margin:0;color:var(--accent)}
@@ -119,7 +119,7 @@
 </style>
 </head>
 <body>
-<div class="version">v12</div>
+<div class="version">v13</div>
 
 <section id="start" class="screen">
   <div class="title">Silly Willy</div>
@@ -280,7 +280,7 @@
 </div>
 
 <script>
-const VERSION='v12';
+const VERSION='v13';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -471,13 +471,13 @@ function setupPrizeWheel(){
     const d=document.createElement('div');
     d.className='prize-label';
     const angle=i*step+step/2;
-    const radius=46;
+    const radius=47.2;
     const rad=angle*Math.PI/180;
     d.style.left=`${50+Math.sin(rad)*radius}%`;
     d.style.top=`${50-Math.cos(rad)*radius}%`;
     // The text begins at the outside edge and reads radially inward toward the centre.
     d.style.transform=`translate(0,-50%) rotate(${angle+90}deg)`;
-    d.style.fontSize = name.length>16 ? '8px' : name.length>13 ? '8.7px' : name.length>10 ? '9.4px' : '10.2px';
+    d.style.fontSize = name.length>16 ? '6.8px' : name.length>13 ? '7.4px' : name.length>10 ? '8.2px' : '9.2px';
     d.textContent=name;
     prizeLabels.appendChild(d);
   });
@@ -537,10 +537,17 @@ function audioCtx(){
     const AC=window.AudioContext||window.webkitAudioContext;
     if(!AC) return null;
     const ac=audioCtx.ac||(audioCtx.ac=new AC());
+    if(!audioCtx.master){
+      const master=ac.createGain();
+      master.gain.value=1.65;
+      master.connect(ac.destination);
+      audioCtx.master=master;
+    }
     if(ac.state==='suspended') ac.resume().catch(()=>{});
     return ac;
   }catch(e){return null}
 }
+function audioOut(){ const ac=audioCtx(); return ac ? (audioCtx.master||ac.destination) : null; }
 function unlockAudio(){
   const ac=audioCtx();
   if(!ac) return;
@@ -552,7 +559,7 @@ function unlockAudio(){
     const gain=ac.createGain();
     gain.gain.value=0.00001;
     src.buffer=buffer;
-    src.connect(gain); gain.connect(ac.destination);
+    src.connect(gain); gain.connect(audioOut());
     src.start(0);
   }catch(e){}
 }
@@ -566,7 +573,7 @@ function tone(freq=440,dur=.08,type='sine',gain=.035,when=0,slideTo=null){
   g.gain.setValueAtTime(0.0001,t);
   g.gain.exponentialRampToValueAtTime(Math.max(.0002,gain),t+.008);
   g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+dur+.02);
+  o.connect(g); g.connect(audioOut()); o.start(t); o.stop(t+dur+.02);
 }
 function noiseBurst(dur=.035,gain=.018,when=0,highpass=900){
   const ac=audioCtx(); if(!ac) return;
@@ -577,7 +584,7 @@ function noiseBurst(dur=.035,gain=.018,when=0,highpass=900){
   const src=ac.createBufferSource(), filter=ac.createBiquadFilter(), g=ac.createGain();
   src.buffer=buffer; filter.type='highpass'; filter.frequency.value=highpass;
   g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  src.connect(filter); filter.connect(g); g.connect(ac.destination); src.start(t);
+  src.connect(filter); filter.connect(g); g.connect(audioOut()); src.start(t);
 }
 function rouletteClick(intensity=1){
   noiseBurst(.026,.011+intensity*.008,0,1200);
@@ -591,7 +598,7 @@ function whoosh(power=1,dir=1){
   const src=ac.createBufferSource(), filter=ac.createBiquadFilter(), g=ac.createGain();
   src.buffer=buffer; filter.type='bandpass'; filter.Q.value=.7; filter.frequency.setValueAtTime(dir>0?700:560,t); filter.frequency.exponentialRampToValueAtTime(dir>0?1700:1450,t+dur);
   g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.035,t+.05); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-  src.connect(filter); filter.connect(g); g.connect(ac.destination); src.start(t);
+  src.connect(filter); filter.connect(g); g.connect(audioOut()); src.start(t);
 }
 function successSting(cat){
   const base=cat==='Both'?620:cat==='Emma'?560:520;
@@ -716,31 +723,59 @@ function finishCard(done){
 }
 let winConfettiTimer=null;
 let winnerMusicTimer=null;
+let winnerMusicBus=null;
+const winnerMusicSources=new Set();
+function winnerTone(freq,dur,type,gain,when){
+  const ac=audioCtx(); if(!ac||!winnerMusicBus) return;
+  const t=ac.currentTime+when;
+  const o=ac.createOscillator(), g=ac.createGain();
+  o.type=type; o.frequency.setValueAtTime(freq,t);
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(Math.max(.0002,gain),t+.008);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g); g.connect(winnerMusicBus);
+  winnerMusicSources.add(o);
+  o.onended=()=>winnerMusicSources.delete(o);
+  o.start(t); o.stop(t+dur+.03);
+}
+function winnerHat(when){
+  const ac=audioCtx(); if(!ac||!winnerMusicBus) return;
+  const dur=.035,t=ac.currentTime+when,length=Math.max(1,Math.floor(ac.sampleRate*dur));
+  const buffer=ac.createBuffer(1,length,ac.sampleRate),data=buffer.getChannelData(0);
+  for(let i=0;i<length;i++) data[i]=(Math.random()*2-1)*(1-i/length);
+  const src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();
+  src.buffer=buffer; f.type='highpass'; f.frequency.value=1900;
+  g.gain.setValueAtTime(.014,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  src.connect(f); f.connect(g); g.connect(winnerMusicBus);
+  winnerMusicSources.add(src); src.onended=()=>winnerMusicSources.delete(src); src.start(t);
+}
 function startWinnerMusic(){
-  if(winnerMusicTimer) return;
+  if(winnerMusicTimer||winnerMusicBus) return;
   const ac=audioCtx(); if(!ac) return;
   if(ac.state==='suspended') ac.resume().catch(()=>{});
-  const bpm=120;
-  const beat=60/bpm;
-  const loopBeats=16; // 8-second cheeky celebration loop.
-  const melody=[
-    [659,0],[784,.5],[880,1],[988,1.5],[1046,2],[988,2.5],[880,3],[784,3.5],
-    [659,4],[784,4.5],[988,5],[1175,5.5],[1046,6],[988,6.5],[784,7],[659,7.5],
-    [784,8],[880,8.5],[988,9],[1175,9.5],[1318,10],[1175,10.5],[988,11],[880,11.5],
-    [784,12],[988,12.5],[1046,13],[1175,13.5],[988,14],[880,14.5],[784,15],[659,15.5]
-  ];
+  winnerMusicBus=ac.createGain();
+  winnerMusicBus.gain.value=.95;
+  winnerMusicBus.connect(audioOut());
+  const bpm=120,beat=60/bpm,loopBeats=16;
+  const melody=[[659,0],[784,.5],[880,1],[988,1.5],[1046,2],[988,2.5],[880,3],[784,3.5],[659,4],[784,4.5],[988,5],[1175,5.5],[1046,6],[988,6.5],[784,7],[659,7.5],[784,8],[880,8.5],[988,9],[1175,9.5],[1318,10],[1175,10.5],[988,11],[880,11.5],[784,12],[988,12.5],[1046,13],[1175,13.5],[988,14],[880,14.5],[784,15],[659,15.5]];
   const bass=[[196,0],[220,2],[247,4],[220,6],[196,8],[247,10],[220,12],[196,14]];
   const scheduleLoop=()=>{
-    if(!winnerMusicTimer) return;
-    melody.forEach(([f,b])=>tone(f,.20,'triangle',.020,b*beat));
-    bass.forEach(([f,b])=>tone(f,.34,'sine',.018,b*beat));
-    for(let b=0;b<loopBeats;b+=1) noiseBurst(.024,.006,b*beat,1900);
+    if(!winnerMusicBus) return;
+    melody.forEach(([f,b])=>winnerTone(f,.20,'triangle',.035,b*beat));
+    bass.forEach(([f,b])=>winnerTone(f,.34,'sine',.032,b*beat));
+    for(let b=0;b<loopBeats;b+=1) winnerHat(b*beat);
   };
-  winnerMusicTimer=setInterval(scheduleLoop,loopBeats*beat*1000);
   scheduleLoop();
+  winnerMusicTimer=setInterval(scheduleLoop,loopBeats*beat*1000);
 }
 function stopWinnerMusic(){
   if(winnerMusicTimer){clearInterval(winnerMusicTimer);winnerMusicTimer=null;}
+  for(const src of winnerMusicSources){ try{src.stop(0)}catch(e){} }
+  winnerMusicSources.clear();
+  if(winnerMusicBus){
+    try{ winnerMusicBus.gain.cancelScheduledValues(0); winnerMusicBus.gain.value=0; winnerMusicBus.disconnect(); }catch(e){}
+    winnerMusicBus=null;
+  }
 }
 let confettiRepeatTimer=null;
 function launchWinConfetti(){
@@ -798,6 +833,7 @@ function checkWin(){
   return false;
 }
 function reset(){
+  stopWinnerMusic();
   game.classList.remove('hidden');
   state.active='Emma';
   state.banked={Emma:0,Jim:0};
