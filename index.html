@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#191726" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v2</title>
+<title>Silly Willy v3</title>
 <style>
   :root{
     --bg:#151321; --panel:#221f33; --panel2:#2b2740; --text:#fff7ef; --muted:#c9c2d3;
@@ -44,13 +44,15 @@
     var(--jim) 270deg 315deg,
     var(--bust) 315deg 360deg
   );transition:transform 4s cubic-bezier(.08,.74,.12,1)}
-  .wheel::after{content:"";position:absolute;inset:20%;border-radius:50%;background:#1f1b31;border:5px solid #f8ecdb;box-shadow:inset 0 0 30px #0009}
-  .labels{position:absolute;inset:0;pointer-events:none}
+  .wheel::after{content:"";position:absolute;inset:24%;border-radius:50%;background:#1f1b31;border:5px solid #f8ecdb;box-shadow:inset 0 0 30px #0009;z-index:1}
+  .labels{position:absolute;inset:0;pointer-events:none;z-index:2}
   .label{position:absolute;left:50%;top:50%;width:88px;text-align:center;transform-origin:center center;font-weight:950;letter-spacing:.6px;text-transform:uppercase;text-shadow:0 2px 3px #0008;font-size:clamp(12px,3.1vw,17px);color:#fffaf2}
-  .pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:0;border-bottom:30px solid #fff2d7;filter:drop-shadow(0 3px 2px #0006)}
-  .spinner-willy{position:absolute;width:43%;z-index:4;touch-action:none;cursor:grab;transform-origin:50% 68%;filter:drop-shadow(0 7px 4px #0008)}
+    .spinner-willy{position:absolute;width:58%;z-index:4;touch-action:none;cursor:grab;transform-origin:50% 68%;filter:drop-shadow(0 7px 4px #0008)}
   .spinner-willy:active{cursor:grabbing}
   .hint{font-size:14px;color:var(--muted);text-align:center;margin-top:-2px}
+  .bankbtn{margin-top:8px;min-width:180px;background:#8bdc7b;color:#10220d;box-shadow:0 6px 0 #4f8d45}
+  .bankbtn:disabled{opacity:.38;filter:grayscale(.7);box-shadow:none}
+  .unbanked{font-size:12px;color:var(--accent);font-weight:800;margin-top:2px}
   .result-card{width:min(92vw,520px);background:linear-gradient(180deg,#2f2a49,#211d34);border:1px solid #ffffff1e;border-radius:22px;padding:18px;box-shadow:0 18px 50px #0008;display:flex;flex-direction:column;gap:14px}
   .result-head{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:1.7px;color:var(--accent)}
   .result-text{font-size:21px;line-height:1.27;font-weight:800}
@@ -66,7 +68,7 @@
 </style>
 </head>
 <body>
-<div class="version">v2</div>
+<div class="version">v3</div>
 
 <section id="start" class="screen">
   <div class="title">Silly Willy</div>
@@ -104,15 +106,13 @@
 
 <section id="game" class="screen hidden">
   <div class="hud">
-    <div id="emmaScore" class="score active"><div class="name">Emma</div><div class="inches"><span id="emmaInches">0</span>″</div><div class="turn">inches</div><div class="scorebar" id="emmaBar"></div></div>
+    <div id="emmaScore" class="score active"><div class="name">Emma</div><div class="inches"><span id="emmaInches">0</span>″</div><div class="turn">banked inches</div><div class="unbanked">+<span id="emmaUnbanked">0</span> unbanked</div><div class="scorebar" id="emmaBar"></div></div>
     <div style="text-align:center;font-weight:900;color:var(--accent)">VS</div>
-    <div id="jimScore" class="score"><div class="name">Jim</div><div class="inches"><span id="jimInches">0</span>″</div><div class="turn">inches</div><div class="scorebar" id="jimBar"></div></div>
+    <div id="jimScore" class="score"><div class="name">Jim</div><div class="inches"><span id="jimInches">0</span>″</div><div class="turn">banked inches</div><div class="unbanked">+<span id="jimUnbanked">0</span> unbanked</div><div class="scorebar" id="jimBar"></div></div>
   </div>
 
   <div class="wheel-shell">
-    <div class="pointer"></div>
-    <div id="wheel" class="wheel"></div>
-    <div id="labels" class="labels"></div>
+    <div id="wheel" class="wheel"><div id="labels" class="labels"></div></div>
     <svg id="spinnerWilly" class="spinner-willy" viewBox="0 0 240 280" aria-label="Flick the Willy to spin">
       <defs>
         <linearGradient id="shaftGrad2" x1="0" x2="0" y1="0" y2="1">
@@ -138,6 +138,7 @@
     </svg>
   </div>
   <div id="hint" class="hint">Flick the Willy to spin • Emma's turn</div>
+  <button id="bankBtn" class="btn bankbtn" disabled>Bank 0″</button>
 </section>
 
 <div id="resultModal" class="modal hidden">
@@ -157,10 +158,11 @@
     <ol>
       <li>Emma starts. Flick the cartoon Willy to spin.</li>
       <li>The wheel lands on Emma, Jim, Both or Bust.</li>
-      <li>Emma/Jim: that person does the card and earns 1 inch if completed. If the card belongs to the other player, the turn passes to them after completion.</li>
-      <li>Both: both do the card, both earn 1 inch, and the current player keeps the turn.</li>
-      <li>Bust: any points earned that turn are lost and play immediately swaps to the other player.</li>
-      <li>First to 7 inches wins.</li>
+      <li>Emma/Jim: that person does the card and earns 1 unbanked inch if completed. If the card belongs to the other player, the turn passes to them after completion.</li>
+      <li>Both: both do the card, both earn 1 unbanked inch, and the current player keeps the turn.</li>
+      <li>Press Bank to save the active player's unbanked inches. Banking ends the turn and play passes to the other player.</li>
+      <li>Bust: the active player loses all of their unbanked inches and play immediately swaps to the other player.</li>
+      <li>First to bank 7 inches wins.</li>
     </ol>
     <button id="closeHow" class="btn close">Got it</button>
   </div>
@@ -175,9 +177,9 @@
 </div>
 
 <script>
-const VERSION='v2';
+const VERSION='v3';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
-const state={active:'Emma', emma:0, jim:0, turnEarned:{Emma:0,Jim:0}, spinning:false, rotation:0, currentCategory:null};
+const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null};
 
 const emmaCards=[
 'Give Jim’s Willy the deluxe treatment while keeping the plums involved too.',
@@ -353,12 +355,18 @@ function setupLabels(){
     d.textContent=c;
     labels.appendChild(d);
   });
+  wheel.appendChild(labels);
 }
 function bars(id,val){ const el=document.getElementById(id); el.innerHTML=''; for(let i=0;i<7;i++){const s=document.createElement('span');s.className='seg'+(i<val?' on':'');el.appendChild(s)}}
 function updateHUD(){
-  emmaInches.textContent=state.emma; jimInches.textContent=state.jim; bars('emmaBar',state.emma); bars('jimBar',state.jim);
+  emmaInches.textContent=state.banked.Emma; jimInches.textContent=state.banked.Jim;
+  emmaUnbanked.textContent=state.unbanked.Emma; jimUnbanked.textContent=state.unbanked.Jim;
+  bars('emmaBar',state.banked.Emma); bars('jimBar',state.banked.Jim);
   emmaScore.classList.toggle('active',state.active==='Emma'); jimScore.classList.toggle('active',state.active==='Jim');
   hint.textContent=`Flick the Willy to spin • ${state.active}'s turn`;
+  const available=state.unbanked[state.active];
+  bankBtn.textContent=`Bank ${available}″`;
+  bankBtn.disabled=state.spinning||available<=0;
 }
 function vibrate(p){ if(navigator.vibrate) navigator.vibrate(p) }
 function beep(freq=400,dur=.09,type='sine',gain=.035){
@@ -366,25 +374,46 @@ function beep(freq=400,dur=.09,type='sine',gain=.035){
 }
 function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.16,'triangle',.06),i*130))}
 function randomCard(cat){const a=cat==='Emma'?emmaCards:cat==='Jim'?jimCards:bothCards;return a[Math.floor(Math.random()*a.length)]}
-function spin(power=1){
-  if(state.spinning) return; state.spinning=true; vibrate(20); beep(180,.08,'square',.03);
+function spin(power=1,dir=1){
+  if(state.spinning) return;
+  state.spinning=true; updateHUD(); vibrate(20); beep(180,.08,'square',.03);
   const extraTurns=5+Math.floor(Math.random()*4)+Math.min(5,Math.floor(power*3));
-  const idx=Math.floor(Math.random()*8); const center=idx*45+22.5;
-  const target=360*extraTurns + (360-center);
-  state.rotation += target;
-  wheel.style.transition=`transform ${3.4+Math.min(2,power)}s cubic-bezier(.08,.74,.12,1)`;
-  wheel.style.transform=`rotate(${state.rotation}deg)`;
-  spinnerWilly.animate([{transform:'rotate(0deg)'},{transform:`rotate(${1080+power*720}deg)`}],{duration:(3.2+Math.min(2,power))*1000,easing:'cubic-bezier(.08,.74,.12,1)'});
+  const idx=Math.floor(Math.random()*8);
+  const center=idx*45+22.5;
+  const duration=3.4+Math.min(2,power);
+  const wheelDir=-dir;
+  const currentRel=((state.willyRotation-state.wheelRotation)%360+360)%360;
+  const requiredWheelMod=((currentRel-center)%360+360)%360;
+  let wheelDelta;
+  if(wheelDir>0){
+    wheelDelta=360*extraTurns + requiredWheelMod;
+  }else{
+    const ccwRemainder=(360-requiredWheelMod)%360;
+    wheelDelta=-(360*extraTurns + ccwRemainder);
+  }
+  const willyTurns=3+Math.min(5,Math.floor(power*2));
+  const willyDelta=dir*(360*willyTurns);
+  state.wheelRotation += wheelDelta;
+  state.willyRotation += willyDelta;
+  wheel.style.transition=`transform ${duration}s cubic-bezier(.08,.74,.12,1)`;
+  wheel.style.transform=`rotate(${state.wheelRotation}deg)`;
+  spinnerWilly.style.transition=`transform ${duration*.9}s cubic-bezier(.08,.74,.12,1)`;
+  spinnerWilly.style.transform=`rotate(${state.willyRotation}deg)`;
   const tick=setInterval(()=>beep(110+Math.random()*35,.025,'square',.012),110);
-  setTimeout(()=>{clearInterval(tick);state.spinning=false;state.currentCategory=CATEGORIES[idx];resolveResult(state.currentCategory)},(3.45+Math.min(2,power))*1000);
+  setTimeout(()=>{
+    clearInterval(tick);
+    state.spinning=false;
+    state.currentCategory=CATEGORIES[idx];
+    updateHUD();
+    resolveResult(state.currentCategory);
+  },duration*1000+50);
 }
 function resolveResult(cat){
   vibrate([30,40,30]); beep(cat==='Bust'?110:520,.16,cat==='Bust'?'sawtooth':'triangle',.05);
   resultModal.classList.remove('hidden'); resultHead.textContent=cat;
   if(cat==='Bust'){
-    const lost=state.turnEarned[state.active];
-    if(state.active==='Emma') state.emma=Math.max(0,state.emma-lost); else state.jim=Math.max(0,state.jim-lost);
-    state.turnEarned[state.active]=0;
+    const lost=state.unbanked[state.active];
+    state.unbanked[state.active]=0;
     const old=state.active; state.active=old==='Emma'?'Jim':'Emma';
     resultText.textContent=`BUST! ${old} loses ${lost} inch${lost===1?'':'es'} earned this turn. Play passes to ${state.active}.`;
     resultActions.innerHTML='<button id="bustContinue" class="smallbtn done" style="grid-column:1/-1">Carry on</button>';
@@ -400,29 +429,68 @@ function bindResultButtons(){
 function finishCard(done){
   const cat=state.currentCategory;
   if(done){
-    if(cat==='Emma'){state.emma++; state.turnEarned[state.active]+=(state.active==='Emma'?1:0); if(state.active!=='Emma') state.active='Emma';}
-    if(cat==='Jim'){state.jim++; state.turnEarned[state.active]+=(state.active==='Jim'?1:0); if(state.active!=='Jim') state.active='Jim';}
-    if(cat==='Both'){state.emma++;state.jim++;state.turnEarned[state.active]++;}
+    if(cat==='Emma'){
+      state.unbanked.Emma++;
+      if(state.active!=='Emma') state.active='Emma';
+    }
+    if(cat==='Jim'){
+      state.unbanked.Jim++;
+      if(state.active!=='Jim') state.active='Jim';
+    }
+    if(cat==='Both'){
+      state.unbanked.Emma++;
+      state.unbanked.Jim++;
+    }
     vibrate(25);beep(700,.12,'triangle',.05);
   } else {
-    // If the other player's card is refused/not completed, keep current turn.
     beep(160,.09,'sine',.03);
   }
-  resultModal.classList.add('hidden'); updateHUD(); checkWin();
+  resultModal.classList.add('hidden'); updateHUD();
 }
 function checkWin(){
-  if(state.emma>=7||state.jim>=7){const w=state.emma>=7?'Emma':'Jim';winTitle.textContent=`${w} wins!`;winSub.textContent=`${w} reached 7 inches first. Silly Willy is impressed.`;winModal.classList.remove('hidden');fanfare();vibrate([80,70,80,70,120]);}
+  if(state.banked.Emma>=7||state.banked.Jim>=7){
+    const w=state.banked.Emma>=7?'Emma':'Jim';
+    winTitle.textContent=`${w} wins!`;
+    winSub.textContent=`${w} banked 7 inches first. Silly Willy is impressed.`;
+    winModal.classList.remove('hidden');fanfare();vibrate([80,70,80,70,120]);
+    return true;
+  }
+  return false;
 }
-function reset(){state.active='Emma';state.emma=0;state.jim=0;state.turnEarned={Emma:0,Jim:0};state.spinning=false;state.rotation=0;wheel.style.transition='none';wheel.style.transform='rotate(0deg)';winModal.classList.add('hidden');resultModal.classList.add('hidden');updateHUD()}
+function reset(){
+  state.active='Emma';
+  state.banked={Emma:0,Jim:0};
+  state.unbanked={Emma:0,Jim:0};
+  state.spinning=false;
+  state.wheelRotation=0;
+  state.willyRotation=0;
+  state.currentCategory=null;
+  wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
+  spinnerWilly.style.transition='none'; spinnerWilly.style.transform='rotate(0deg)';
+  winModal.classList.add('hidden');resultModal.classList.add('hidden');updateHUD();
+}
 
 startBtn.onclick=()=>{start.classList.add('hidden');game.classList.remove('hidden');reset()};
 howBtn.onclick=()=>howModal.classList.remove('hidden'); closeHow.onclick=()=>howModal.classList.add('hidden');
 restartBtn.onclick=reset;
 
+
+bankBtn.onclick=()=>{
+  if(state.spinning||state.unbanked[state.active]<=0) return;
+  const player=state.active;
+  const amount=state.unbanked[player];
+  state.banked[player]+=amount;
+  state.unbanked[player]=0;
+  beep(820,.12,'triangle',.05); vibrate([30,30,60]);
+  if(checkWin()){ updateHUD(); return; }
+  state.active=player==='Emma'?'Jim':'Emma';
+  updateHUD();
+};
+
 let pStart=null;
 spinnerWilly.addEventListener('pointerdown',e=>{if(state.spinning)return;pStart={x:e.clientX,y:e.clientY,t:performance.now()};spinnerWilly.setPointerCapture(e.pointerId)});
-spinnerWilly.addEventListener('pointerup',e=>{if(!pStart||state.spinning)return;const dt=Math.max(1,performance.now()-pStart.t);const dx=e.clientX-pStart.x,dy=e.clientY-pStart.y;const dist=Math.hypot(dx,dy);const velocity=dist/dt;const power=Math.max(.5,Math.min(2.8,velocity*1.8+dist/180));pStart=null;spin(power)});
-spinnerWilly.addEventListener('click',()=>{if(!state.spinning)spin(.7)});
+spinnerWilly.addEventListener('pointerup',e=>{if(!pStart||state.spinning)return;const dt=Math.max(1,performance.now()-pStart.t);const dx=e.clientX-pStart.x,dy=e.clientY-pStart.y;const dist=Math.hypot(dx,dy);const velocity=dist/dt;const power=Math.max(.5,Math.min(2.8,velocity*1.8+dist/180));const dir=(Math.abs(dx)>=Math.abs(dy)?Math.sign(dx||1):-Math.sign(dy||1));pStart=null;spin(power,dir)});
+spinnerWilly.addEventListener('click',()=>{if(!state.spinning)spin(.7,1)});
 setupLabels();bindResultButtons();updateHUD();
 
 if('serviceWorker' in navigator){
