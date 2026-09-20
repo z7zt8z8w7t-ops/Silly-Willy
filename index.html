@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#191726" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v1</title>
+<title>Silly Willy v2</title>
 <style>
   :root{
     --bg:#151321; --panel:#221f33; --panel2:#2b2740; --text:#fff7ef; --muted:#c9c2d3;
@@ -23,8 +23,8 @@
   .btn{border:0;border-radius:18px;padding:14px 22px;font-weight:800;font-size:18px;background:var(--accent);color:#251f08;box-shadow:0 6px 0 #b9a934;min-width:220px}
   .btn:active{transform:translateY(3px);box-shadow:0 3px 0 #b9a934}
   .btn.secondary{background:#ffffff14;color:var(--text);box-shadow:0 5px 0 #00000040;border:1px solid #ffffff22}
-  .willy-wrap{width:min(64vw,300px);aspect-ratio:1;display:grid;place-items:center;filter:drop-shadow(0 18px 16px #0007)}
-  .willy{width:100%;height:100%;animation:bob 2.2s ease-in-out infinite;transform-origin:50% 65%}
+  .willy-wrap{width:min(70vw,320px);aspect-ratio:1;display:grid;place-items:center;filter:drop-shadow(0 18px 16px #0007)}
+  .willy{width:100%;height:100%;animation:bob 2.2s ease-in-out infinite;transform-origin:50% 68%}
   @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(2deg)}}
   .eye{animation:blink 4s infinite;transform-origin:center}
   @keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.08)}}
@@ -46,9 +46,9 @@
   );transition:transform 4s cubic-bezier(.08,.74,.12,1)}
   .wheel::after{content:"";position:absolute;inset:20%;border-radius:50%;background:#1f1b31;border:5px solid #f8ecdb;box-shadow:inset 0 0 30px #0009}
   .labels{position:absolute;inset:0;pointer-events:none}
-  .label{position:absolute;left:50%;top:50%;width:38%;transform-origin:0 0;font-weight:900;text-transform:uppercase;text-shadow:0 2px 3px #0008;font-size:clamp(11px,3vw,16px)}
+  .label{position:absolute;left:50%;top:50%;width:88px;text-align:center;transform-origin:center center;font-weight:950;letter-spacing:.6px;text-transform:uppercase;text-shadow:0 2px 3px #0008;font-size:clamp(12px,3.1vw,17px);color:#fffaf2}
   .pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:0;border-bottom:30px solid #fff2d7;filter:drop-shadow(0 3px 2px #0006)}
-  .spinner-willy{position:absolute;width:39%;z-index:4;touch-action:none;cursor:grab;transform-origin:50% 60%;filter:drop-shadow(0 7px 4px #0008)}
+  .spinner-willy{position:absolute;width:43%;z-index:4;touch-action:none;cursor:grab;transform-origin:50% 68%;filter:drop-shadow(0 7px 4px #0008)}
   .spinner-willy:active{cursor:grabbing}
   .hint{font-size:14px;color:var(--muted);text-align:center;margin-top:-2px}
   .result-card{width:min(92vw,520px);background:linear-gradient(180deg,#2f2a49,#211d34);border:1px solid #ffffff1e;border-radius:22px;padding:18px;box-shadow:0 18px 50px #0008;display:flex;flex-direction:column;gap:14px}
@@ -66,23 +66,35 @@
 </style>
 </head>
 <body>
-<div class="version">v1</div>
+<div class="version">v2</div>
 
 <section id="start" class="screen">
   <div class="title">Silly Willy</div>
   <div class="willy-wrap">
-    <svg class="willy" viewBox="0 0 240 240" aria-label="Funny cartoon Willy">
-      <ellipse cx="120" cy="184" rx="76" ry="24" fill="#000" opacity=".18"/>
-      <ellipse cx="86" cy="159" rx="47" ry="43" fill="#f5a66f" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="154" cy="159" rx="47" ry="43" fill="#f5a66f" stroke="#7e4c36" stroke-width="5"/>
-      <rect x="79" y="35" width="82" height="137" rx="41" fill="#f6b07c" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="120" cy="43" rx="40" ry="27" fill="#ffc08d" stroke="#7e4c36" stroke-width="5"/>
-      <g class="eye"><circle cx="105" cy="76" r="7" fill="#fff"/><circle cx="107" cy="77" r="3.5" fill="#1d1830"/></g>
-      <g class="eye"><circle cx="135" cy="76" r="7" fill="#fff"/><circle cx="133" cy="77" r="3.5" fill="#1d1830"/></g>
-      <path d="M104 96 Q120 111 137 96" fill="none" stroke="#7a2e3b" stroke-width="5" stroke-linecap="round"/>
-      <path d="M91 54 Q120 35 149 54" fill="none" stroke="#e68f61" stroke-width="6" stroke-linecap="round"/>
-      <path d="M73 140 q-15 -12 -28 2" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round"/>
-      <path d="M167 140 q15 -12 28 2" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round"/>
+    <svg class="willy" viewBox="0 0 240 280" aria-label="Funny cartoon Willy">
+      <defs>
+        <linearGradient id="shaftGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#efb07f"/>
+          <stop offset="100%" stop-color="#d99363"/>
+        </linearGradient>
+        <linearGradient id="headGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#f7c294"/>
+          <stop offset="100%" stop-color="#e6a474"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
+      <ellipse cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="120" cy="62" rx="44" ry="30" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
+      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <g class="eye"><circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/></g>
+      <g class="eye"><circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/></g>
+      <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <path d="M92 67 Q120 80 148 67" fill="none" stroke="#c7845b" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+      <path d="M78 175 q-16 -10 -28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+      <path d="M162 175 q16 -10 28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
     </svg>
   </div>
   <div class="subtitle">A ridiculous roulette game for Emma & Jim. Flick the Willy. Do the card. First to 7 inches wins.</div>
@@ -101,15 +113,28 @@
     <div class="pointer"></div>
     <div id="wheel" class="wheel"></div>
     <div id="labels" class="labels"></div>
-    <svg id="spinnerWilly" class="spinner-willy" viewBox="0 0 240 240" aria-label="Flick the Willy to spin">
-      <ellipse cx="120" cy="184" rx="76" ry="24" fill="#000" opacity=".18"/>
-      <ellipse cx="86" cy="159" rx="47" ry="43" fill="#f5a66f" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="154" cy="159" rx="47" ry="43" fill="#f5a66f" stroke="#7e4c36" stroke-width="5"/>
-      <rect x="79" y="35" width="82" height="137" rx="41" fill="#f6b07c" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="120" cy="43" rx="40" ry="27" fill="#ffc08d" stroke="#7e4c36" stroke-width="5"/>
-      <circle cx="105" cy="76" r="7" fill="#fff"/><circle cx="107" cy="77" r="3.5" fill="#1d1830"/>
-      <circle cx="135" cy="76" r="7" fill="#fff"/><circle cx="133" cy="77" r="3.5" fill="#1d1830"/>
-      <path d="M104 96 Q120 111 137 96" fill="none" stroke="#7a2e3b" stroke-width="5" stroke-linecap="round"/>
+    <svg id="spinnerWilly" class="spinner-willy" viewBox="0 0 240 280" aria-label="Flick the Willy to spin">
+      <defs>
+        <linearGradient id="shaftGrad2" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#efb07f"/>
+          <stop offset="100%" stop-color="#d99363"/>
+        </linearGradient>
+        <linearGradient id="headGrad2" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#f7c294"/>
+          <stop offset="100%" stop-color="#e6a474"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
+      <ellipse cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad2)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="120" cy="62" rx="44" ry="30" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
+      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
+      <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
+      <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <path d="M92 67 Q120 80 148 67" fill="none" stroke="#c7845b" stroke-width="4" stroke-linecap="round" opacity=".9"/>
     </svg>
   </div>
   <div id="hint" class="hint">Flick the Willy to spin • Emma's turn</div>
@@ -150,7 +175,7 @@
 </div>
 
 <script>
-const VERSION='v1';
+const VERSION='v2';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const state={active:'Emma', emma:0, jim:0, turnEarned:{Emma:0,Jim:0}, spinning:false, rotation:0, currentCategory:null};
 
@@ -317,9 +342,16 @@ function setupLabels(){
   const labels=document.getElementById('labels'); labels.innerHTML='';
   CATEGORIES.forEach((c,i)=>{
     const d=document.createElement('div'); d.className='label';
-    const angle=i*45+22.5; const r=39;
-    d.style.transform=`rotate(${angle}deg) translate(${r}%) rotate(90deg)`;
-    d.textContent=c; labels.appendChild(d);
+    const angle=i*45+22.5;
+    const radius=34;
+    const rad=angle*Math.PI/180;
+    const x=50 + Math.sin(rad)*radius;
+    const y=50 - Math.cos(rad)*radius;
+    d.style.left=`${x}%`;
+    d.style.top=`${y}%`;
+    d.style.transform=`translate(-50%,-50%) rotate(${angle}deg)`;
+    d.textContent=c;
+    labels.appendChild(d);
   });
 }
 function bars(id,val){ const el=document.getElementById(id); el.innerHTML=''; for(let i=0;i<7;i++){const s=document.createElement('span');s.className='seg'+(i<val?' on':'');el.appendChild(s)}}
