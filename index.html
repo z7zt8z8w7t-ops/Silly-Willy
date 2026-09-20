@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#191726" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v3</title>
+<title>Silly Willy v4</title>
 <style>
   :root{
     --bg:#151321; --panel:#221f33; --panel2:#2b2740; --text:#fff7ef; --muted:#c9c2d3;
@@ -64,11 +64,19 @@
   .modalbox h2{margin-top:0}.modalbox p,.modalbox li{color:#ded8e5;line-height:1.45}
   .close{width:100%;margin-top:10px}
   .win-title{font-size:44px;font-weight:950;text-align:center}.win-sub{text-align:center;color:var(--muted);font-size:18px}
-  .scorebar{display:flex;gap:4px;justify-content:center;margin-top:5px}.seg{width:12px;height:8px;border-radius:4px;background:#ffffff18}.seg.on{background:var(--accent)}
+  .scorebar{position:relative;height:27px;margin-top:7px;border-radius:5px;background:#e7c982;border:1px solid #6f5420;overflow:hidden;box-shadow:inset 0 2px 3px #0004}
+  .ruler-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#ffe56b;transition:width .28s ease}
+  .ruler-unbanked{position:absolute;top:0;bottom:0;width:0;background:repeating-linear-gradient(135deg,#fff3a4 0 6px,#e5b94b 6px 12px);opacity:.95;transition:left .28s ease,width .28s ease}
+  .ruler-ticks{position:absolute;inset:0;display:grid;grid-template-columns:repeat(7,1fr);pointer-events:none}
+  .ruler-inch{position:relative;border-right:2px solid #5c4316}
+  .ruler-inch::before{content:"";position:absolute;right:24%;top:0;width:1px;height:42%;background:#6f5420}
+  .ruler-inch::after{content:"";position:absolute;right:49%;top:0;width:1px;height:28%;background:#6f5420}
+  .ruler-num{position:absolute;right:3px;bottom:1px;font-size:9px;line-height:1;font-weight:900;color:#4c3613;text-shadow:0 1px #fff5}
+  .score.active .scorebar{box-shadow:0 0 10px #ffe56b66,inset 0 2px 3px #0004}
 </style>
 </head>
 <body>
-<div class="version">v3</div>
+<div class="version">v4</div>
 
 <section id="start" class="screen">
   <div class="title">Silly Willy</div>
@@ -94,7 +102,7 @@
       <g class="eye"><circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/></g>
       <g class="eye"><circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/></g>
       <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
-      <path d="M92 67 Q120 80 148 67" fill="none" stroke="#c7845b" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+      <path d="M120 64 L120 70" fill="none" stroke="#b56f50" stroke-width="3.5" stroke-linecap="round"/>
       <path d="M78 175 q-16 -10 -28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
       <path d="M162 175 q16 -10 28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
     </svg>
@@ -134,7 +142,7 @@
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
       <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
-      <path d="M92 67 Q120 80 148 67" fill="none" stroke="#c7845b" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+      <path d="M120 64 L120 70" fill="none" stroke="#b56f50" stroke-width="3.5" stroke-linecap="round"/>
     </svg>
   </div>
   <div id="hint" class="hint">Flick the Willy to spin • Emma's turn</div>
@@ -177,7 +185,7 @@
 </div>
 
 <script>
-const VERSION='v3';
+const VERSION='v4';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null};
 
@@ -357,11 +365,28 @@ function setupLabels(){
   });
   wheel.appendChild(labels);
 }
-function bars(id,val){ const el=document.getElementById(id); el.innerHTML=''; for(let i=0;i<7;i++){const s=document.createElement('span');s.className='seg'+(i<val?' on':'');el.appendChild(s)}}
+function ruler(id,banked,unbanked){
+  const el=document.getElementById(id);
+  const b=Math.max(0,Math.min(7,banked));
+  const u=Math.max(0,Math.min(7-b,unbanked));
+  el.innerHTML='<div class="ruler-fill"></div><div class="ruler-unbanked"></div><div class="ruler-ticks"></div>';
+  const fill=el.querySelector('.ruler-fill');
+  const pending=el.querySelector('.ruler-unbanked');
+  const ticks=el.querySelector('.ruler-ticks');
+  fill.style.width=`${(b/7)*100}%`;
+  pending.style.left=`${(b/7)*100}%`;
+  pending.style.width=`${(u/7)*100}%`;
+  for(let i=1;i<=7;i++){
+    const inch=document.createElement('div');
+    inch.className='ruler-inch';
+    inch.innerHTML=`<span class="ruler-num">${i}</span>`;
+    ticks.appendChild(inch);
+  }
+}
 function updateHUD(){
   emmaInches.textContent=state.banked.Emma; jimInches.textContent=state.banked.Jim;
   emmaUnbanked.textContent=state.unbanked.Emma; jimUnbanked.textContent=state.unbanked.Jim;
-  bars('emmaBar',state.banked.Emma); bars('jimBar',state.banked.Jim);
+  ruler('emmaBar',state.banked.Emma,state.unbanked.Emma); ruler('jimBar',state.banked.Jim,state.unbanked.Jim);
   emmaScore.classList.toggle('active',state.active==='Emma'); jimScore.classList.toggle('active',state.active==='Jim');
   hint.textContent=`Flick the Willy to spin • ${state.active}'s turn`;
   const available=state.unbanked[state.active];
