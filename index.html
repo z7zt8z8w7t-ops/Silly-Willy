@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v19</title>
+<title>Silly Willy v20</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -38,6 +38,9 @@
   .balls-pulse .willy-ball{animation:ballSwell .92s cubic-bezier(.2,.8,.25,1) both}
   .balls-pulse .willy-ball.right{animation-delay:.07s}
   @keyframes ballSwell{0%,100%{transform:scale(1)}34%{transform:scale(1.1)}58%{transform:scale(.985)}79%{transform:scale(1.045)}}
+  .willy-head{transform-box:fill-box;transform-origin:50% 50%;will-change:transform}
+  .head-pulse .willy-head{animation:headSwell 1.08s cubic-bezier(.2,.8,.25,1) both}
+  @keyframes headSwell{0%,100%{transform:scale(1)}34%{transform:scale(1.07)}59%{transform:scale(.992)}80%{transform:scale(1.025)}}
   #game{justify-content:flex-start;padding-top:max(14px,env(safe-area-inset-top))}
   .hud{width:min(96vw,620px);display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
   .score{position:relative;overflow:hidden;background:linear-gradient(180deg,#352a40f2,#211a2af2);border:1px solid #f5e7c82e;border-radius:18px;padding:10px 12px;text-align:center;min-height:70px;box-shadow:inset 0 1px 0 #ffffff0d,0 10px 24px #0004;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
@@ -196,7 +199,7 @@
 </style>
 </head>
 <body>
-<div class="version">v19</div>
+<div class="version">v20</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -219,14 +222,15 @@
       <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <g class="willy-head">
       <path d="M76 68 C77 52 88 43 102 34 C110 29 115 26 120 25 C125 26 130 29 138 34 C152 43 163 52 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 28 L120 35" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
-      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <g class="eye"><circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/></g>
       <g class="eye"><circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/></g>
       <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
-      <path d="M120 64 L120 70" fill="none" stroke="#b56f50" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
       <path d="M78 175 q-16 -10 -28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
       <path d="M162 175 q16 -10 28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
     </svg>
@@ -261,14 +265,15 @@
       <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad2)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <g class="willy-head">
       <path d="M76 68 C77 52 88 43 102 34 C110 29 115 26 120 25 C125 26 130 29 138 34 C152 43 163 52 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 28 L120 35" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
-      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
       <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
-      <path d="M120 64 L120 70" fill="none" stroke="#b56f50" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
     </svg>
   </div>
   <div id="hint" class="hint">Flick the Willy to spin • Emma's turn</div>
@@ -301,6 +306,7 @@
       <li>Every Emma, Jim and Both challenge has a 30, 45 or 60 second limit. The countdown starts immediately when the action screen appears, with a mechanical tick-tock that speeds up as time runs down. The final five seconds pulse and a fanfare sounds at zero.</li>
       <li>Emma/Jim: that person does the card and earns 1 unbanked inch if completed. If the card belongs to the other player, the turn passes to them after completion.</li>
       <li>Both: both do the card, both earn 1 unbanked inch, and the current player keeps the turn.</li>
+      <li>A completed card is removed for the rest of that game. A card marked Not Completed stays available, but it cannot appear again on the very next draw from that deck.</li>
       <li>Press Bank to save the active player’s unbanked inches. Banking ends the turn and play passes to the other player.</li>
       <li>Bust: if there are no unbanked inches, 0 inches are gained; otherwise all unbanked inches are lost. Play then swaps to the other player.</li>
       <li>The Willy gets longer as the active player builds their score. At 6 inches it reaches the outside of the wheel.</li>
@@ -324,14 +330,15 @@
       <ellipse class="willy-ball left" cx="82" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="158" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="63" width="72" height="238" rx="34" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="119" cy="165" rx="23" ry="105" fill="#fff2"/>
+      <g class="willy-head">
       <path d="M76 65 C77 49 88 40 102 31 C110 26 115 23 120 22 C125 23 130 26 138 31 C152 40 163 49 164 65 C164 81 145 89 120 89 C95 89 76 81 76 65 Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 25 L120 32" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="53" rx="11" ry="7" fill="#fff3"/>
-      <ellipse cx="119" cy="165" rx="23" ry="105" fill="#fff2"/>
       <circle cx="106" cy="55" r="7" fill="#fff"/><circle cx="108" cy="56" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="55" r="7" fill="#fff"/><circle cx="132" cy="56" r="3.3" fill="#241d31"/>
       <path d="M104 73 Q120 87 136 73" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
-      <path d="M120 61 L120 67" fill="none" stroke="#b56f50" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
     </svg>
     <div id="confettiLayer" class="confetti-layer"></div>
     <div class="win-copy"><div id="winTitle" class="win-title">Winner!</div><div id="winSub" class="win-sub"></div></div>
@@ -353,13 +360,15 @@
       <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <g class="willy-head">
       <path d="M76 68 C77 52 88 43 102 34 C110 29 115 26 120 25 C125 26 130 29 138 34 C152 43 163 52 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 28 L120 35" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
-      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/><ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
       <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
-      <path d="M120 64 L120 70" fill="none" stroke="#b56f50" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
     </svg>
   </div>
   <div class="hint">Flick the Willy to spin for your prize</div>
@@ -372,11 +381,11 @@
 </div>
 
 <script>
-const VERSION='v19';
+const VERSION='v20';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
-const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null};
+const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null, currentCard:null, completedCards:{Emma:new Set(),Jim:new Set(),Both:new Set()}, lastSkipped:{Emma:null,Jim:null,Both:null}};
 let challengeTimer=null;
 let challengeTickTimer=null;
 let challengeTickPhase=false;
@@ -432,7 +441,12 @@ const emmaCards=[
 'Use your mouth on the Willy while one hand explores elsewhere.',
 'Give Jim the full front-to-back inspection.',
 'Keep the Willy occupied while giving the back door some attention.',
-'Finish with your boldest Willy move and hold nothing back.'
+'Finish with your boldest Willy move and hold nothing back.',
+'Use only your tongue on the tip of Jim’s Willy for 30 seconds. No hands.',
+'Kiss slowly from the plums to the tip, then use your tongue on the Willy for 45 seconds.',
+'Give Jim’s nips 30 seconds of tongue-only attention before moving your mouth to the Willy.',
+'Use your mouth and tongue on the Willy for one minute while Jim directs the pace.',
+'Jim chooses the target. Give it 45 seconds of uninterrupted kisses and tongue.'
 ];
 
 const jimCards=[
@@ -485,7 +499,12 @@ const jimCards=[
 'Use your mouth on the lady bits while one hand explores elsewhere.',
 'Give Emma the full front-to-back inspection.',
 'Keep the magic button occupied while giving the back door some attention.',
-'Finish with your boldest lady-bits move and hold nothing back.'
+'Finish with your boldest lady-bits move and hold nothing back.',
+'Circle Emma’s magic button with your tongue for 30 seconds before touching it directly.',
+'Kiss the headlights slowly, then use your tongue on the lady bits for 45 seconds.',
+'Give each headlight 30 seconds of mouth-and-tongue attention. Keep it perfectly even.',
+'Emma directs your tongue—slower, faster, left or right—for one minute. No hands.',
+'Emma chooses the target. Give it 45 seconds of uninterrupted kisses and tongue.'
 ];
 
 const bothCards=[
@@ -538,7 +557,12 @@ const bothCards=[
 'One partner gets to reposition the other once. Use it wisely.',
 'Both choose one thing you have not done yet this game and do it now.',
 'Give each other the full deluxe service for one minute each.',
-'Finish the card with both of you choosing one last shameless move.'
+'Finish the card with both of you choosing one last shameless move.',
+'Kiss each other for 30 seconds with wandering tongues and no hands.',
+'Take turns using only your mouths and tongues for one minute, switching after 30 seconds.',
+'Choose one favourite place each and use your mouths there simultaneously for 45 seconds.',
+'Use your tongues to trace slow paths chosen by each other for 60 seconds, changing direction halfway.',
+'Both choose a target and give each other 45 seconds of shameless mouth-and-tongue attention.'
 ];
 
 function setupLabels(){
@@ -580,7 +604,7 @@ function setupPrizeWheel(){
 }
 function spinPrize(power=1,dir=1){
   if(prizeState.spinning) return;
-  prizeWilly.classList.remove('balls-pulse');
+  prizeWilly.classList.remove('balls-pulse','head-pulse');
   prizeState.spinning=true; whoosh(power,dir); vibrate(20);
   const step=360/PRIZES.length, idx=Math.floor(Math.random()*PRIZES.length), center=idx*step+step/2;
   const turns=6+Math.floor(Math.random()*3)+Math.min(4,Math.floor(power*2)), duration=3.8+Math.min(1.6,power*.55), wheelDir=-dir;
@@ -810,7 +834,13 @@ function bindPress(button,handler){
 }
 function randomCard(cat){
   const a=cat==='Emma'?emmaCards:cat==='Jim'?jimCards:bothCards;
-  const text=a[Math.floor(Math.random()*a.length)];
+  let available=a.filter(text=>!state.completedCards[cat].has(text));
+  if(!available.length) available=a.slice();
+  const withoutImmediateRepeat=available.length>1&&state.lastSkipped[cat]
+    ? available.filter(text=>text!==state.lastSkipped[cat])
+    : available;
+  const pool=withoutImmediateRepeat.length?withoutImmediateRepeat:available;
+  const text=pool[Math.floor(Math.random()*pool.length)];
   return {text,duration:challengeDuration(text)};
 }
 function willyBaseScale(){
@@ -827,7 +857,7 @@ function retractWilly(){
 }
 function spin(power=1,dir=1){
   if(state.spinning) return;
-  spinnerWilly.classList.remove('balls-pulse');
+  spinnerWilly.classList.remove('balls-pulse','head-pulse');
   state.spinning=true; retractWilly(); updateHUD(); vibrate(20); whoosh(power,dir);
   const extraTurns=5+Math.floor(Math.random()*4)+Math.min(5,Math.floor(power*3));
   const idx=Math.floor(Math.random()*8);
@@ -885,6 +915,7 @@ function resolveResult(cat){
   stopChallengeTimer();
   countdown.classList.remove('final','done'); countdown.textContent='BUST'; timerCaption.textContent='turn over';
   if(cat==='Bust'){
+    state.currentCard=null;
     const lost=state.unbanked[state.active];
     state.unbanked[state.active]=0;
     const old=state.active; state.active=old==='Emma'?'Jim':'Emma';
@@ -896,6 +927,7 @@ function resolveResult(cat){
     updateHUD(); return;
   }
   const challenge=randomCard(cat);
+  state.currentCard=challenge;
   resultText.innerHTML=`${challenge.text}<span class="time-tag">${challenge.duration} secs</span>`;
   startChallengeTimer(challenge.duration);
 }
@@ -908,6 +940,8 @@ function finishCard(done){
   retractWilly();
   const cat=state.currentCategory;
   if(done){
+    if(state.currentCard) state.completedCards[cat].add(state.currentCard.text);
+    state.lastSkipped[cat]=null;
     if(cat==='Emma'){
       state.unbanked.Emma++;
       if(state.active!=='Emma') state.active='Emma';
@@ -922,8 +956,10 @@ function finishCard(done){
     }
     vibrate(25);completeSound();
   } else {
+    if(state.currentCard) state.lastSkipped[cat]=state.currentCard.text;
     skipSound();
   }
+  state.currentCard=null;
   resultModal.classList.add('hidden'); updateHUD();
 }
 let winConfettiTimer=null;
@@ -1048,6 +1084,9 @@ function reset(){
   state.wheelRotation=0;
   state.willyRotation=0;
   state.currentCategory=null;
+  state.currentCard=null;
+  state.completedCards={Emma:new Set(),Jim:new Set(),Both:new Set()};
+  state.lastSkipped={Emma:null,Jim:null,Both:null};
   wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
   spinnerWilly.style.transition='none'; spinnerWilly.style.transform='rotate(0deg) scaleY(.95)';
   winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
@@ -1083,20 +1122,19 @@ prizeWilly.addEventListener('pointerup',e=>{if(!prizePStart||prizeState.spinning
 prizeWilly.addEventListener('click',()=>{if(!prizeState.spinning)spinPrize(.7,1)});
 
 let ballPulseTimer=null;
+let headPulseTimer=null;
+function stationaryWillyTarget(){
+  const startScreen=document.getElementById('start');
+  if(!winModal.classList.contains('hidden')) return document.querySelector('.win-willy');
+  if(prizeResult.classList.contains('hidden')&&!prizeScreen.classList.contains('hidden')&&!prizeState.spinning) return prizeWilly;
+  if(howModal.classList.contains('hidden')&&!startScreen.classList.contains('hidden')) return startScreen.querySelector('.willy');
+  if(howModal.classList.contains('hidden')&&resultModal.classList.contains('hidden')&&!game.classList.contains('hidden')&&!state.spinning) return spinnerWilly;
+  return null;
+}
 function scheduleBallPulse(delay=3600+Math.random()*3900){
   if(ballPulseTimer) clearTimeout(ballPulseTimer);
   ballPulseTimer=setTimeout(()=>{
-    const startScreen=document.getElementById('start');
-    let target=null;
-    if(!winModal.classList.contains('hidden')){
-      target=document.querySelector('.win-willy');
-    }else if(prizeResult.classList.contains('hidden')&&!prizeScreen.classList.contains('hidden')&&!prizeState.spinning){
-      target=prizeWilly;
-    }else if(howModal.classList.contains('hidden')&&!startScreen.classList.contains('hidden')){
-      target=startScreen.querySelector('.willy');
-    }else if(howModal.classList.contains('hidden')&&resultModal.classList.contains('hidden')&&!game.classList.contains('hidden')&&!state.spinning){
-      target=spinnerWilly;
-    }
+    const target=stationaryWillyTarget();
     if(target){
       target.classList.remove('balls-pulse');
       void target.getBoundingClientRect();
@@ -1106,8 +1144,22 @@ function scheduleBallPulse(delay=3600+Math.random()*3900){
     scheduleBallPulse();
   },delay);
 }
+function scheduleHeadPulse(delay=5100+Math.random()*4900){
+  if(headPulseTimer) clearTimeout(headPulseTimer);
+  headPulseTimer=setTimeout(()=>{
+    const target=stationaryWillyTarget();
+    if(target){
+      target.classList.remove('head-pulse');
+      void target.getBoundingClientRect();
+      target.classList.add('head-pulse');
+      setTimeout(()=>target.classList.remove('head-pulse'),1200);
+    }
+    scheduleHeadPulse();
+  },delay);
+}
 setupLabels();setupPrizeWheel();bindResultButtons();updateHUD();
 scheduleBallPulse(2800);
+scheduleHeadPulse(4300);
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
