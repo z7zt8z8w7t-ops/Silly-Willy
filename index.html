@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v23</title>
+<title>Silly Willy v24</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -273,10 +273,22 @@
   @media (max-height:700px){.wheel-shell{width:min(76vw,390px)}.score{padding:7px 9px}.bankbtn{margin-top:2px}.hint{font-size:12px;padding:5px 10px}}
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
+
+  /* Winner layout is independent of shared button and screen effects. */
+  #winModal:not(.hidden){animation:none;transform:none;filter:none}
+  #winModal .win-stage{display:block;padding:0;width:100%;height:100%}
+  #winModal .win-willy{position:absolute;left:50%;bottom:9%;width:min(94vw,62svh);height:auto;max-width:none;aspect-ratio:2/3;transform:translateX(-50%);animation:winnerEntrance .8s ease-out both;transform-origin:50% 92%}
+  @keyframes winnerEntrance{from{opacity:0;transform:translateX(-50%) translateY(25px) scale(.92)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+  #winModal .win-copy{top:max(5svh,env(safe-area-inset-top));left:6%;right:6%}
+  #winModal .win-title{background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-shadow:0 2px 8px #0009;font-size:clamp(26px,7.5vw,46px)}
+  #winModal .win-restart{position:absolute;left:50%;bottom:max(24px,env(safe-area-inset-bottom));width:min(84vw,340px);min-width:0;transform:translateX(-50%);opacity:1;animation:none;color:#2b210a;text-shadow:none}
+  #winModal .win-restart:active{transform:translateX(-50%) translateY(3px)}
+  @media(prefers-reduced-motion:reduce){#winModal .win-willy{animation:none}}
+
 </style>
 </head>
 <body>
-<div class="version">v23</div>
+<div class="version">v24</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -458,7 +470,7 @@
 </div>
 
 <script>
-const VERSION='v23';
+const VERSION='v24';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -1104,10 +1116,13 @@ function launchWinConfetti(){
   if(!layer||!willy) return;
   layer.innerHTML='';
   const lr=layer.getBoundingClientRect();
-  const wr=willy.getBoundingClientRect();
-  // The SVG head sits near the top centre of the Willy. Aim the burst at that visible point.
-  const originX=(wr.left+wr.width*.5)-lr.left;
-  const originY=(wr.top+wr.height*.065)-lr.top;
+  // Map the actual SVG tip into screen coordinates, including its animation.
+  const matrix=willy.getScreenCTM();
+  if(!matrix) return;
+  const tip=willy.createSVGPoint(); tip.x=120; tip.y=25;
+  const position=tip.matrixTransform(matrix);
+  const originX=position.x-lr.left;
+  const originY=position.y-lr.top;
   for(let i=0;i<88;i++){
     const piece=document.createElement('span');
     piece.className='confetti';
