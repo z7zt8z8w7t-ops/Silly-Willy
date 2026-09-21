@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v22</title>
+<title>Silly Willy v23</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -221,6 +221,11 @@
   #emmaScore::after{background:var(--emma)}#jimScore::after{background:var(--jim)}
   .score.active{transform:translateY(-2px);border-color:#e9c85b82;outline:0;box-shadow:inset 0 1px 0 #ffffff1c,0 0 0 1px #e9c85b30,0 11px 30px #0006,0 0 22px #e9c85b25}
   .score.active::after{opacity:1;box-shadow:0 0 12px currentColor}
+  @keyframes activeScoreGlow{
+    0%,100%{outline:2px solid #ffffffb8;outline-offset:2px;box-shadow:inset 0 1px 0 #ffffff1c,0 0 12px #ffffffaa,0 11px 30px #0007}
+    50%{outline:4px solid #fff;outline-offset:5px;box-shadow:inset 0 1px 0 #ffffff26,0 0 28px #fff,0 0 42px #fff8,0 13px 34px #0008}
+  }
+  .score.active{animation:activeScoreGlow .9s ease-in-out infinite}
   .name{font-size:16px;letter-spacing:.35px}.inches{font-variant-numeric:tabular-nums;font-size:25px;line-height:1.1}.turn{text-transform:uppercase;letter-spacing:.8px;font-size:9px;margin-top:2px}.unbanked{font-size:11px}
   .scorebar{height:25px;border-radius:6px;border-color:#6e551b;background:linear-gradient(180deg,#efd266,#d3ad39);box-shadow:inset 0 2px 4px #0005,0 1px 0 #fff2}
 
@@ -271,7 +276,7 @@
 </style>
 </head>
 <body>
-<div class="version">v22</div>
+<div class="version">v23</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -453,7 +458,7 @@
 </div>
 
 <script>
-const VERSION='v22';
+const VERSION='v23';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
