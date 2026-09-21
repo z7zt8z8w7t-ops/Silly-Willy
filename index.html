@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v16</title>
+<title>Silly Willy v17</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -146,9 +146,9 @@
   @keyframes heroSpin{to{transform:rotate(360deg)}}
   #start .willy-wrap{position:relative;z-index:3;width:min(66vw,300px);height:100%;aspect-ratio:auto}
   #start .willy{filter:drop-shadow(0 16px 18px #0009) drop-shadow(0 0 18px #e9c85b22)}
-  #start .subtitle{position:relative;z-index:2;font-size:14px;line-height:1.4;color:#e6dce8;max-width:360px;margin-top:-7px}
-  .start-chips{position:relative;z-index:2;display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:0 0 2px}
-  .start-chip{font-size:10px;font-weight:900;letter-spacing:.9px;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:#f5e7c80d;border:1px solid #f5e7c82b;color:#f5e7c8}
+  #start .subtitle{position:relative;z-index:2;max-width:360px;margin-top:-7px;display:flex;flex-direction:column;gap:4px;line-height:1.3}
+  .start-copy-main{font-size:17px;font-weight:800;color:#fff8ea}
+  .start-copy-win{font-size:13px;font-weight:850;letter-spacing:.35px;color:var(--accent)}
   #start .btn{position:relative;z-index:2;width:min(82vw,330px);min-width:0}
   #start #startBtn{background:linear-gradient(180deg,#f0d875,#d8b83e);box-shadow:0 6px 0 #8f6d18,0 0 24px #e9c85b35,0 12px 28px #0006}
 
@@ -192,7 +192,7 @@
 </style>
 </head>
 <body>
-<div class="version">v16</div>
+<div class="version">v17</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -215,7 +215,7 @@
       <ellipse cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="120" cy="62" rx="44" ry="30" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M76 68 C78 50 91 40 104 28 C111 22 115 19 120 18 C125 19 129 22 136 28 C149 40 162 50 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <g class="eye"><circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/></g>
@@ -227,8 +227,7 @@
     </svg>
   </div>
   </div>
-  <div class="subtitle">Flick it. Risk it. Bank it. First to 7 inches wins.</div>
-  <div class="start-chips"><span class="start-chip">Flick</span><span class="start-chip">Risk</span><span class="start-chip">Bank</span><span class="start-chip">Win</span></div>
+  <div class="subtitle"><span class="start-copy-main">I know it’s silly, but spin my Willy</span><span class="start-copy-win">Get up to 7 inches to win</span></div>
   <button class="btn" id="startBtn">Start Game</button>
   <button class="btn secondary" id="howBtn">How to Play</button>
 </section>
@@ -257,7 +256,7 @@
       <ellipse cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad2)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="120" cy="62" rx="44" ry="30" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M76 68 C78 50 91 40 104 28 C111 22 115 19 120 18 C125 19 129 22 136 28 C149 40 162 50 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
@@ -319,7 +318,7 @@
       <ellipse cx="82" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="158" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="63" width="72" height="238" rx="34" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="120" cy="59" rx="44" ry="30" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M76 65 C78 47 91 37 104 25 C111 19 115 16 120 15 C125 16 129 19 136 25 C149 37 162 47 164 65 C164 81 145 89 120 89 C95 89 76 81 76 65 Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <ellipse cx="103" cy="53" rx="11" ry="7" fill="#fff3"/>
       <ellipse cx="119" cy="165" rx="23" ry="105" fill="#fff2"/>
       <circle cx="106" cy="55" r="7" fill="#fff"/><circle cx="108" cy="56" r="3.3" fill="#241d31"/>
@@ -347,7 +346,7 @@
       <ellipse cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="120" cy="62" rx="44" ry="30" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M76 68 C78 50 91 40 104 28 C111 22 115 19 120 18 C125 19 129 22 136 28 C149 40 162 50 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/><ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
@@ -365,7 +364,7 @@
 </div>
 
 <script>
-const VERSION='v16';
+const VERSION='v17';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -983,7 +982,7 @@ function launchWinConfetti(){
   const wr=willy.getBoundingClientRect();
   // The SVG head sits near the top centre of the Willy. Aim the burst at that visible point.
   const originX=(wr.left+wr.width*.5)-lr.left;
-  const originY=(wr.top+wr.height*.115)-lr.top;
+  const originY=(wr.top+wr.height*.065)-lr.top;
   for(let i=0;i<88;i++){
     const piece=document.createElement('span');
     piece.className='confetti';
