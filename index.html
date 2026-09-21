@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v20</title>
+<title>Silly Willy v22</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -193,13 +193,85 @@
   .done{background:linear-gradient(180deg,#f0d875,#d5b238)}
   .skip{background:linear-gradient(180deg,#ffffff12,#ffffff08)}
   .version{padding:3px 7px;border-radius:999px;background:#0b081166;backdrop-filter:blur(6px)}
+
+  /* v22 professional finishing pass */
+  :root{color-scheme:dark}
+  body{text-rendering:optimizeLegibility;background:
+    radial-gradient(circle at 50% -8%,#49334f 0,#281f31 25%,#17131f 56%,#0b0910 100%)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.23'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+  .screen,.prize-screen,.prize-result{isolation:isolate}
+  .screen:not(.hidden),.modal:not(.hidden),.prize-screen:not(.hidden),.prize-result:not(.hidden){animation:screenReveal .34s cubic-bezier(.22,.75,.28,1) both}
+  @keyframes screenReveal{from{opacity:0;transform:translateY(5px);filter:blur(4px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+  .btn{min-height:56px;border-radius:19px;border-color:#fff5;letter-spacing:-.2px;box-shadow:inset 0 1px 0 #fff9,0 6px 0 var(--accent-deep),0 14px 32px #0007;overflow:hidden;position:relative}
+  .btn::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 28%,#fff5 48%,transparent 68%);transform:translateX(-140%);transition:transform .55s ease;pointer-events:none}
+  .btn:hover::after,.btn:focus-visible::after{transform:translateX(140%)}
+  .btn.secondary{background:linear-gradient(180deg,#ffffff12,#ffffff08);border-color:#ffffff24;box-shadow:inset 0 1px 0 #ffffff12,0 5px 0 #08060d,0 12px 26px #0005}
+  .btn.secondary:active{box-shadow:0 2px 0 #08060d,0 7px 16px #0005}
+  #start{padding-bottom:max(18px,env(safe-area-inset-bottom));background:
+    radial-gradient(circle at 50% 15%,#62436d 0,#382a42 25%,#17131f 59%,#0b0910 100%)}
+  #start .title{letter-spacing:-3px;filter:drop-shadow(0 7px 14px #0009);text-shadow:0 0 34px #e9c85b22}
+  .start-kicker{letter-spacing:3.6px;text-shadow:0 2px 12px #000}
+  .start-hero::before{border-color:#fff2;box-shadow:0 0 0 1px #e9c85b15,0 0 0 13px #f5e7c807,0 0 64px #e9c85b26,inset 0 0 55px #c9698719}
+  #start #startBtn{background:linear-gradient(180deg,#f7e58a 0,#e2c34f 55%,#d4ad2c 100%);box-shadow:inset 0 1px 0 #fff9,0 6px 0 #8f6d18,0 0 30px #e9c85b3d,0 16px 34px #0007}
+  .subtitle{filter:drop-shadow(0 2px 7px #0009)}
+
+  .hud{gap:9px;padding:2px;border-radius:22px}
+  .score{border-radius:20px;padding:11px 12px 12px;background:linear-gradient(160deg,#3b3046f5 0,#251d2ef2 58%,#1a1522f5 100%);border-color:#ffffff1f;box-shadow:inset 0 1px 0 #ffffff12,0 13px 28px #0005}
+  .score::after{content:"";position:absolute;left:14px;right:14px;top:0;height:3px;border-radius:0 0 4px 4px;opacity:.5;transition:opacity .22s ease,box-shadow .22s ease}
+  #emmaScore::after{background:var(--emma)}#jimScore::after{background:var(--jim)}
+  .score.active{transform:translateY(-2px);border-color:#e9c85b82;outline:0;box-shadow:inset 0 1px 0 #ffffff1c,0 0 0 1px #e9c85b30,0 11px 30px #0006,0 0 22px #e9c85b25}
+  .score.active::after{opacity:1;box-shadow:0 0 12px currentColor}
+  .name{font-size:16px;letter-spacing:.35px}.inches{font-variant-numeric:tabular-nums;font-size:25px;line-height:1.1}.turn{text-transform:uppercase;letter-spacing:.8px;font-size:9px;margin-top:2px}.unbanked{font-size:11px}
+  .scorebar{height:25px;border-radius:6px;border-color:#6e551b;background:linear-gradient(180deg,#efd266,#d3ad39);box-shadow:inset 0 2px 4px #0005,0 1px 0 #fff2}
+
+  .wheel-shell{margin-top:10px}
+  .wheel-shell::before{inset:-13px;filter:blur(17px);opacity:.72}
+  .wheel-shell::after,.prize-wheel-shell::after{content:"";position:absolute;inset:-5px;border-radius:50%;z-index:3;pointer-events:none;border:1px solid #fff5;box-shadow:inset 0 0 0 2px #0004,0 0 0 1px #e9c85b35,0 18px 45px #0007}
+  .wheel{border-width:8px;border-color:#f8eccd;box-shadow:0 18px 42px #0009,inset 0 0 0 5px #0004,inset 0 0 32px #fff2}
+  .wheel::before,.prize-wheel::before{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,#fff3 0,#fff0 30%,#0002 75%,#0003 100%);z-index:3;pointer-events:none;mix-blend-mode:soft-light}
+  .wheel::after,.prize-wheel::after{background:radial-gradient(circle at 45% 38%,#352b40,#17121f 72%);border-color:#f8eccd;box-shadow:inset 0 0 28px #000c,0 0 0 1px #0008,0 5px 14px #0007}
+  .label{letter-spacing:.85px;text-shadow:0 2px 4px #000b,0 0 8px #0008}
+  .spinner-willy,.prize-willy{filter:drop-shadow(0 9px 6px #000a) drop-shadow(0 0 9px #fff1)}
+  .hint{font-weight:650;letter-spacing:.1px;border-color:#ffffff18;background:linear-gradient(180deg,#211a2bd9,#15101dd9);box-shadow:inset 0 1px 0 #ffffff0d,0 7px 18px #0003}
+  .bankbtn{min-height:53px;border-radius:18px}
+
+  #resultModal{--timer-progress:360deg;background:radial-gradient(circle at 50% 22%,#30233be8,#0b0811fa 70%)}
+  .result-card{background:radial-gradient(circle at 50% 17%,#453451 0,#251d2f 43%,#0e0a15 100%)}
+  .timer-zone::before{width:min(72vw,292px);background:conic-gradient(from 0deg,var(--accent) 0 var(--timer-progress),#ffffff12 var(--timer-progress) 360deg);border:0;box-shadow:0 0 34px #e9c85b24;filter:drop-shadow(0 0 8px #e9c85b48);-webkit-mask:radial-gradient(circle,transparent 0 67%,#000 68% 72%,transparent 73%);mask:radial-gradient(circle,transparent 0 67%,#000 68% 72%,transparent 73%)}
+  .timer-zone::after{content:"";position:absolute;width:min(58vw,238px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffffff0d 0,#e9c85b08 48%,transparent 72%);pointer-events:none}
+  .countdown{font-size:clamp(88px,28vw,166px);letter-spacing:-6px;text-shadow:0 0 10px #fff7,0 0 32px #e9c85b55,0 10px 26px #000d}
+  .timer-caption{font-size:10px;letter-spacing:2.6px;color:#d9cfdd}
+  .result-head{font-size:13px;letter-spacing:3px;text-shadow:0 0 14px #e9c85b55}
+  .action-zone{padding:18px 6px 6px;border-top-color:#ffffff16}
+  .action-zone::before{inset:12px 0 0;border-radius:26px;background:linear-gradient(160deg,#ffffff0e,#ffffff04 54%,#0002);border-color:#ffffff13;box-shadow:inset 0 1px 0 #ffffff0b,0 18px 40px #0004}
+  .result-text{padding:0 10px;letter-spacing:-.25px;text-wrap:balance}
+  .time-tag{display:inline-block;margin-top:13px;padding:5px 9px;border:1px solid #e9c85b45;border-radius:999px;background:#e9c85b10;font-size:.6em;letter-spacing:1.5px}
+  .smallbtn{min-height:60px;border-radius:17px;border:1px solid #ffffff20;box-shadow:inset 0 1px 0 #fff4,0 8px 20px #0005}
+  .done{background:linear-gradient(180deg,#f5df7e,#d3ad32);color:#251b07}.skip{background:linear-gradient(180deg,#ffffff14,#ffffff08);border-color:#ffffff1e}
+
+  .modalbox{border-radius:28px;background:linear-gradient(160deg,#40334bf8,#211929f8);border-color:#ffffff20;box-shadow:inset 0 1px 0 #ffffff12,0 28px 80px #000c}
+  .modalbox h2{font-size:30px;letter-spacing:-.8px;margin-bottom:14px}.modalbox ol{padding-left:22px}.modalbox li{padding-left:3px;margin-bottom:10px}
+  .prize-screen{background:radial-gradient(circle at 50% 20%,#4b3557 0,#211928 46%,#0b0910 100%)}
+  .prize-title{background:linear-gradient(180deg,#fff,#f5e7c8 58%,#e9c85b);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 10px #0008)}
+  .prize-wheel-shell::before{content:"";position:absolute;inset:-12px;border-radius:50%;background:conic-gradient(from 20deg,#ffd85b55,#f05f9840,#429ee845,#55c66d40,#ff824840,#ffd85b55);filter:blur(16px);opacity:.7;animation:wheelAura 10s linear infinite}
+  .prize-wheel{border-width:8px;border-color:#f8eccd;box-shadow:0 18px 42px #0009,inset 0 0 0 5px #0004}
+  .prize-label{text-shadow:0 2px 4px #000d,0 0 6px #0009}
+  .prize-result::before{content:"";position:absolute;width:min(84vw,460px);aspect-ratio:1;border:1px solid #e9c85b28;border-radius:50%;box-shadow:0 0 0 18px #e9c85b06,0 0 70px #e9c85b18;animation:heroRing 3.4s ease-in-out infinite;z-index:-1}
+  .prize-result h2{text-transform:uppercase;letter-spacing:2.3px;font-size:14px}.prize-position{text-wrap:balance;background:linear-gradient(180deg,#fff,#f5e7c8 58%,#e9c85b);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 5px 12px #0009)}
+  .win-copy .win-title{text-wrap:balance;background:linear-gradient(180deg,#fff,#f5e7c8 62%,#e9c85b);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 5px 10px #000)}
+  .version{right:max(10px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));font-variant-numeric:tabular-nums;border:1px solid #ffffff0c}
+
+  @media (max-width:390px) and (max-height:850px){
+    #game{padding-left:12px;padding-right:12px}.hud{width:100%}.score{padding:9px 9px 10px}.wheel-shell{width:min(89vw,410px);margin-top:5px}.hint{font-size:12px;padding:6px 10px}.bankbtn{margin-top:3px}
+    #start{padding-top:max(3.5svh,27px);gap:10px}.start-hero{height:min(40svh,340px)}#start .title{font-size:clamp(46px,12.6vw,70px)}
+  }
   @media (max-height:700px){.wheel-shell{width:min(76vw,390px)}.score{padding:7px 9px}.bankbtn{margin-top:2px}.hint{font-size:12px;padding:5px 10px}}
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 </style>
 </head>
 <body>
-<div class="version">v20</div>
+<div class="version">v22</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -224,8 +296,8 @@
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <g class="willy-head">
-      <path d="M76 68 C77 52 88 43 102 34 C110 29 115 26 120 25 C125 26 130 29 138 34 C152 43 163 52 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M120 28 L120 35" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <g class="eye"><circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/></g>
       <g class="eye"><circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/></g>
@@ -267,8 +339,8 @@
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad2)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <g class="willy-head">
-      <path d="M76 68 C77 52 88 43 102 34 C110 29 115 26 120 25 C125 26 130 29 138 34 C152 43 163 52 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M120 28 L120 35" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
@@ -280,7 +352,7 @@
   <button id="bankBtn" class="btn bankbtn" disabled>Bank 0″</button>
 </section>
 
-<div id="resultModal" class="modal hidden">
+<div id="resultModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="resultHead">
   <div class="result-card">
     <div class="timer-zone">
       <div id="resultHead" class="result-head">Result</div>
@@ -297,9 +369,9 @@
   </div>
 </div>
 
-<div id="howModal" class="modal hidden">
+<div id="howModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="howTitle">
   <div class="modalbox">
-    <h2>How to Play</h2>
+    <h2 id="howTitle">How to Play</h2>
     <ol>
       <li>Emma starts. Flick the cartoon Willy to spin. The Willy and wheel spin in opposite directions.</li>
       <li>The wheel lands on Emma, Jim, Both or Bust.</li>
@@ -332,8 +404,8 @@
       <rect x="84" y="63" width="72" height="238" rx="34" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="165" rx="23" ry="105" fill="#fff2"/>
       <g class="willy-head">
-      <path d="M76 65 C77 49 88 40 102 31 C110 26 115 23 120 22 C125 23 130 26 138 31 C152 40 163 49 164 65 C164 81 145 89 120 89 C95 89 76 81 76 65 Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M120 25 L120 32" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M76 65 C77 45 94 32 109 27 C113 26 117 25 120 25 C123 25 127 26 131 27 C146 32 163 45 164 65 C164 81 145 89 120 89 C95 89 76 81 76 65 Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M120 28 L120 34" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="53" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="55" r="7" fill="#fff"/><circle cx="108" cy="56" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="55" r="7" fill="#fff"/><circle cx="132" cy="56" r="3.3" fill="#241d31"/>
@@ -362,8 +434,8 @@
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
       <g class="willy-head">
-      <path d="M76 68 C77 52 88 43 102 34 C110 29 115 26 120 25 C125 26 130 29 138 34 C152 43 163 52 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M120 28 L120 35" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
@@ -374,14 +446,14 @@
   <div class="hint">Flick the Willy to spin for your prize</div>
 </section>
 
-<div id="prizeResult" class="prize-result hidden">
-  <h2>Your winning position</h2>
+<div id="prizeResult" class="prize-result hidden" role="dialog" aria-modal="true" aria-labelledby="prizeResultTitle">
+  <h2 id="prizeResultTitle">Your winning position</h2>
   <div id="prizePosition" class="prize-position">Missionary</div>
   <button id="prizePlayAgain" class="btn">Play Again</button>
 </div>
 
 <script>
-const VERSION='v20';
+const VERSION='v22';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -768,6 +840,7 @@ function renderCountdown(seconds){
 }
 function startChallengeTimer(seconds){
   stopChallengeTimer(); currentChallengeDuration=seconds; challengeTickPhase=false;
+  resultModal.style.setProperty('--timer-progress','360deg');
   const started=performance.now(),deadline=started+seconds*1000;
   let lastShown=seconds;
   renderCountdown(seconds); timerCaption.textContent='challenge time';
@@ -783,6 +856,7 @@ function startChallengeTimer(seconds){
   scheduleTick();
   challengeTimer=setInterval(()=>{
     const msLeft=Math.max(0,deadline-performance.now());
+    resultModal.style.setProperty('--timer-progress',`${Math.max(0,Math.min(360,(msLeft/(seconds*1000))*360))}deg`);
     const remaining=Math.ceil(msLeft/1000);
     if(remaining!==lastShown){
       lastShown=remaining; renderCountdown(remaining);
