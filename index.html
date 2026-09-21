@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v24</title>
+<title>Silly Willy v25</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -285,10 +285,38 @@
   #winModal .win-restart:active{transform:translateX(-50%) translateY(3px)}
   @media(prefers-reduced-motion:reduce){#winModal .win-willy{animation:none}}
 
+
+  /* v25: use the available height without changing other screen layouts. */
+  #start{padding: max(28px,env(safe-area-inset-top)) 16px max(52px,calc(env(safe-area-inset-bottom) + 24px));gap:14px;overflow-y:auto}
+  #start > .start-kicker,#start > .title,#start > .subtitle,#start > .btn{flex-shrink:0}
+  #start .start-hero{flex:1 0 180px;width:min(90vw,420px);height:auto;min-height:180px;margin:0;position:relative}
+  #start .willy-wrap{position:absolute;inset:0;margin:auto;width:min(80vw,360px);height:100%;min-height:0}
+  #start .willy{display:block;width:100%;height:100%;object-fit:contain}
+  #start .start-hero::before{height:90%;max-height:380px;width:auto;aspect-ratio:1}
+  #start .start-hero::after{height:68%;max-height:280px;width:auto;aspect-ratio:1}
+  #start .subtitle{margin:0;gap:7px}
+  #start #startBtn{margin-top:5px}
+  #game{padding: max(22px,calc(env(safe-area-inset-top) + 12px)) 16px max(58px,calc(env(safe-area-inset-bottom) + 28px));gap:18px;overflow-y:auto}
+  #game > .hud{width:min(100%,620px);flex-shrink:0}
+  #game > .wheel-shell{width:min(90vw,460px);flex-shrink:0;margin-top:auto;margin-bottom:auto}
+  #game > .hint{flex-shrink:0;margin:0}
+  #game > .bankbtn{flex-shrink:0;margin-top:0}
+  .result-text .time-tag{display:block;width:fit-content;max-width:100%;margin:14px auto 0;line-height:1.25}
+  .willy-shaft{transform-box:fill-box;transform-origin:50% 50%}
+  .shaft-pulse .willy-shaft{animation:shaftSwell 1.3s cubic-bezier(.2,.8,.25,1) both}
+  @keyframes shaftSwell{0%,100%{transform:scaleX(1)}35%{transform:scaleX(1.09)}62%{transform:scaleX(.995)}82%{transform:scaleX(1.025)}}
+  @media(max-height:700px){
+    #start{gap:10px;padding-top:max(20px,env(safe-area-inset-top))}
+    #start .start-hero{min-height:150px;flex-basis:150px}
+    #game{gap:14px;padding-bottom:max(44px,calc(env(safe-area-inset-bottom) + 20px))}
+    #game > .wheel-shell{width:min(76vw,390px)}
+  }
+  @media(prefers-reduced-motion:reduce){.shaft-pulse .willy-shaft{animation:none}}
+
 </style>
 </head>
 <body>
-<div class="version">v24</div>
+<div class="version">v25</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -310,8 +338,10 @@
       <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
       <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <g class="willy-shaft">
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      </g>
       <g class="willy-head">
       <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
@@ -353,8 +383,10 @@
       <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
       <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <g class="willy-shaft">
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad2)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      </g>
       <g class="willy-head">
       <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
@@ -418,8 +450,10 @@
       <ellipse cx="120" cy="332" rx="88" ry="19" fill="#000" opacity=".16"/>
       <ellipse class="willy-ball left" cx="82" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="158" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <g class="willy-shaft">
       <rect x="84" y="63" width="72" height="238" rx="34" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="165" rx="23" ry="105" fill="#fff2"/>
+      </g>
       <g class="willy-head">
       <path d="M76 65 C77 45 94 32 109 27 C113 26 117 25 120 25 C123 25 127 26 131 27 C146 32 163 45 164 65 C164 81 145 89 120 89 C95 89 76 81 76 65 Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 28 L120 34" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
@@ -448,8 +482,10 @@
       <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
       <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
       <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <g class="willy-shaft">
       <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5"/>
       <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      </g>
       <g class="willy-head">
       <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
@@ -470,7 +506,7 @@
 </div>
 
 <script>
-const VERSION='v24';
+const VERSION='v25';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -693,7 +729,7 @@ function setupPrizeWheel(){
 }
 function spinPrize(power=1,dir=1){
   if(prizeState.spinning) return;
-  prizeWilly.classList.remove('balls-pulse','head-pulse');
+  prizeWilly.classList.remove('balls-pulse','head-pulse','shaft-pulse');
   prizeState.spinning=true; whoosh(power,dir); vibrate(20);
   const step=360/PRIZES.length, idx=Math.floor(Math.random()*PRIZES.length), center=idx*step+step/2;
   const turns=6+Math.floor(Math.random()*3)+Math.min(4,Math.floor(power*2)), duration=3.8+Math.min(1.6,power*.55), wheelDir=-dir;
@@ -948,7 +984,7 @@ function retractWilly(){
 }
 function spin(power=1,dir=1){
   if(state.spinning) return;
-  spinnerWilly.classList.remove('balls-pulse','head-pulse');
+  spinnerWilly.classList.remove('balls-pulse','head-pulse','shaft-pulse');
   state.spinning=true; retractWilly(); updateHUD(); vibrate(20); whoosh(power,dir);
   const extraTurns=5+Math.floor(Math.random()*4)+Math.min(5,Math.floor(power*3));
   const idx=Math.floor(Math.random()*8);
@@ -1251,9 +1287,24 @@ function scheduleHeadPulse(delay=5100+Math.random()*4900){
     scheduleHeadPulse();
   },delay);
 }
+let shaftPulseTimer=null;
+function scheduleShaftPulse(delay=6200+Math.random()*5200){
+  if(shaftPulseTimer) clearTimeout(shaftPulseTimer);
+  shaftPulseTimer=setTimeout(()=>{
+    const target=stationaryWillyTarget();
+    if(target&&!document.hidden&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      target.classList.remove('shaft-pulse');
+      void target.getBoundingClientRect();
+      target.classList.add('shaft-pulse');
+      setTimeout(()=>target.classList.remove('shaft-pulse'),1400);
+    }
+    scheduleShaftPulse();
+  },delay);
+}
 setupLabels();setupPrizeWheel();bindResultButtons();updateHUD();
 scheduleBallPulse(2800);
 scheduleHeadPulse(4300);
+scheduleShaftPulse(5900);
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
