@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v29</title>
+<title>Silly Willy v30</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -348,10 +348,26 @@
   @media(max-height:700px){.main-anatomy{width:150%;bottom:85%}}
   @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
+  /* v30: reveal the target, track score-driven opening, and refine the final typography. */
+  #game > .wheel-shell{transform:translateY(50px);margin-bottom:50px}
+  .main-anatomy{bottom:100%;opacity:.88}
+  .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.08));transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .35s ease;opacity:var(--opening-opacity,.28)}
+  .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1)}
+  .main-anatomy .labia-left{transform:translateX(var(--left-fold,0px))}
+  .main-anatomy .labia-right{transform:translateX(var(--right-fold,0px))}
+  .main-anatomy .inner-left{transform:translateX(var(--left-inner,0px))}
+  .main-anatomy .inner-right{transform:translateX(var(--right-inner,0px))}
+  .main-anatomy.close-target .vulva-opening{filter:drop-shadow(0 0 5px #ffb2c2aa)}
+  .willy-rim,.willy-vein{pointer-events:none}
+  .prize-result h2{margin:0;background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-transform:none;letter-spacing:0;font-size:clamp(26px,7.5vw,46px);font-weight:950;line-height:1.05;text-shadow:0 2px 8px #0009}
+  .prize-position{background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-shadow:0 2px 8px #0009;font-size:clamp(38px,10vw,64px)}
+  @media(max-height:700px){#game > .wheel-shell{transform:translateY(34px);margin-bottom:34px}.main-anatomy{bottom:99%}}
+  @media(prefers-reduced-motion:reduce){.main-anatomy .vulva-opening,.main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transition:none}}
+
 </style>
 </head>
 <body>
-<div class="version">v29</div>
+<div class="version">v30</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -371,14 +387,19 @@
         </linearGradient>
       </defs>
       <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
-      <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball left" cx="81" cy="195" rx="45" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball right" cx="159" cy="193" rx="42" ry="38" fill="#dda06f" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M47 190 C59 174 74 169 89 173" fill="none" stroke="#f7c296" stroke-width="5" stroke-linecap="round" opacity=".28"/>
+      <path d="M151 171 C166 168 181 174 190 187" fill="none" stroke="#f5bd90" stroke-width="4" stroke-linecap="round" opacity=".23"/>
       <g class="willy-shaft">
-      <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <path d="M87 68 C84 101 86 151 87 175 C88 199 100 211 120 212 C142 213 155 199 156 175 C158 139 159 99 153 67 C137 61 104 61 87 68Z" fill="url(#shaftGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M103 82 C99 112 100 158 105 183 C108 196 113 201 119 203" fill="none" stroke="#ffe1c2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+      <path class="willy-vein" d="M146 102 C138 118 146 135 139 151 C134 161 137 174 132 184" fill="none" stroke="#ad654f" stroke-width="2.2" stroke-linecap="round" opacity=".34"/>
+      <path class="willy-vein" d="M94 128 C101 139 95 151 101 164" fill="none" stroke="#f1b389" stroke-width="1.8" stroke-linecap="round" opacity=".3"/>
       </g>
       <g class="willy-head">
-      <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M78 68 C79 49 95 35 111 29 C117 27 123 27 129 29 C145 35 161 49 162 68 C161 85 144 94 120 94 C96 94 79 85 78 68Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path class="willy-rim" d="M82 72 C98 87 142 87 158 72" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <g class="eye"><circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/></g>
@@ -424,18 +445,25 @@
         <ellipse cx="260" cy="155" rx="13" ry="8" fill="#9d5b4b" opacity=".8"/>
         <ellipse cx="257" cy="152" rx="5" ry="2.5" fill="#f4b68d" opacity=".72"/>
 
-        <path d="M216 227 C168 217 120 217 72 235 C22 254 -17 292 -38 340 L-38 390 L214 390 C229 354 239 315 236 273Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
-        <path d="M304 227 C352 217 400 217 448 235 C498 254 537 292 558 340 L558 390 L306 390 C291 354 281 315 284 273Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
-        <path d="M-5 290 C47 252 111 247 164 270" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
-        <path d="M525 290 C473 252 409 247 356 270" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+        <path d="M218 224 C174 226 132 245 91 273 C45 305 6 350 -31 410 L-58 410 L-58 292 C2 258 70 230 134 214 C169 205 198 207 225 221Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M302 224 C346 226 388 245 429 273 C475 305 514 350 551 410 L578 410 L578 292 C518 258 450 230 386 214 C351 205 322 207 295 221Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M-12 302 C48 260 111 236 165 238" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+        <path d="M532 302 C472 260 409 236 355 238" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
 
         <path d="M205 235 C217 213 238 201 260 201 C282 201 303 213 315 235 C327 258 322 298 302 324 C288 343 274 352 260 352 C246 352 232 343 218 324 C198 298 193 258 205 235Z" fill="#b9606d" opacity=".52"/>
         <g class="main-vulva">
-          <path d="M260 224 C231 244 228 291 260 333 C292 291 289 244 260 224Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4.5"/>
-          <path d="M260 237 C246 260 247 300 260 322 C273 300 274 260 260 237Z" fill="#e79ba4" opacity=".9"/>
-          <path d="M260 242 C255 267 255 296 260 316" fill="none" stroke="#7b394d" stroke-width="4" stroke-linecap="round"/>
+          <path d="M260 224 C231 244 228 291 260 333 C292 291 289 244 260 224Z" fill="#a94d63" opacity=".42"/>
+          <ellipse class="vulva-opening" cx="260" cy="279" rx="18" ry="40" fill="#542438" opacity=".9"/>
+          <path class="labia-left" d="M260 224 C235 240 232 286 256 329 C245 309 244 276 252 248 C254 238 257 229 260 224Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4" stroke-linejoin="round"/>
+          <path class="labia-right" d="M260 224 C285 240 288 286 264 329 C275 309 276 276 268 248 C266 238 263 229 260 224Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4" stroke-linejoin="round"/>
+          <path class="inner-left" d="M257 239 C246 261 248 300 258 321 C252 292 252 264 257 239Z" fill="#eea0aa" opacity=".92"/>
+          <path class="inner-right" d="M263 239 C274 261 272 300 262 321 C268 292 268 264 263 239Z" fill="#d77c90" opacity=".94"/>
           <ellipse cx="260" cy="233" rx="8" ry="5" fill="#f2adb3"/>
-          <path d="M244 247 C237 266 238 290 245 304" fill="none" stroke="#f4b2b7" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+          <path class="inner-left" d="M253 248 C248 267 249 291 254 305" fill="none" stroke="#ffd0d2" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+        </g>
+        <g opacity=".26" stroke="#7b463f" stroke-width="2.5" stroke-linecap="round">
+          <circle cx="260" cy="346" r="2.2" fill="#7b463f" stroke="none"/>
+          <path d="M260 339v4M260 349v4M253 346h4M263 346h4M255 341l3 3M265 341l-3 3M255 351l3-3M265 351l-3-3"/>
         </g>
       </g>
     </svg>
@@ -452,14 +480,19 @@
         </linearGradient>
       </defs>
       <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
-      <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball left" cx="81" cy="195" rx="45" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball right" cx="159" cy="193" rx="42" ry="38" fill="#dda06f" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M47 190 C59 174 74 169 89 173" fill="none" stroke="#f7c296" stroke-width="5" stroke-linecap="round" opacity=".28"/>
+      <path d="M151 171 C166 168 181 174 190 187" fill="none" stroke="#f5bd90" stroke-width="4" stroke-linecap="round" opacity=".23"/>
       <g class="willy-shaft">
-      <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGrad2)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <path d="M87 68 C84 101 86 151 87 175 C88 199 100 211 120 212 C142 213 155 199 156 175 C158 139 159 99 153 67 C137 61 104 61 87 68Z" fill="url(#shaftGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M103 82 C99 112 100 158 105 183 C108 196 113 201 119 203" fill="none" stroke="#ffe1c2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+      <path class="willy-vein" d="M146 102 C138 118 146 135 139 151 C134 161 137 174 132 184" fill="none" stroke="#ad654f" stroke-width="2.2" stroke-linecap="round" opacity=".34"/>
+      <path class="willy-vein" d="M94 128 C101 139 95 151 101 164" fill="none" stroke="#f1b389" stroke-width="1.8" stroke-linecap="round" opacity=".3"/>
       </g>
       <g class="willy-head">
-      <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M78 68 C79 49 95 35 111 29 C117 27 123 27 129 29 C145 35 161 49 162 68 C161 85 144 94 120 94 C96 94 79 85 78 68Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path class="willy-rim" d="M82 72 C98 87 142 87 158 72" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
@@ -519,14 +552,19 @@
         <linearGradient id="headGradWin" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#f7c294"/><stop offset="100%" stop-color="#e6a474"/></linearGradient>
       </defs>
       <ellipse cx="120" cy="332" rx="88" ry="19" fill="#000" opacity=".16"/>
-      <ellipse class="willy-ball left" cx="82" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse class="willy-ball right" cx="158" cy="286" rx="44" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball left" cx="80" cy="288" rx="46" ry="41" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball right" cx="160" cy="286" rx="43" ry="39" fill="#dda06f" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M45 283 C58 267 74 262 90 266" fill="none" stroke="#f7c296" stroke-width="5" stroke-linecap="round" opacity=".28"/>
+      <path d="M151 264 C167 261 182 267 191 280" fill="none" stroke="#f5bd90" stroke-width="4" stroke-linecap="round" opacity=".23"/>
       <g class="willy-shaft">
-      <rect x="84" y="63" width="72" height="238" rx="34" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="119" cy="165" rx="23" ry="105" fill="#fff2"/>
+      <path d="M87 65 C83 113 85 224 87 267 C88 291 100 303 120 304 C142 305 155 291 156 267 C159 207 160 111 153 64 C137 58 104 58 87 65Z" fill="url(#shaftGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M103 82 C99 132 100 229 105 273 C108 286 113 292 119 295" fill="none" stroke="#ffe1c2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+      <path class="willy-vein" d="M146 116 C137 141 146 169 138 194 C132 215 138 238 131 258" fill="none" stroke="#ad654f" stroke-width="2.2" stroke-linecap="round" opacity=".34"/>
+      <path class="willy-vein" d="M94 174 C102 190 95 211 102 228" fill="none" stroke="#f1b389" stroke-width="1.8" stroke-linecap="round" opacity=".3"/>
       </g>
       <g class="willy-head">
-      <path d="M76 65 C77 45 94 32 109 27 C113 26 117 25 120 25 C123 25 127 26 131 27 C146 32 163 45 164 65 C164 81 145 89 120 89 C95 89 76 81 76 65 Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M78 65 C79 46 95 32 111 26 C117 24 123 24 129 26 C145 32 161 46 162 65 C161 82 144 91 120 91 C96 91 79 82 78 65Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path class="willy-rim" d="M82 69 C98 84 142 84 158 69" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 28 L120 34" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="53" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="55" r="7" fill="#fff"/><circle cx="108" cy="56" r="3.3" fill="#241d31"/>
@@ -551,14 +589,19 @@
         <linearGradient id="headGradPrize" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#f7c294"/><stop offset="100%" stop-color="#e6a474"/></linearGradient>
       </defs>
       <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
-      <ellipse class="willy-ball left" cx="83" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse class="willy-ball right" cx="157" cy="193" rx="43" ry="39" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball left" cx="81" cy="195" rx="45" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
+      <ellipse class="willy-ball right" cx="159" cy="193" rx="42" ry="38" fill="#dda06f" stroke="#7e4c36" stroke-width="5"/>
+      <path d="M47 190 C59 174 74 169 89 173" fill="none" stroke="#f7c296" stroke-width="5" stroke-linecap="round" opacity=".28"/>
+      <path d="M151 171 C166 168 181 174 190 187" fill="none" stroke="#f5bd90" stroke-width="4" stroke-linecap="round" opacity=".23"/>
       <g class="willy-shaft">
-      <rect x="84" y="66" width="72" height="142" rx="34" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse cx="119" cy="115" rx="23" ry="62" fill="#fff2"/>
+      <path d="M87 68 C84 101 86 151 87 175 C88 199 100 211 120 212 C142 213 155 199 156 175 C158 139 159 99 153 67 C137 61 104 61 87 68Z" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M103 82 C99 112 100 158 105 183 C108 196 113 201 119 203" fill="none" stroke="#ffe1c2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+      <path class="willy-vein" d="M146 102 C138 118 146 135 139 151 C134 161 137 174 132 184" fill="none" stroke="#ad654f" stroke-width="2.2" stroke-linecap="round" opacity=".34"/>
+      <path class="willy-vein" d="M94 128 C101 139 95 151 101 164" fill="none" stroke="#f1b389" stroke-width="1.8" stroke-linecap="round" opacity=".3"/>
       </g>
       <g class="willy-head">
-      <path d="M76 68 C77 48 94 35 109 30 C113 29 117 28 120 28 C123 28 127 29 131 30 C146 35 163 48 164 68 C164 84 145 92 120 92 C95 92 76 84 76 68 Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M78 68 C79 49 95 35 111 29 C117 27 123 27 129 29 C145 35 161 49 162 68 C161 85 144 94 120 94 C96 94 79 85 78 68Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
+      <path class="willy-rim" d="M82 72 C98 87 142 87 158 72" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
       <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
@@ -577,7 +620,7 @@
 </div>
 
 <script>
-const VERSION='v29';
+const VERSION='v30';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -886,6 +929,13 @@ function updateHUD(){
   const target=document.getElementById('mainAnatomy');
   if(target){
     const activeTotal=state.banked[state.active]+state.unbanked[state.active];
+    const openness=Math.min(6,Math.max(0,activeTotal))/6;
+    target.style.setProperty('--left-fold',`${(-8*openness).toFixed(2)}px`);
+    target.style.setProperty('--right-fold',`${(8*openness).toFixed(2)}px`);
+    target.style.setProperty('--left-inner',`${(-4.5*openness).toFixed(2)}px`);
+    target.style.setProperty('--right-inner',`${(4.5*openness).toFixed(2)}px`);
+    target.style.setProperty('--opening-scale',`${(0.08+openness*.92).toFixed(3)}`);
+    target.style.setProperty('--opening-opacity',`${(0.24+openness*.72).toFixed(3)}`);
     target.classList.toggle('close-target',activeTotal>=6);
   }
   if(!state.spinning && resultModal.classList.contains('hidden')) applyRestingWillyLength(true);
