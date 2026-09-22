@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v31</title>
+<title>Silly Willy v32</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -330,7 +330,7 @@
   #game{overflow-x:hidden}
   #game > .wheel-shell{z-index:1;overflow:visible}
   #game .wheel{z-index:1}
-  .main-anatomy{position:absolute;left:50%;bottom:86%;width:160%;height:auto;z-index:0;transform:translateX(-50%);pointer-events:none;opacity:.82;filter:drop-shadow(0 14px 22px #050208a8);transition:opacity .3s ease;will-change:transform}
+  .main-anatomy{position:absolute;left:50%;bottom:99%;width:160%;height:auto;z-index:0;transform:translateX(-50%);pointer-events:none;opacity:.82;filter:drop-shadow(0 14px 22px #050208a8);transition:opacity .3s ease;will-change:transform}
   .main-anatomy svg{display:block;width:100%;height:auto;overflow:visible}
   .main-anatomy .main-vulva{transform-box:fill-box;transform-origin:50% 50%;will-change:transform,filter}
   .main-anatomy.vulva-pulse .main-vulva{animation:vulvaSwell 1.28s cubic-bezier(.2,.82,.25,1) both}
@@ -345,10 +345,10 @@
   @keyframes targetContact{0%,100%{transform:translateX(-50%) translateY(0)}42%{transform:translateX(-50%) translateY(10px)}68%{transform:translateX(-50%) translateY(4px)}}
   @keyframes vulvaContact{0%,100%{transform:scale(1)}40%{transform:scale(1.16,1.22);filter:brightness(1.25) saturate(1.18)}70%{transform:scale(1.04,1.07)}}
   @keyframes willyContact{0%,100%{transform:scale(1)}42%{transform:scale(1.13,.94)}70%{transform:scale(.99,1.045)}}
-  @media(max-height:700px){.main-anatomy{width:150%;bottom:85%}}
+  @media(max-height:700px){.main-anatomy{width:150%;bottom:98%}}
   @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
-  /* v31: preserve v29 geometry while refining the score-driven target and character. */
+  /* v32: refined target details, raised anatomy, and banked-inch pearl animation. */
   .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.02));opacity:var(--opening-opacity,0);transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left{transform:translateX(var(--left-fold,0px))}
@@ -357,16 +357,24 @@
   .main-anatomy .inner-right{transform:translateX(var(--right-inner,-1.5px));opacity:var(--inner-opacity,.02)}
   .main-anatomy .closed-cover{opacity:var(--cover-opacity,.98);transition:opacity .38s ease}
   .main-anatomy .closed-seam{opacity:var(--seam-opacity,.92);transition:opacity .38s ease}
+  .main-anatomy .clitoris{transform-box:fill-box;transform-origin:50% 50%;opacity:var(--clit-opacity,0);transform:scale(var(--clit-scale,.55));transition:opacity .38s ease,transform .42s cubic-bezier(.2,.8,.25,1),filter .3s ease}
+  .main-anatomy .vulva-glisten{opacity:var(--glisten-opacity,0);transition:opacity .4s ease;stroke-dasharray:14 8}
+  .main-anatomy.glistening .vulva-glisten{animation:wetShimmer 1.75s linear infinite}
   .main-anatomy.close-target .vulva-opening{filter:drop-shadow(0 0 5px #ffb2c2aa)}
+  .main-anatomy.winner-contact .clitoris{filter:brightness(1.45) drop-shadow(0 0 5px #fff0f2)}
+  @keyframes wetShimmer{0%{stroke-dashoffset:0;filter:brightness(1)}50%{filter:brightness(1.28) drop-shadow(0 0 3px #fff8)}100%{stroke-dashoffset:-44;filter:brightness(1)}}
+  .pearl-flight{position:fixed;width:14px;height:20px;z-index:8;pointer-events:none;overflow:visible;filter:drop-shadow(0 0 5px #fff9);will-change:transform,opacity}
+  .pearl-sparkle{position:fixed;width:7px;height:7px;z-index:8;pointer-events:none;border-radius:50%;background:#fffdf2;box-shadow:0 0 0 3px #fff5,0 0 12px 5px #fff8;animation:pearlPop .32s ease-out both}
+  @keyframes pearlPop{0%{transform:translate(-50%,-50%) scale(.35);opacity:0}38%{opacity:1}100%{transform:translate(-50%,-50%) scale(1.8);opacity:0}}
   .willy-rim,.willy-vein{pointer-events:none}
   .prize-result h2{margin:0;background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-transform:none;letter-spacing:0;font-size:clamp(26px,7.5vw,46px);font-weight:950;line-height:1.05;text-shadow:0 2px 8px #0009}
   .prize-position{background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-shadow:0 2px 8px #0009;font-size:clamp(38px,10vw,64px)}
-  @media(prefers-reduced-motion:reduce){.main-anatomy .vulva-opening,.main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right,.main-anatomy .closed-cover,.main-anatomy .closed-seam{transition:none}}
+  @media(prefers-reduced-motion:reduce){.main-anatomy .vulva-opening,.main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right,.main-anatomy .closed-cover,.main-anatomy .closed-seam,.main-anatomy .clitoris,.main-anatomy .vulva-glisten{transition:none}.main-anatomy.glistening .vulva-glisten{animation:none}.pearl-flight{display:none}}
 
 </style>
 </head>
 <body>
-<div class="version">v31</div>
+<div class="version">v32</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -444,8 +452,8 @@
         <ellipse cx="260" cy="155" rx="13" ry="8" fill="#9d5b4b" opacity=".8"/>
         <ellipse cx="257" cy="152" rx="5" ry="2.5" fill="#f4b68d" opacity=".72"/>
 
-        <path d="M222 226 C181 219 145 223 110 239 C65 260 24 294 -36 350 L-36 392 L210 392 C225 354 236 313 236 270Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
-        <path d="M298 226 C339 219 375 223 410 239 C455 260 496 294 556 350 L556 392 L310 392 C295 354 284 313 284 270Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M222 226 C181 219 145 223 110 239 C65 260 24 294 -36 350 L-58 405 C31 390 119 341 211 292 C225 283 235 276 236 270Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M298 226 C339 219 375 223 410 239 C455 260 496 294 556 350 L578 405 C489 390 401 341 309 292 C295 283 285 276 284 270Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
         <path d="M-4 305 C45 268 105 241 163 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
         <path d="M524 305 C475 268 415 241 357 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
 
@@ -459,9 +467,11 @@
           <path class="labia-right" d="M260 229 C282 243 284 282 263 324 C273 303 273 273 267 249 C265 240 262 233 260 229Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4" stroke-linejoin="round"/>
           <path class="inner-left" d="M258 241 C249 261 250 296 258 316 C253 289 253 263 258 241Z" fill="#eea0aa"/>
           <path class="inner-right" d="M262 241 C271 261 270 296 262 316 C267 289 267 263 262 241Z" fill="#d77c90"/>
+          <path class="vulva-glisten" d="M253 251 C249 269 250 289 254 302" fill="none" stroke="#fff6ec" stroke-width="2.4" stroke-linecap="round"/>
+          <path class="vulva-glisten" d="M267 254 C270 271 269 287 266 298" fill="none" stroke="#ffdfe3" stroke-width="1.8" stroke-linecap="round"/>
           <path class="closed-cover" d="M260 229 C247 247 247 298 260 324 C273 298 273 247 260 229Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="3.6" stroke-linejoin="round"/>
           <path class="closed-seam" d="M260 243 C256 267 256 294 260 313" fill="none" stroke="#79364a" stroke-width="3.6" stroke-linecap="round"/>
-          <ellipse cx="260" cy="237" rx="7.5" ry="4.6" fill="#f2adb3"/>
+          <ellipse class="clitoris" cx="260" cy="237" rx="7.5" ry="4.6" fill="#f2adb3"/>
           <path class="inner-left" d="M254 249 C250 267 251 289 255 302" fill="none" stroke="#ffd0d2" stroke-width="2.7" stroke-linecap="round"/>
         </g>
       </g>
@@ -619,7 +629,7 @@
 </div>
 
 <script>
-const VERSION='v31';
+const VERSION='v32';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -939,7 +949,13 @@ function updateHUD(){
     target.style.setProperty('--inner-opacity',`${(0.02+openness*.90).toFixed(3)}`);
     target.style.setProperty('--cover-opacity',`${(0.98-openness*.96).toFixed(3)}`);
     target.style.setProperty('--seam-opacity',`${(0.92-openness*.68).toFixed(3)}`);
+    const clitProgress=Math.max(0,Math.min(1,(openness-.08)/.92));
+    const glistenProgress=Math.max(0,Math.min(1,(openness-.20)/.80));
+    target.style.setProperty('--clit-opacity',clitProgress.toFixed(3));
+    target.style.setProperty('--clit-scale',`${(0.55+clitProgress*.45).toFixed(3)}`);
+    target.style.setProperty('--glisten-opacity',`${(glistenProgress*.65).toFixed(3)}`);
     target.classList.toggle('close-target',activeTotal>=6);
+    target.classList.toggle('glistening',activeTotal>=5&&!state.spinning);
   }
   if(!state.spinning && resultModal.classList.contains('hidden')) applyRestingWillyLength(true);
 }
@@ -1473,6 +1489,8 @@ function checkWin(){
 function reset(){
   stopChallengeTimer();
   stopWinnerMusic();
+  bankPearlRun++;
+  document.querySelectorAll('.pearl-flight,.pearl-sparkle').forEach(el=>el.remove());
   if(winContactTimer){clearTimeout(winContactTimer);winContactTimer=null;}
   game.classList.remove('hidden');
   state.active='Emma';
@@ -1494,6 +1512,64 @@ function reset(){
   winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
 }
 
+let bankPearlRun=0;
+function screenPoint(svg,x,y){
+  const matrix=svg&&svg.getScreenCTM&&svg.getScreenCTM();
+  if(!matrix) return null;
+  const point=svg.createSVGPoint(); point.x=x; point.y=y;
+  return point.matrixTransform(matrix);
+}
+function pearlSparkle(point){
+  if(!point) return;
+  const sparkle=document.createElement('i');
+  sparkle.className='pearl-sparkle';
+  sparkle.style.left=`${point.x}px`; sparkle.style.top=`${point.y}px`;
+  document.body.appendChild(sparkle);
+  setTimeout(()=>sparkle.remove(),360);
+}
+function flyPearl(run){
+  if(run!==bankPearlRun) return;
+  const anatomy=document.getElementById('mainAnatomy');
+  const start=screenPoint(spinnerWilly,120,27);
+  const finish=screenPoint(anatomy,260,276);
+  if(!start||!finish) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){pearlSparkle(finish);return;}
+  const drop=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  drop.setAttribute('viewBox','0 0 14 20'); drop.setAttribute('aria-hidden','true'); drop.classList.add('pearl-flight');
+  drop.innerHTML='<path d="M7 1C11 1 13.5 4.2 13 8.1C12.5 12.1 9.3 15.6 7 19C4.7 15.6 1.5 12.1 1 8.1C.5 4.2 3 1 7 1Z" fill="#fffdf2"/><ellipse cx="5" cy="5" rx="2.2" ry="2.8" fill="#fff" opacity=".72"/>';
+  document.body.appendChild(drop);
+  const launched=performance.now();
+  const duration=320;
+  const bend=(Math.random()-.5)*22;
+  const animate=now=>{
+    if(run!==bankPearlRun){drop.remove();return;}
+    const p=Math.min(1,(now-launched)/duration);
+    const eased=1-Math.pow(1-p,2.1);
+    const x=start.x+(finish.x-start.x)*eased+Math.sin(Math.PI*p)*bend;
+    const y=start.y+(finish.y-start.y)*eased;
+    const wobble=Math.sin(p*Math.PI*5)*5*(1-p);
+    const stretch=1+Math.sin(Math.PI*p)*.24;
+    drop.style.opacity=String(Math.min(1,(1-p)*2.8));
+    drop.style.transform=`translate(${(x-7).toFixed(1)}px,${(y-10).toFixed(1)}px) rotate(${wobble.toFixed(1)}deg) scaleY(${stretch.toFixed(2)})`;
+    if(p<1) requestAnimationFrame(animate);
+    else{drop.remove();pearlSparkle(finish);}
+  };
+  requestAnimationFrame(animate);
+}
+function launchBankPearls(count,run){
+  spinnerWilly.classList.remove('balls-pulse','head-pulse','shaft-pulse');
+  const anatomy=document.getElementById('mainAnatomy');
+  if(anatomy) anatomy.classList.remove('vulva-pulse');
+  void spinnerWilly.getBoundingClientRect();
+  spinnerWilly.classList.add('shaft-pulse');
+  const stagger=145;
+  for(let i=0;i<count;i++) setTimeout(()=>flyPearl(run),i*stagger);
+  return new Promise(resolve=>setTimeout(()=>{
+    spinnerWilly.classList.remove('shaft-pulse');
+    resolve();
+  },Math.max(360,(count-1)*stagger+350)));
+}
+
 bindPress(startBtn,()=>{unlockAudio();start.classList.add('hidden');game.classList.remove('hidden');reset()});
 bindPress(howBtn,()=>howModal.classList.remove('hidden'));
 bindPress(closeHow,()=>howModal.classList.add('hidden'));
@@ -1502,13 +1578,19 @@ bindPress(claimPrizeBtn,()=>{ unlockAudio(); if(winConfettiTimer){clearInterval(
 bindPress(prizePlayAgain,()=>{ stopWinnerMusic(); prizeResult.classList.add('hidden'); prizeScreen.classList.add('hidden'); game.classList.remove('hidden'); reset(); });
 
 
-bindPress(bankBtn,()=>{
+bindPress(bankBtn,async()=>{
   if(state.spinning||state.unbanked[state.active]<=0) return;
   const player=state.active;
   const amount=state.unbanked[player];
   state.banked[player]+=amount;
   state.unbanked[player]=0;
+  state.spinning=true;
   bankSound(); vibrate([30,30,60]);
+  updateHUD();
+  const run=++bankPearlRun;
+  await launchBankPearls(amount,run);
+  if(run!==bankPearlRun) return;
+  state.spinning=false;
   if(checkWin()){ updateHUD(); return; }
   state.active=player==='Emma'?'Jim':'Emma';
   updateHUD();
