@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v27</title>
+<title>Silly Willy v28</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -326,10 +326,44 @@
     #prizeScreen > .prize-wheel-shell{width:min(100%,76vw,390px)}
   }
 
+  /* v28: playful animated prize-result background scene. */
+  .prize-result{overflow:hidden;isolation:isolate}
+  .prize-result > h2,.prize-result > .prize-position,.prize-result > .btn{position:relative;z-index:4}
+  .prize-result > h2{padding:7px 13px;border-radius:999px;background:#120d19a6;box-shadow:0 0 24px #100b18c9;backdrop-filter:blur(5px)}
+  .prize-result > .prize-position{max-width:min(92vw,620px);padding:4px 10px;text-shadow:0 5px 18px #08050ddd,0 0 28px #120d19}
+  .prize-result > .btn{box-shadow:inset 0 1px 0 #fff9,0 6px 0 var(--accent-deep),0 14px 32px #000b,0 0 34px #e9c85b42}
+  .prize-couple-scene{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;opacity:.78}
+  .prize-couple-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#17111f10 0,#17111f00 28%,#100b1880 47%,#0b0811a8 62%,#0b081138 100%);z-index:2}
+  .prize-couple-scene svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 18px 24px #000a)}
+  .prize-anatomy{transform-box:fill-box;transform-origin:50% 50%;animation:prizeDescend 7.6s cubic-bezier(.48,.02,.36,1) infinite}
+  .prize-scene-willy{transform-box:fill-box;transform-origin:50% 94%;animation:prizeWillyReact 7.6s ease-in-out infinite}
+  .prize-impact{transform-box:fill-box;transform-origin:50% 50%;animation:prizeImpact 7.6s ease-out infinite}
+  @keyframes prizeDescend{
+    0%,10%{transform:translateY(-305px)}
+    31%{transform:translateY(202px)}
+    36%{transform:translateY(188px)}
+    42%,68%{transform:translateY(196px)}
+    74%{transform:translateY(176px)}
+    92%,100%{transform:translateY(-305px)}
+  }
+  @keyframes prizeWillyReact{
+    0%,27%,72%,100%{transform:scale(1)}
+    32%{transform:scaleX(1.055) scaleY(.94)}
+    38%{transform:scaleX(.99) scaleY(1.035)}
+    44%,68%{transform:scale(1)}
+  }
+  @keyframes prizeImpact{
+    0%,29%,45%,100%{opacity:0;transform:scale(.55)}
+    33%{opacity:.72;transform:scale(1.18)}
+    40%{opacity:0;transform:scale(1.45)}
+  }
+  @media(max-height:700px){.prize-couple-scene{opacity:.66}.prize-couple-scene svg{transform:scale(.9);transform-origin:50% 56%}}
+  @media(prefers-reduced-motion:reduce){.prize-anatomy,.prize-scene-willy,.prize-impact{animation:none}.prize-anatomy{transform:translateY(196px)}}
+
 </style>
 </head>
 <body>
-<div class="version">v27</div>
+<div class="version">v28</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -513,13 +547,65 @@
 </section>
 
 <div id="prizeResult" class="prize-result hidden" role="dialog" aria-modal="true" aria-labelledby="prizeResultTitle">
+  <div class="prize-couple-scene" aria-hidden="true">
+    <svg viewBox="0 0 360 700" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="sceneSkin" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f4bf92"/><stop offset=".48" stop-color="#dc9167"/><stop offset="1" stop-color="#b96750"/>
+        </linearGradient>
+        <linearGradient id="sceneSkinLight" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffd0a6"/><stop offset="1" stop-color="#db8a63"/>
+        </linearGradient>
+        <radialGradient id="sceneRose" cx="50%" cy="43%" r="65%">
+          <stop offset="0" stop-color="#d77988"/><stop offset=".55" stop-color="#ae4d65"/><stop offset="1" stop-color="#71364b"/>
+        </radialGradient>
+        <linearGradient id="sceneWilly" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f3bd8c"/><stop offset=".55" stop-color="#dc9567"/><stop offset="1" stop-color="#bc6e50"/>
+        </linearGradient>
+        <filter id="sceneSoftShadow" x="-40%" y="-40%" width="180%" height="200%">
+          <feDropShadow dx="0" dy="14" stdDeviation="11" flood-color="#050208" flood-opacity=".72"/>
+        </filter>
+      </defs>
+
+      <g class="prize-scene-willy" filter="url(#sceneSoftShadow)">
+        <ellipse cx="180" cy="632" rx="104" ry="24" fill="#050208" opacity=".45"/>
+        <ellipse cx="126" cy="602" rx="62" ry="55" fill="url(#sceneWilly)" stroke="#714532" stroke-width="6"/>
+        <ellipse cx="234" cy="602" rx="62" ry="55" fill="url(#sceneWilly)" stroke="#714532" stroke-width="6"/>
+        <rect x="124" y="382" width="112" height="224" rx="55" fill="url(#sceneWilly)" stroke="#714532" stroke-width="7"/>
+        <ellipse cx="160" cy="478" rx="19" ry="80" fill="#ffd0a6" opacity=".22"/>
+        <path d="M123 401 C124 363 148 344 180 344 C212 344 236 363 237 401 C237 429 212 445 180 445 C148 445 123 429 123 401Z" fill="url(#sceneSkinLight)" stroke="#714532" stroke-width="7"/>
+        <path d="M180 347 L180 356" fill="none" stroke="#9b5b47" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="154" cy="395" rx="12" ry="8" fill="#fff"/><circle cx="157" cy="396" r="4" fill="#241d31"/>
+        <ellipse cx="206" cy="395" rx="12" ry="8" fill="#fff"/><circle cx="203" cy="396" r="4" fill="#241d31"/>
+        <path d="M155 418 Q180 439 205 418" fill="none" stroke="#8a3950" stroke-width="7" stroke-linecap="round"/>
+      </g>
+
+      <g class="prize-impact" opacity="0">
+        <ellipse cx="180" cy="346" rx="94" ry="28" fill="none" stroke="#f5e7c8" stroke-width="3" opacity=".58"/>
+        <ellipse cx="180" cy="346" rx="65" ry="18" fill="none" stroke="#e9c85b" stroke-width="2" opacity=".7"/>
+      </g>
+
+      <g class="prize-anatomy" filter="url(#sceneSoftShadow)">
+        <path d="M42 -8 C81 -24 128 5 143 66 C160 134 139 239 93 302 C64 342 23 334 12 287 C-1 232 15 168 9 105 C4 54 7 8 42 -8Z" fill="url(#sceneSkin)" stroke="#874f3f" stroke-width="7"/>
+        <path d="M318 -8 C279 -24 232 5 217 66 C200 134 221 239 267 302 C296 342 337 334 348 287 C361 232 345 168 351 105 C356 54 353 8 318 -8Z" fill="url(#sceneSkin)" stroke="#874f3f" stroke-width="7"/>
+        <path d="M107 -3 C127 -28 154 -40 180 -40 C206 -40 233 -28 253 -3 C269 18 265 64 244 95 C228 119 208 132 180 132 C152 132 132 119 116 95 C95 64 91 18 107 -3Z" fill="url(#sceneSkinLight)" stroke="#874f3f" stroke-width="7"/>
+        <path d="M136 56 C147 36 164 26 180 26 C196 26 213 36 224 56 C233 73 230 103 215 124 C204 140 192 150 180 150 C168 150 156 140 145 124 C130 103 127 73 136 56Z" fill="#b55f68" opacity=".54"/>
+        <path d="M180 47 C154 66 151 105 180 139 C209 105 206 66 180 47Z" fill="url(#sceneRose)" stroke="#74374b" stroke-width="4"/>
+        <path d="M180 58 C168 78 169 111 180 130 C191 111 192 78 180 58Z" fill="#e59aa0" opacity=".88"/>
+        <path d="M180 63 C176 83 176 107 180 125" fill="none" stroke="#79374b" stroke-width="3.5" stroke-linecap="round"/>
+        <ellipse cx="180" cy="54" rx="7" ry="4.5" fill="#f0a9ae"/>
+        <path d="M38 26 C64 10 90 31 96 81" fill="none" stroke="#ffd8b8" stroke-width="9" stroke-linecap="round" opacity=".26"/>
+        <path d="M322 26 C296 10 270 31 264 81" fill="none" stroke="#ffd8b8" stroke-width="9" stroke-linecap="round" opacity=".26"/>
+      </g>
+    </svg>
+  </div>
   <h2 id="prizeResultTitle">Your winning position</h2>
   <div id="prizePosition" class="prize-position">Missionary</div>
   <button id="prizePlayAgain" class="btn">Play Again</button>
 </div>
 
 <script>
-const VERSION='v27';
+const VERSION='v28';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
