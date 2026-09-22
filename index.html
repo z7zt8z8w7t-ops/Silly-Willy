@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v30</title>
+<title>Silly Willy v31</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -348,26 +348,25 @@
   @media(max-height:700px){.main-anatomy{width:150%;bottom:85%}}
   @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
-  /* v30: reveal the target, track score-driven opening, and refine the final typography. */
-  #game > .wheel-shell{transform:translateY(50px);margin-bottom:50px}
-  .main-anatomy{bottom:100%;opacity:.88}
-  .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.08));transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .35s ease;opacity:var(--opening-opacity,.28)}
-  .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1)}
+  /* v31: preserve v29 geometry while refining the score-driven target and character. */
+  .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.02));opacity:var(--opening-opacity,0);transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
+  .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left{transform:translateX(var(--left-fold,0px))}
   .main-anatomy .labia-right{transform:translateX(var(--right-fold,0px))}
-  .main-anatomy .inner-left{transform:translateX(var(--left-inner,0px))}
-  .main-anatomy .inner-right{transform:translateX(var(--right-inner,0px))}
+  .main-anatomy .inner-left{transform:translateX(var(--left-inner,1.5px));opacity:var(--inner-opacity,.02)}
+  .main-anatomy .inner-right{transform:translateX(var(--right-inner,-1.5px));opacity:var(--inner-opacity,.02)}
+  .main-anatomy .closed-cover{opacity:var(--cover-opacity,.98);transition:opacity .38s ease}
+  .main-anatomy .closed-seam{opacity:var(--seam-opacity,.92);transition:opacity .38s ease}
   .main-anatomy.close-target .vulva-opening{filter:drop-shadow(0 0 5px #ffb2c2aa)}
   .willy-rim,.willy-vein{pointer-events:none}
   .prize-result h2{margin:0;background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-transform:none;letter-spacing:0;font-size:clamp(26px,7.5vw,46px);font-weight:950;line-height:1.05;text-shadow:0 2px 8px #0009}
   .prize-position{background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-shadow:0 2px 8px #0009;font-size:clamp(38px,10vw,64px)}
-  @media(max-height:700px){#game > .wheel-shell{transform:translateY(34px);margin-bottom:34px}.main-anatomy{bottom:99%}}
-  @media(prefers-reduced-motion:reduce){.main-anatomy .vulva-opening,.main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transition:none}}
+  @media(prefers-reduced-motion:reduce){.main-anatomy .vulva-opening,.main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right,.main-anatomy .closed-cover,.main-anatomy .closed-seam{transition:none}}
 
 </style>
 </head>
 <body>
-<div class="version">v30</div>
+<div class="version">v31</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -401,10 +400,10 @@
       <path d="M78 68 C79 49 95 35 111 29 C117 27 123 27 129 29 C145 35 161 49 162 68 C161 85 144 94 120 94 C96 94 79 85 78 68Z" fill="url(#headGrad)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path class="willy-rim" d="M82 72 C98 87 142 87 158 72" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
-      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
-      <g class="eye"><circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/></g>
-      <g class="eye"><circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/></g>
-      <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="103" cy="50" rx="11" ry="7" fill="#fff3"/>
+      <g class="eye"><circle cx="106" cy="53" r="7" fill="#fff"/><circle cx="108" cy="54" r="3.3" fill="#241d31"/></g>
+      <g class="eye"><circle cx="134" cy="53" r="7" fill="#fff"/><circle cx="132" cy="54" r="3.3" fill="#241d31"/></g>
+      <path d="M104 65 Q120 76 136 65" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
       </g>
       <path d="M78 175 q-16 -10 -28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
       <path d="M162 175 q16 -10 28 4" fill="none" stroke="#7e4c36" stroke-width="5" stroke-linecap="round" opacity=".8"/>
@@ -445,25 +444,25 @@
         <ellipse cx="260" cy="155" rx="13" ry="8" fill="#9d5b4b" opacity=".8"/>
         <ellipse cx="257" cy="152" rx="5" ry="2.5" fill="#f4b68d" opacity=".72"/>
 
-        <path d="M218 224 C174 226 132 245 91 273 C45 305 6 350 -31 410 L-58 410 L-58 292 C2 258 70 230 134 214 C169 205 198 207 225 221Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
-        <path d="M302 224 C346 226 388 245 429 273 C475 305 514 350 551 410 L578 410 L578 292 C518 258 450 230 386 214 C351 205 322 207 295 221Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
-        <path d="M-12 302 C48 260 111 236 165 238" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
-        <path d="M532 302 C472 260 409 236 355 238" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+        <path d="M222 226 C181 219 145 223 110 239 C65 260 24 294 -36 350 L-36 392 L210 392 C225 354 236 313 236 270Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M298 226 C339 219 375 223 410 239 C455 260 496 294 556 350 L556 392 L310 392 C295 354 284 313 284 270Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M-4 305 C45 268 105 241 163 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+        <path d="M524 305 C475 268 415 241 357 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
 
-        <path d="M205 235 C217 213 238 201 260 201 C282 201 303 213 315 235 C327 258 322 298 302 324 C288 343 274 352 260 352 C246 352 232 343 218 324 C198 298 193 258 205 235Z" fill="#b9606d" opacity=".52"/>
-        <g class="main-vulva">
-          <path d="M260 224 C231 244 228 291 260 333 C292 291 289 244 260 224Z" fill="#a94d63" opacity=".42"/>
-          <ellipse class="vulva-opening" cx="260" cy="279" rx="18" ry="40" fill="#542438" opacity=".9"/>
-          <path class="labia-left" d="M260 224 C235 240 232 286 256 329 C245 309 244 276 252 248 C254 238 257 229 260 224Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4" stroke-linejoin="round"/>
-          <path class="labia-right" d="M260 224 C285 240 288 286 264 329 C275 309 276 276 268 248 C266 238 263 229 260 224Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4" stroke-linejoin="round"/>
-          <path class="inner-left" d="M257 239 C246 261 248 300 258 321 C252 292 252 264 257 239Z" fill="#eea0aa" opacity=".92"/>
-          <path class="inner-right" d="M263 239 C274 261 272 300 262 321 C268 292 268 264 263 239Z" fill="#d77c90" opacity=".94"/>
-          <ellipse cx="260" cy="233" rx="8" ry="5" fill="#f2adb3"/>
-          <path class="inner-left" d="M253 248 C248 267 249 291 254 305" fill="none" stroke="#ffd0d2" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+        <path d="M208 236 C219 215 239 204 260 204 C281 204 301 215 312 236 C323 258 318 291 300 315 C287 332 273 340 260 340 C247 340 233 332 220 315 C202 291 197 258 208 236Z" fill="#b9606d" opacity=".45"/>
+        <g opacity=".24" fill="none" stroke="#7b463f" stroke-width="2.2" stroke-linecap="round">
+          <path d="M254 219 Q260 223 266 219"/><path d="M256 224 Q260 227 264 224"/><path d="M260 215v3"/>
         </g>
-        <g opacity=".26" stroke="#7b463f" stroke-width="2.5" stroke-linecap="round">
-          <circle cx="260" cy="346" r="2.2" fill="#7b463f" stroke="none"/>
-          <path d="M260 339v4M260 349v4M253 346h4M263 346h4M255 341l3 3M265 341l-3 3M255 351l3-3M265 351l-3-3"/>
+        <g class="main-vulva">
+          <ellipse class="vulva-opening" cx="260" cy="276" rx="15" ry="32" fill="#542438"/>
+          <path class="labia-left" d="M260 229 C238 243 236 282 257 324 C247 303 247 273 253 249 C255 240 258 233 260 229Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4" stroke-linejoin="round"/>
+          <path class="labia-right" d="M260 229 C282 243 284 282 263 324 C273 303 273 273 267 249 C265 240 262 233 260 229Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4" stroke-linejoin="round"/>
+          <path class="inner-left" d="M258 241 C249 261 250 296 258 316 C253 289 253 263 258 241Z" fill="#eea0aa"/>
+          <path class="inner-right" d="M262 241 C271 261 270 296 262 316 C267 289 267 263 262 241Z" fill="#d77c90"/>
+          <path class="closed-cover" d="M260 229 C247 247 247 298 260 324 C273 298 273 247 260 229Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="3.6" stroke-linejoin="round"/>
+          <path class="closed-seam" d="M260 243 C256 267 256 294 260 313" fill="none" stroke="#79364a" stroke-width="3.6" stroke-linecap="round"/>
+          <ellipse cx="260" cy="237" rx="7.5" ry="4.6" fill="#f2adb3"/>
+          <path class="inner-left" d="M254 249 C250 267 251 289 255 302" fill="none" stroke="#ffd0d2" stroke-width="2.7" stroke-linecap="round"/>
         </g>
       </g>
     </svg>
@@ -494,10 +493,10 @@
       <path d="M78 68 C79 49 95 35 111 29 C117 27 123 27 129 29 C145 35 161 49 162 68 C161 85 144 94 120 94 C96 94 79 85 78 68Z" fill="url(#headGrad2)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path class="willy-rim" d="M82 72 C98 87 142 87 158 72" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
-      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
-      <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
-      <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
-      <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="103" cy="50" rx="11" ry="7" fill="#fff3"/>
+      <circle cx="106" cy="53" r="7" fill="#fff"/><circle cx="108" cy="54" r="3.3" fill="#241d31"/>
+      <circle cx="134" cy="53" r="7" fill="#fff"/><circle cx="132" cy="54" r="3.3" fill="#241d31"/>
+      <path d="M104 65 Q120 76 136 65" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
       </g>
     </svg>
   </div>
@@ -566,10 +565,10 @@
       <path d="M78 65 C79 46 95 32 111 26 C117 24 123 24 129 26 C145 32 161 46 162 65 C161 82 144 91 120 91 C96 91 79 82 78 65Z" fill="url(#headGradWin)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path class="willy-rim" d="M82 69 C98 84 142 84 158 69" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 28 L120 34" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
-      <ellipse cx="103" cy="53" rx="11" ry="7" fill="#fff3"/>
-      <circle cx="106" cy="55" r="7" fill="#fff"/><circle cx="108" cy="56" r="3.3" fill="#241d31"/>
-      <circle cx="134" cy="55" r="7" fill="#fff"/><circle cx="132" cy="56" r="3.3" fill="#241d31"/>
-      <path d="M104 73 Q120 87 136 73" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="103" cy="47" rx="11" ry="7" fill="#fff3"/>
+      <circle cx="106" cy="50" r="7" fill="#fff"/><circle cx="108" cy="51" r="3.3" fill="#241d31"/>
+      <circle cx="134" cy="50" r="7" fill="#fff"/><circle cx="132" cy="51" r="3.3" fill="#241d31"/>
+      <path d="M104 62 Q120 73 136 62" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
       </g>
     </svg>
     <div id="confettiLayer" class="confetti-layer"></div>
@@ -603,10 +602,10 @@
       <path d="M78 68 C79 49 95 35 111 29 C117 27 123 27 129 29 C145 35 161 49 162 68 C161 85 144 94 120 94 C96 94 79 85 78 68Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
       <path class="willy-rim" d="M82 72 C98 87 142 87 158 72" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
       <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
-      <ellipse cx="103" cy="56" rx="11" ry="7" fill="#fff3"/>
-      <circle cx="106" cy="58" r="7" fill="#fff"/><circle cx="108" cy="59" r="3.3" fill="#241d31"/>
-      <circle cx="134" cy="58" r="7" fill="#fff"/><circle cx="132" cy="59" r="3.3" fill="#241d31"/>
-      <path d="M104 76 Q120 90 136 76" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="103" cy="50" rx="11" ry="7" fill="#fff3"/>
+      <circle cx="106" cy="53" r="7" fill="#fff"/><circle cx="108" cy="54" r="3.3" fill="#241d31"/>
+      <circle cx="134" cy="53" r="7" fill="#fff"/><circle cx="132" cy="54" r="3.3" fill="#241d31"/>
+      <path d="M104 65 Q120 76 136 65" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
       </g>
     </svg>
   </div>
@@ -620,7 +619,7 @@
 </div>
 
 <script>
-const VERSION='v30';
+const VERSION='v31';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -929,13 +928,17 @@ function updateHUD(){
   const target=document.getElementById('mainAnatomy');
   if(target){
     const activeTotal=state.banked[state.active]+state.unbanked[state.active];
-    const openness=Math.min(6,Math.max(0,activeTotal))/6;
-    target.style.setProperty('--left-fold',`${(-8*openness).toFixed(2)}px`);
-    target.style.setProperty('--right-fold',`${(8*openness).toFixed(2)}px`);
-    target.style.setProperty('--left-inner',`${(-4.5*openness).toFixed(2)}px`);
-    target.style.setProperty('--right-inner',`${(4.5*openness).toFixed(2)}px`);
-    target.style.setProperty('--opening-scale',`${(0.08+openness*.92).toFixed(3)}`);
-    target.style.setProperty('--opening-opacity',`${(0.24+openness*.72).toFixed(3)}`);
+    const stages=[0,.15,.28,.46,.63,.81,1];
+    const openness=stages[Math.min(6,Math.max(0,activeTotal))];
+    target.style.setProperty('--left-fold',`${(4-9.5*openness).toFixed(2)}px`);
+    target.style.setProperty('--right-fold',`${(-4+9.5*openness).toFixed(2)}px`);
+    target.style.setProperty('--left-inner',`${(1.5-4.7*openness).toFixed(2)}px`);
+    target.style.setProperty('--right-inner',`${(-1.5+4.7*openness).toFixed(2)}px`);
+    target.style.setProperty('--opening-scale',`${(0.02+openness*.98).toFixed(3)}`);
+    target.style.setProperty('--opening-opacity',`${(openness*.94).toFixed(3)}`);
+    target.style.setProperty('--inner-opacity',`${(0.02+openness*.90).toFixed(3)}`);
+    target.style.setProperty('--cover-opacity',`${(0.98-openness*.96).toFixed(3)}`);
+    target.style.setProperty('--seam-opacity',`${(0.92-openness*.68).toFixed(3)}`);
     target.classList.toggle('close-target',activeTotal>=6);
   }
   if(!state.spinning && resultModal.classList.contains('hidden')) applyRestingWillyLength(true);
