@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v26</title>
+<title>Silly Willy v27</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -167,6 +167,7 @@
   .countdown{font-variant-numeric:tabular-nums;font-size:clamp(92px,29vw,170px);line-height:.86;font-weight:950;letter-spacing:-7px;color:#fff;text-shadow:0 0 12px #fff8,0 0 30px #e9c85b66,0 8px 24px #000b;transition:transform .14s ease,color .14s ease}
   .countdown.final{color:#fff6cf;animation:countPulse .55s ease-in-out infinite}
   .countdown.done{color:#fff;animation:timeDone .7s ease both}
+  .countdown.swap{font-size:clamp(68px,22vw,126px);letter-spacing:-3px;color:#fff6cf;animation:timeDone .7s ease both}
   @keyframes countPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.055);text-shadow:0 0 22px #fff,0 0 44px #e9c85b}}
   @keyframes timeDone{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
   .timer-caption{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:850}
@@ -314,7 +315,7 @@
   @media(prefers-reduced-motion:reduce){.shaft-pulse .willy-shaft{animation:none}}
 
 
-  /* v26: match the main screen's vertical spacing on the prize wheel. */
+  /* v27: match the main screen's vertical spacing on the prize wheel. */
   #prizeScreen{padding:max(22px,calc(env(safe-area-inset-top) + 12px)) 16px max(58px,calc(env(safe-area-inset-bottom) + 28px));gap:18px;overflow-y:auto}
   #prizeScreen > .prize-title{flex-shrink:0;margin:0}
   #prizeScreen > .prize-sub{flex-shrink:0;margin-top:-8px}
@@ -328,7 +329,7 @@
 </style>
 </head>
 <body>
-<div class="version">v26</div>
+<div class="version">v27</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -436,7 +437,7 @@
     <ol>
       <li>Emma starts. Flick the cartoon Willy to spin. The Willy and wheel spin in opposite directions.</li>
       <li>The wheel lands on Emma, Jim, Both or Bust.</li>
-      <li>Every Emma, Jim and Both challenge has a 30, 45 or 60 second limit. The countdown starts immediately when the action screen appears, with a mechanical tick-tock that speeds up as time runs down. The final five seconds pulse and a fanfare sounds at zero.</li>
+      <li>Every Emma, Jim and Both challenge has a 30, 45 or 60 second limit. The countdown starts immediately when the action screen appears, with a mechanical tick-tock that speeds up as time runs down. Take-turns challenges switch players automatically, restart the ticking and play the final fanfare only after both turns.</li>
       <li>Emma/Jim: that person does the card and earns 1 unbanked inch if completed. If the card belongs to the other player, the turn passes to them after completion.</li>
       <li>Both: both do the card, both earn 1 unbanked inch, and the current player keeps the turn.</li>
       <li>A completed card is removed for the rest of that game. A card marked Not Completed stays available, but it cannot appear again on the very next draw from that deck.</li>
@@ -518,13 +519,15 @@
 </div>
 
 <script>
-const VERSION='v26';
+const VERSION='v27';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
-const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null, currentCard:null, completedCards:{Emma:new Set(),Jim:new Set(),Both:new Set()}, lastSkipped:{Emma:null,Jim:null,Both:null}};
+const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null, currentCard:null, completedCards:{Emma:new Set(),Jim:new Set(),Both:new Set()}, lastSkipped:{Emma:null,Jim:null,Both:null}, lastCardThemes:[]};
 let challengeTimer=null;
 let challengeTickTimer=null;
+let challengeSwapTimer=null;
+let challengeTimerRun=0;
 let challengeTickPhase=false;
 let currentChallengeDuration=45;
 
@@ -541,7 +544,7 @@ const emmaCards=[
 'Treat the plums like they are fragile, expensive and very much in need of attention.',
 'Give the Willy a hands-free demonstration of customer care.',
 'Inspect Jim’s back door, then return to the front entrance with enthusiasm.',
-'Keep one hand on the plums while the other works the Willy.',
+'Tease one finger at a time into Jim’s back door, pausing after each, until he says “enough is enough” or 45 seconds ends.',
 'Give Jim’s nips your full attention until he asks you to move on.',
 'Make Jim choose which gets serviced first: Willy or plums.',
 'Give the Willy 60 seconds of uninterrupted premium service.',
@@ -559,7 +562,7 @@ const emmaCards=[
 'Give Jim’s nips a proper test, then choose what happens next.',
 'Jim picks a position. You handle the equipment from there.',
 'Give the Willy a very thorough quality-control check.',
-'Use no hands on the Willy for 30 seconds.',
+'Jim keeps his hands above his head while you rotate between his tip, plums and nips for one minute.',
 'Keep the plums busy while the Willy gets the VIP package.',
 'Give Jim’s back door a gentle warm-up and let him decide if you continue.',
 'Make the Willy wait while you focus entirely on the plums.',
@@ -577,71 +580,96 @@ const emmaCards=[
 'Give the plums your undivided attention until Jim asks for the Willy instead.',
 'Use your mouth on the Willy while one hand explores elsewhere.',
 'Give Jim the full front-to-back inspection.',
-'Keep the Willy occupied while giving the back door some attention.',
+'Trace three slow paths with your tongue from Jim’s nips to the tip. He chooses which path you repeat for 45 seconds.',
 'Finish with your boldest Willy move and hold nothing back.',
 'Use only your tongue on the tip of Jim’s Willy for 30 seconds. No hands.',
 'Kiss slowly from the plums to the tip, then use your tongue on the Willy for 45 seconds.',
 'Give Jim’s nips 30 seconds of tongue-only attention before moving your mouth to the Willy.',
 'Use your mouth and tongue on the Willy for one minute while Jim directs the pace.',
-'Jim chooses the target. Give it 45 seconds of uninterrupted kisses and tongue.'
+'Jim chooses the target. Give it 45 seconds of uninterrupted kisses and tongue.',
+'Alternate gentle squeezes and sharper little pinches on Jim’s nips for 45 seconds, following his reactions.',
+'Warm Jim’s backside with playful smacks for 30 seconds, then soothe each cheek with slow kisses for 30 seconds.',
+'Take Jim’s Willy into your mouth while one hand plays with his plums and the other gently explores his back door for 60 seconds.',
+'Build from soft squeezes to wicked little pinches on Jim’s nips while teasing his tip with your tongue for 45 seconds.',
+'Give Jim’s buns a firm, playful spanking, then slowly kiss your way from both cheeks to his plums. Take one minute.',
+'Use your mouth on Jim’s tip while working down his shaft with both hands. Change rhythm whenever he says “switch” for 60 seconds.',
+'Let Jim choose how many fingers tease his back door while you keep his Willy entertained with your other hand for 45 seconds.',
+'Use only your tongue on Jim’s tip for 30 seconds, then take as much of his Willy as feels comfortable for another 30.',
+'Hold Jim’s Willy against his stomach and slowly lick from his plums to the tip five times.',
+'Keep Jim close to the edge using your mouth, then completely stop whenever he says “nearly.” Tease him for 60 seconds.',
+'Use one hand on Jim’s shaft and the other on his plums while your mouth concentrates exclusively on the tip for one minute.',
+'Turn Jim over, spread his buns and explore his back door with your fingers for 45 seconds.'
 ];
 
 const jimCards=[
-'Give Emma’s headlights a proper warm-up, then find the magic button and stay there.',
-'Start with Emma’s lady bits, then decide whether the back door deserves attention too.',
-'One hand on the headlights, one hand on the lady bits. Multitasking is mandatory.',
-'Find the magic button and give it the sort of attention that makes conversation difficult.',
-'Give Emma’s back door a careful inspection while keeping the lady bits entertained.',
-'Emma chooses: headlights, magic button, lady bits or back door. Give her your best work.',
-'Give the headlights a slow warm-up before moving south.',
-'Use only your mouth on the lady bits for 30 seconds.',
-'Keep one hand on the magic button while the other explores the headlights.',
-'Give Emma’s lady bits the deluxe package. No basic service allowed.',
-'Find the magic button and do not lose it for 45 seconds.',
-'Give the back door a gentle inspection and let Emma decide how far the service goes.',
-'One hand on the lady bits, one on a headlight. No idle hands.',
-'Give both headlights equal attention for one minute.',
-'Emma chooses which gets attention first: magic button or lady bits.',
-'Give the lady bits 60 seconds of uninterrupted premium service.',
-'Tease around the magic button without touching it until Emma complains.',
-'Use your lips to inspect the lady bits slowly from top to bottom.',
-'Warm up the headlights before heading south.',
-'Give the back door some careful attention while ignoring the front for 20 seconds.',
-'Give the magic button the slowest possible treatment for 45 seconds.',
-'Use one hand only and make it count.',
-'Give Emma’s headlights and magic button simultaneous attention.',
-'Start at the headlights and work down. No shortcuts.',
-'Give Emma the sort of lady-bits service that deserves a five-star review.',
-'Tease the back door while keeping one hand busy at the front.',
-'Alternate between headlights and magic button every ten seconds for one minute.',
-'Give the headlights a proper test, then let Emma choose what happens next.',
-'Emma chooses the position. You handle the maintenance from there.',
-'Give the lady bits a thorough quality-control inspection.',
-'Use no hands on the lady bits for 30 seconds.',
-'Keep the headlights busy while the magic button gets the VIP package.',
-'Give the back door a gentle warm-up and let Emma decide if you continue.',
-'Make the magic button wait while you focus entirely on the headlights.',
-'Give Emma’s headlights a 30-second tune-up using lips only.',
-'Take charge of the magic button and set the pace for one minute.',
-'Give the lady bits exactly what you think they have been asking for all evening.',
-'Put the headlights on centre stage for 45 seconds.',
-'Use your favourite magic-button technique, then immediately switch to your second favourite.',
-'Give Emma’s back door careful attention while she keeps her hands to herself.',
-'No talking: make your intentions obvious using only your hands.',
-'Give Emma a slow demonstration of expert button control.',
-'One minute: headlights, lady bits and magic button must all get attention.',
-'Give the lady bits a teasing warm-up, then suddenly get serious.',
-'Emma chooses one body part you must ignore. Everything else is fair game.',
-'Give the headlights your undivided attention until Emma redirects you.',
-'Use your mouth on the lady bits while one hand explores elsewhere.',
-'Give Emma the full front-to-back inspection.',
-'Keep the magic button occupied while giving the back door some attention.',
-'Finish with your boldest lady-bits move and hold nothing back.',
-'Circle Emma’s magic button with your tongue for 30 seconds before touching it directly.',
-'Kiss the headlights slowly, then use your tongue on the lady bits for 45 seconds.',
-'Give each headlight 30 seconds of mouth-and-tongue attention. Keep it perfectly even.',
-'Emma directs your tongue—slower, faster, left or right—for one minute. No hands.',
-'Emma chooses the target. Give it 45 seconds of uninterrupted kisses and tongue.'
+'Begin north with a slow headlight warm-up. Only then may you travel south and locate the magic button.',
+'Let Emma’s lady bits have your attention first; she can invite you around the back afterwards.',
+'Multitask: tease one headlight while your other hand explores between Emma’s legs.',
+'Stay on the magic button until Emma can no longer hold a sensible conversation.',
+'Keep Emma entertained at the front while you carefully investigate the back door.',
+'Emma names one target—headlights, magic button, lady bits or back door—and you make her choice count.',
+'Devote a leisurely opening act to Emma’s headlights before your hands wander lower.',
+'For 30 seconds, your mouth does everything and your hands do absolutely nothing.',
+'Anchor one hand on the magic button while the other gives both headlights a wandering inspection.',
+'Treat Emma’s lady bits to the upgrade package—the basic option is unavailable.',
+'Once you locate the magic button, remain there without drifting for 45 seconds.',
+'Approach Emma’s back door carefully and let every reaction tell you whether to continue.',
+'Tease one finger at a time into Emma’s lady bits, pausing after each, until she says “enough is enough” or 45 seconds ends.',
+'Keep the headlights perfectly even: whatever one receives, the other gets too, for one minute.',
+'Emma points to either the magic button or her lady bits. Begin there and wait for further directions.',
+'Give Emma a full uninterrupted minute of your best work between her legs.',
+'Circle ever closer to the magic button without landing on it until Emma protests.',
+'Let your lips travel slowly along Emma’s lady bits, taking the scenic route from end to end.',
+'Emma closes her eyes while you use your fingertips to make her guess which of three areas you’re touching for 45 seconds.',
+'For 20 seconds the front is off-limits; all careful attention belongs around the back.',
+'Make every movement on the magic button almost unbearably slow for 45 seconds.',
+'Choose your most talented hand. The other stays out of the game.',
+'Create two distractions at once: one at Emma’s headlights and another on her magic button.',
+'Begin with kisses at the headlights and work down centimetre by centimetre—no skipping ahead.',
+'Deliver the kind of lady-bits performance Emma would award five shameless stars.',
+'Tease at the back while one busy hand maintains the entertainment up front.',
+'Switch between the headlights and magic button every ten seconds for a full minute.',
+'Put the headlights through a playful test, then hand the decision-making to Emma.',
+'Emma arranges the position; once she is comfortable, you take care of everything else.',
+'Carry out an unhurried, extremely thorough inspection between Emma’s legs.',
+'Hold your fingers still on the magic button while Emma guides your hand to control the pressure and movement for 45 seconds.',
+'Keep one headlight occupied while the magic button receives unmistakable VIP treatment.',
+'Emma chooses a rhythm. Copy it precisely with your fingers for one minute, changing whenever she says “switch.”',
+'Leave the magic button waiting while the headlights enjoy your complete concentration.',
+'Your lips have 30 seconds to tune up both headlights; hands remain strictly off duty.',
+'Take command of the magic button and dictate its rhythm for one minute.',
+'Read Emma’s reactions and give her lady bits precisely what they seem to be demanding.',
+'For 45 seconds, nothing exists except Emma’s headlights and your attention.',
+'Show Emma your best magic-button move, then surprise her by changing to the runner-up.',
+'Emma keeps her hands away while you give the back door a slow and careful investigation.',
+'Silence only: communicate your intentions entirely through your fingertips.',
+'Demonstrate expert control by changing speed on the button without ever losing your place.',
+'During the next minute, make sure the headlights, lady bits and magic button all feel included.',
+'Begin with maddeningly gentle teasing, then give Emma’s lady bits a sudden gear change.',
+'Emma declares one forbidden body part; you may be inventive everywhere else.',
+'Stay entirely with the headlights until Emma physically redirects you elsewhere.',
+'Keep your mouth busy between Emma’s legs while a curious hand goes exploring.',
+'Work from front to back as though conducting Emma’s most intimate inspection.',
+'Maintain contact with the magic button while carefully introducing attention around the back.',
+'End with the boldest move you know for Emma’s lady bits—no timid finale.',
+'Orbit the magic button with your tongue for 30 seconds before finally touching down.',
+'Give the headlights slow kisses, then move your tongue south for 45 seconds.',
+'Spend 30 mouth-and-tongue seconds on each headlight and make the treatment exactly equal.',
+'For one minute Emma controls your tongue with four commands: slower, faster, left or right. Hands off.',
+'Emma selects one destination. Cover it with uninterrupted kisses and tongue for 45 seconds.',
+'Pinch Emma’s nips, gradually increasing the pressure while she guides you. Continue for 45 seconds or until she says “enough is enough.”',
+'Give Emma’s buns a playful spanking for 30 seconds, then spend 30 seconds kissing them better.',
+'Use your tongue on Emma’s magic button while teasing her back door with one finger. Keep both rhythms going for 60 seconds.',
+'Ease one finger at a time into Emma’s back door, pausing after each addition until she asks for more—or says “enough is enough.” Maximum 60 seconds.',
+'Emma sits above your mouth and controls the pressure and pace while you give her lady bits your full attention for 60 seconds.',
+'Spank Emma’s buns until they’re glowing, then kiss and lick each cheek better for 45 seconds.',
+'Use your fingers on Emma’s lady bits while your mouth alternates between her nips. She directs you for one minute.',
+'Emma lies back with her legs raised while you alternate your tongue between her lady bits and magic button for 60 seconds.',
+'Slide two well-lubricated fingers into Emma’s back door, two into her lady bits and curl them slowly while your thumb circles her magic button for one minute.',
+'Kiss your way down Emma’s body, ignoring her lady bits until the final 20 seconds—then make those seconds count.',
+'Emma chooses three commands for your mouth and fingers. Obey each one for 20 seconds without improvising.',
+'Keep one finger perfectly still inside Emma while your tongue does all the work outside for 45 seconds.',
+'Hold Emma’s buns apart and tease her back door with your fingers until she asks for more or 60 seconds expires.'
 ];
 
 const bothCards=[
@@ -678,7 +706,7 @@ const bothCards=[
 'Choose one body part each that must receive constant attention for 45 seconds.',
 'Both get one instruction to give and one instruction to obey.',
 'Emma may only touch the Willy, plums or nips. Jim may only touch lady bits, headlights or magic button.',
-'Pick a body part each and use only lips on it for 30 seconds.',
+'Take turns adding one well-lubricated finger at a time to a place chosen by your partner, stopping immediately when they say “enough is enough.” You each get 45 seconds.',
 'Both choose one area that is completely off-limits for the next minute. Everything else is allowed.',
 'Take turns performing a 30-second “inspection” chosen by your partner.',
 'Emma gets the back door option. Jim gets the back door option. Decide independently.',
@@ -699,7 +727,17 @@ const bothCards=[
 'Take turns using only your mouths and tongues for one minute, switching after 30 seconds.',
 'Choose one favourite place each and use your mouths there simultaneously for 45 seconds.',
 'Use your tongues to trace slow paths chosen by each other for 60 seconds, changing direction halfway.',
-'Both choose a target and give each other 45 seconds of shameless mouth-and-tongue attention.'
+'Both choose a target and give each other 45 seconds of shameless mouth-and-tongue attention.',
+'Take turns kneeling between each other’s legs. You each get 60 seconds to use only your mouth and tongue.',
+'Choose one opening each. Take turns adding one well-lubricated finger at a time until your partner says “enough is enough.”',
+'Get into a position where both mouths are busy at once and stay there for 60 seconds—hands may roam.',
+'Each person chooses one rude instruction for the other. Perform both simultaneously for one minute.',
+'Take turns lying back while your partner chooses one place to lick and another to finger. You each get 45 seconds.',
+'Get into your favourite rude position, but neither of you may move for 20 seconds. Then go as slowly as possible for 40 seconds.',
+'Each whisper one filthy instruction. Carry out both instructions together for one minute.',
+'Swap control every 15 seconds. Whoever is in control decides the position, pace and which body part receives attention. 60 seconds in total.',
+'Press your bodies together with one hand between each other’s legs. Match exactly the same rhythm for 60 seconds.',
+'Take turns directing each other’s fingers, saying exactly where and how they should be used. You each get 45 seconds.'
 ];
 
 function setupLabels(){
@@ -894,43 +932,85 @@ function timerFanfare(){
   noiseBurst(.34,.085,.66,650);
   noiseBurst(.55,.048,.77,2500);
 }
-function stopChallengeTimer(){
+function timerSwapSound(){
+  tone(520,.12,'triangle',.055); tone(760,.15,'triangle',.065,.12); tone(1040,.20,'sine',.07,.25);
+  noiseBurst(.12,.038,.08,1250);
+}
+function clearChallengeClocks(){
   if(challengeTimer){clearInterval(challengeTimer);challengeTimer=null;}
   if(challengeTickTimer){clearTimeout(challengeTickTimer);challengeTickTimer=null;}
+  if(challengeSwapTimer){clearTimeout(challengeSwapTimer);challengeSwapTimer=null;}
+}
+function stopChallengeTimer(){
+  challengeTimerRun++;
+  clearChallengeClocks();
 }
 function renderCountdown(seconds){
   const el=document.getElementById('countdown'); if(!el)return;
+  el.classList.remove('swap');
   const s=Math.max(0,seconds); el.textContent=`00:${String(s).padStart(2,'0')}`;
   el.classList.toggle('final',s>0&&s<=5); el.classList.toggle('done',s===0);
 }
-function startChallengeTimer(seconds){
-  stopChallengeTimer(); currentChallengeDuration=seconds; challengeTickPhase=false;
-  resultModal.style.setProperty('--timer-progress','360deg');
-  const started=performance.now(),deadline=started+seconds*1000;
-  let lastShown=seconds;
-  renderCountdown(seconds); timerCaption.textContent='challenge time';
-  const scheduleTick=()=>{
-    const msLeft=Math.max(0,deadline-performance.now());
-    if(msLeft<=0) return;
-    const progress=1-msLeft/(seconds*1000);
-    const urgency=msLeft<=5000?1:msLeft<=10000?.72:Math.min(.5,progress*.62);
-    clockTickTock(urgency);
-    const interval=msLeft<=5000?190:msLeft<=10000?340:Math.round(820-progress*330);
-    challengeTickTimer=setTimeout(scheduleTick,interval);
+function startChallengeTimer(challenge){
+  stopChallengeTimer();
+  const run=challengeTimerRun;
+  const seconds=challenge.duration;
+  const rounds=challenge.rounds||1;
+  const first=state.active;
+  const players=rounds>1?[first,first==='Emma'?'Jim':'Emma']:[];
+  currentChallengeDuration=seconds;
+  let round=0;
+
+  const startRound=()=>{
+    if(run!==challengeTimerRun||resultModal.classList.contains('hidden')) return;
+    clearChallengeClocks();
+    challengeTickPhase=false;
+    resultModal.style.setProperty('--timer-progress','360deg');
+    const deadline=performance.now()+seconds*1000;
+    let lastShown=seconds;
+    renderCountdown(seconds);
+    timerCaption.textContent=rounds>1?`${players[round]}’s turn · ${round+1} of ${rounds}`:'challenge time';
+
+    const scheduleTick=()=>{
+      if(run!==challengeTimerRun) return;
+      const msLeft=Math.max(0,deadline-performance.now());
+      if(msLeft<=0) return;
+      const progress=1-msLeft/(seconds*1000);
+      const urgency=msLeft<=5000?1:msLeft<=10000?.72:Math.min(.5,progress*.62);
+      clockTickTock(urgency);
+      const interval=msLeft<=5000?190:msLeft<=10000?340:Math.round(820-progress*330);
+      challengeTickTimer=setTimeout(scheduleTick,interval);
+    };
+    scheduleTick();
+
+    challengeTimer=setInterval(()=>{
+      if(run!==challengeTimerRun){clearChallengeClocks();return;}
+      const msLeft=Math.max(0,deadline-performance.now());
+      resultModal.style.setProperty('--timer-progress',`${Math.max(0,Math.min(360,(msLeft/(seconds*1000))*360))}deg`);
+      const remaining=Math.ceil(msLeft/1000);
+      if(remaining!==lastShown){
+        lastShown=remaining; renderCountdown(remaining);
+        if(remaining>0&&remaining<=5) vibrate(18);
+      }
+      if(msLeft<=0){
+        if(challengeTimer){clearInterval(challengeTimer);challengeTimer=null;}
+        if(challengeTickTimer){clearTimeout(challengeTickTimer);challengeTickTimer=null;}
+        renderCountdown(0);
+        if(round<rounds-1){
+          timerCaption.textContent='swap!';
+          countdown.classList.remove('final','done');
+          countdown.classList.add('swap');
+          countdown.textContent='SWAP!';
+          resultModal.style.setProperty('--timer-progress','0deg');
+          timerSwapSound(); vibrate([70,35,70]);
+          challengeSwapTimer=setTimeout(()=>{round++;startRound();},900);
+        }else{
+          timerCaption.textContent='time!'; timerFanfare(); vibrate([80,45,80,45,130]);
+        }
+      }
+    },100);
   };
-  scheduleTick();
-  challengeTimer=setInterval(()=>{
-    const msLeft=Math.max(0,deadline-performance.now());
-    resultModal.style.setProperty('--timer-progress',`${Math.max(0,Math.min(360,(msLeft/(seconds*1000))*360))}deg`);
-    const remaining=Math.ceil(msLeft/1000);
-    if(remaining!==lastShown){
-      lastShown=remaining; renderCountdown(remaining);
-      if(remaining>0&&remaining<=5) vibrate(18);
-    }
-    if(msLeft<=0){
-      stopChallengeTimer(); renderCountdown(0); timerCaption.textContent='time!'; timerFanfare(); vibrate([80,45,80,45,130]);
-    }
-  },100);
+  startRound();
 }
 function fanfare(){
   [[523,0],[659,.12],[784,.24],[1046,.36],[1318,.5]].forEach(([f,w],i)=>tone(f,i===4?.28:.16,i===4?'sine':'triangle',i===4?.055:.038,w));
@@ -943,6 +1023,31 @@ function challengeDuration(text){
   // Existing wording stays untouched; every other card receives a sensible overall limit.
   let h=0; for(let i=0;i<text.length;i++) h=(h*31+text.charCodeAt(i))>>>0;
   return [30,45,45,60][h%4];
+}
+function challengeTiming(text,cat){
+  const t=text.toLowerCase();
+  let duration=challengeDuration(text);
+  let rounds=1;
+  if(cat==='Both'){
+    const switchAfter=t.match(/switching after\s+(\d+)\s+seconds?/);
+    if(switchAfter){duration=Number(switchAfter[1]);rounds=2;}
+    else if(/take turns|you each get|one minute each|\d+\s+seconds? each|full deluxe service for one minute each|swap\.$/.test(t)) rounds=2;
+  }
+  return {duration,rounds,timeLabel:rounds>1?`${duration} secs each`:`${duration} secs`};
+}
+const CARD_THEME_RULES=[
+  ['spanking',/spank|smack|glowing/],
+  ['back-door',/back door|opening/],
+  ['nips',/\bnips\b|headlights/],
+  ['mouth',/mouth|tongue|lips|kiss|lick/],
+  ['fingers',/finger|fingertip/],
+  ['plums',/plums/],
+  ['edging',/close to the edge|“nearly|tease.*until|ignoring.*until/],
+  ['commands',/command|gives orders|give orders|directs|directing|controls the pace|swap control/]
+];
+function cardThemes(text){
+  const t=text.toLowerCase();
+  return CARD_THEME_RULES.filter(([,rule])=>rule.test(t)).map(([theme])=>theme);
 }
 let suppressButtonClicksUntil=0;
 function bindPress(button,handler){
@@ -979,8 +1084,22 @@ function randomCard(cat){
     ? available.filter(text=>text!==state.lastSkipped[cat])
     : available;
   const pool=withoutImmediateRepeat.length?withoutImmediateRepeat:available;
-  const text=pool[Math.floor(Math.random()*pool.length)];
-  return {text,duration:challengeDuration(text)};
+  const separated=pool.filter(text=>{
+    const themes=cardThemes(text);
+    return !themes.some(theme=>state.lastCardThemes.includes(theme));
+  });
+  let themedPool=separated;
+  if(!themedPool.length){
+    let smallest=Infinity;
+    pool.forEach(text=>{
+      const overlap=cardThemes(text).filter(theme=>state.lastCardThemes.includes(theme)).length;
+      smallest=Math.min(smallest,overlap);
+    });
+    themedPool=pool.filter(text=>cardThemes(text).filter(theme=>state.lastCardThemes.includes(theme)).length===smallest);
+  }
+  const text=themedPool[Math.floor(Math.random()*themedPool.length)];
+  state.lastCardThemes=cardThemes(text);
+  return {text,...challengeTiming(text,cat)};
 }
 function willyBaseScale(){
   const total=Math.min(6,state.banked[state.active]+state.unbanked[state.active]);
@@ -1067,8 +1186,8 @@ function resolveResult(cat){
   }
   const challenge=randomCard(cat);
   state.currentCard=challenge;
-  resultText.innerHTML=`${challenge.text}<span class="time-tag">${challenge.duration} secs</span>`;
-  startChallengeTimer(challenge.duration);
+  resultText.innerHTML=`${challenge.text}<span class="time-tag">${challenge.timeLabel}</span>`;
+  startChallengeTimer(challenge);
 }
 function bindResultButtons(){
   const c=document.getElementById('completeBtn'),s=document.getElementById('skipBtn'); if(!c||!s)return;
@@ -1229,6 +1348,7 @@ function reset(){
   state.currentCard=null;
   state.completedCards={Emma:new Set(),Jim:new Set(),Both:new Set()};
   state.lastSkipped={Emma:null,Jim:null,Both:null};
+  state.lastCardThemes=[];
   wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
   spinnerWilly.style.transition='none'; spinnerWilly.style.transform='rotate(0deg) scaleY(.95)';
   winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
