@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v33</title>
+<title>Silly Willy v34</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -330,7 +330,7 @@
   #game{overflow-x:hidden}
   #game > .wheel-shell{z-index:1;overflow:visible}
   #game .wheel{z-index:1}
-  .main-anatomy{position:absolute;left:50%;bottom:99%;width:160%;height:auto;z-index:0;transform:translateX(-50%);pointer-events:none;opacity:.82;filter:drop-shadow(0 14px 22px #050208a8);transition:opacity .3s ease;will-change:transform}
+  .main-anatomy{position:absolute;left:50%;bottom:95%;width:160%;height:auto;z-index:0;transform:translateX(-50%);pointer-events:none;opacity:.82;overflow:visible;filter:drop-shadow(0 14px 22px #050208a8);transition:opacity .3s ease;will-change:transform}
   .main-anatomy svg{display:block;width:100%;height:auto;overflow:visible}
   .main-anatomy .main-vulva{transform-box:fill-box;transform-origin:50% 50%;will-change:transform,filter}
   .main-anatomy.vulva-pulse .main-vulva{animation:vulvaSwell 1.28s cubic-bezier(.2,.82,.25,1) both}
@@ -345,10 +345,10 @@
   @keyframes targetContact{0%,100%{transform:translateX(-50%) translateY(0)}42%{transform:translateX(-50%) translateY(10px)}68%{transform:translateX(-50%) translateY(4px)}}
   @keyframes vulvaContact{0%,100%{transform:scale(1)}40%{transform:scale(1.16,1.22);filter:brightness(1.25) saturate(1.18)}70%{transform:scale(1.04,1.07)}}
   @keyframes willyContact{0%,100%{transform:scale(1)}42%{transform:scale(1.13,.94)}70%{transform:scale(.99,1.045)}}
-  @media(max-height:700px){.main-anatomy{width:150%;bottom:98%}}
+  @media(max-height:700px){.main-anatomy{width:150%;bottom:94%}}
   @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
-  /* v33: anatomically aligned body layers and more leisurely multi-pearl banking. */
+  /* v34: approved anatomy placement, unclipped thighs, and softly blended shading. */
   .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.02));opacity:var(--opening-opacity,0);transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left{transform:translateX(var(--left-fold,0px))}
@@ -374,7 +374,7 @@
 </style>
 </head>
 <body>
-<div class="version">v33</div>
+<div class="version">v34</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -460,7 +460,7 @@
         <path d="M524 305 C475 268 415 241 357 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
         </g>
 
-        <path d="M208 236 C219 215 239 204 260 204 C281 204 301 215 312 236 C323 258 318 291 300 315 C287 332 273 340 260 340 C247 340 233 332 220 315 C202 291 197 258 208 236Z" fill="#b9606d" opacity=".45"/>
+        <path d="M208 236 C219 215 239 204 260 204 C281 204 301 215 312 236 C323 258 318 291 300 315 C287 332 273 340 260 340 C247 340 233 332 220 315 C202 291 197 258 208 236Z" fill="#b9606d" opacity=".16"/>
         <g opacity=".24" fill="none" stroke="#7b463f" stroke-width="2.2" stroke-linecap="round">
           <path d="M254 219 Q260 223 266 219"/><path d="M256 224 Q260 227 264 224"/><path d="M260 215v3"/>
         </g>
@@ -632,7 +632,7 @@
 </div>
 
 <script>
-const VERSION='v33';
+const VERSION='v34';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
