@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v35</title>
+<title>Silly Willy v36</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -278,13 +278,28 @@
   /* Winner layout is independent of shared button and screen effects. */
   #winModal:not(.hidden){animation:none;transform:none;filter:none}
   #winModal .win-stage{display:block;padding:0;width:100%;height:100%}
-  #winModal .win-willy{position:absolute;left:50%;bottom:9%;width:min(94vw,62svh);height:auto;max-width:none;aspect-ratio:2/3;transform:translateX(-50%);animation:winnerEntrance .8s ease-out both;transform-origin:50% 92%}
+  #winModal .win-willy{position:absolute;left:50%;bottom:9%;z-index:1;width:min(94vw,62svh);height:auto;max-width:none;aspect-ratio:2/3;transform:translateX(-50%);animation:winnerEntrance .8s ease-out both;transform-origin:50% 92%;clip-path:inset(0 0 0 0)}
   @keyframes winnerEntrance{from{opacity:0;transform:translateX(-50%) translateY(25px) scale(.92)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+  #winModal .win-anatomy{position:absolute;left:50%;top:-6.5svh;z-index:2;width:min(145vw,75svh);height:auto;max-width:none;opacity:0;transform:translate(-50%,-112%) scale(.94);filter:drop-shadow(0 18px 28px #0009);pointer-events:none}
+  #winModal .win-stage.ingesting .win-anatomy{animation:winnerAnatomyDescend 2.8s cubic-bezier(.18,.72,.18,1) .85s forwards}
+  #winModal .win-stage.ingesting .win-willy{animation:winnerEntrance .8s ease-out both,winnerIngest 2.8s cubic-bezier(.22,.72,.16,1) .85s forwards}
+  #winModal .winner-vulva{transform-box:fill-box;transform-origin:center;animation:winnerVulvaBreathe 1.15s ease-in-out infinite}
+  #winModal .winner-glisten{animation:winnerGlisten 1.1s ease-in-out infinite alternate}
+  @keyframes winnerAnatomyDescend{0%{opacity:0;transform:translate(-50%,-112%) scale(.94)}10%{opacity:1}72%{opacity:1;transform:translate(-50%,-4%) scale(1.01)}86%{transform:translate(-50%,1.5%) scale(.995)}100%{opacity:1;transform:translate(-50%,0) scale(1)}}
+  @keyframes winnerIngest{0%,16%{clip-path:inset(0 0 0 0)}46%{clip-path:inset(24% 0 0 0)}72%{clip-path:inset(55% 0 0 0)}100%{clip-path:inset(76% 0 0 0)}}
+  @keyframes winnerVulvaBreathe{0%,100%{transform:scaleX(1.38)}50%{transform:scaleX(1.58)}}
+  @keyframes winnerGlisten{from{opacity:.35}to{opacity:.92}}
   #winModal .win-copy{top:max(5svh,env(safe-area-inset-top));left:6%;right:6%}
   #winModal .win-title{background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-shadow:0 2px 8px #0009;font-size:clamp(26px,7.5vw,46px)}
-  #winModal .win-restart{position:absolute;left:50%;bottom:max(24px,env(safe-area-inset-bottom));width:min(84vw,340px);min-width:0;transform:translateX(-50%);opacity:1;animation:none;color:#2b210a;text-shadow:none}
+  #winModal .win-restart{position:absolute;left:50%;bottom:max(24px,env(safe-area-inset-bottom));width:min(84vw,340px);min-width:0;transform:translateX(-50%);opacity:.3;pointer-events:none;filter:grayscale(.55);animation:none;color:#2b210a;text-shadow:none;transition:opacity .35s ease,filter .35s ease}
+  #winModal.winner-sequence-complete .win-restart{opacity:1;pointer-events:auto;filter:none}
   #winModal .win-restart:active{transform:translateX(-50%) translateY(3px)}
-  @media(prefers-reduced-motion:reduce){#winModal .win-willy{animation:none}}
+  @media(prefers-reduced-motion:reduce){#winModal .win-willy{animation:none;clip-path:inset(76% 0 0 0)}#winModal .win-anatomy{animation:none!important;opacity:1;transform:translate(-50%,0) scale(1)}#winModal .winner-vulva,#winModal .winner-glisten{animation:none!important}}
+
+  .spinner-willy .mouth-smile,.spinner-willy .mouth-frown{transform-box:fill-box;transform-origin:center;transition:opacity .24s ease,transform .24s ease}
+  .spinner-willy .mouth-frown{opacity:0;transform:translateY(3px) scaleY(.65)}
+  .spinner-willy.bust-face .mouth-smile{opacity:0;transform:translateY(3px) scaleY(.65)}
+  .spinner-willy.bust-face .mouth-frown{opacity:1;transform:none}
 
 
   /* v25: use the available height without changing other screen layouts. */
@@ -348,7 +363,7 @@
   @media(max-height:700px){.main-anatomy{width:150%;bottom:94%}}
   @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
-  /* v35: fuller lower thighs extend naturally behind the wheel rim. */
+  /* v36: fuller lower thighs remain fixed while the torso and target align independently. */
   .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.02));opacity:var(--opening-opacity,0);transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left{transform:translateX(var(--left-fold,0px))}
@@ -374,7 +389,7 @@
 </style>
 </head>
 <body>
-<div class="version">v35</div>
+<div class="version">v36</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -447,19 +462,21 @@
         </filter>
       </defs>
       <g filter="url(#mainBodyShadow)">
-        <!-- Keep the target fixed beneath VS while lowering its surrounding body. -->
-        <g class="body-anatomy" transform="translate(0 40)">
+        <g class="torso-anatomy" transform="translate(0 52)">
         <path d="M148 -38 C142 36 150 91 132 145 C119 184 121 224 151 254 C177 281 212 292 260 292 C308 292 343 281 369 254 C399 224 401 184 388 145 C370 91 378 36 372 -38Z" fill="url(#mainSkinLight)" stroke="#824b3c" stroke-width="7"/>
         <path d="M166 -28 C160 36 169 99 153 150" fill="none" stroke="#ffe0c3" stroke-width="10" stroke-linecap="round" opacity=".24"/>
+        </g>
+        <g class="belly-button" transform="translate(0 28)">
         <ellipse cx="260" cy="155" rx="13" ry="8" fill="#9d5b4b" opacity=".8"/>
         <ellipse cx="257" cy="152" rx="5" ry="2.5" fill="#f4b68d" opacity=".72"/>
-
+        </g>
+        <g class="thigh-anatomy" transform="translate(0 40)">
         <path d="M222 226 C181 219 145 223 110 239 C65 260 24 294 -36 350 L-64 426 C27 414 122 368 217 316 C234 306 244 289 245 269Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
         <path d="M298 226 C339 219 375 223 410 239 C455 260 496 294 556 350 L584 426 C493 414 398 368 303 316 C286 306 276 289 275 269Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
         <path d="M-4 305 C45 268 105 241 163 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
         <path d="M524 305 C475 268 415 241 357 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
         </g>
-
+        <g class="pelvic-anatomy" transform="translate(0 12)">
         <path d="M208 236 C219 215 239 204 260 204 C281 204 301 215 312 236 C323 258 318 291 300 315 C287 332 273 340 260 340 C247 340 233 332 220 315 C202 291 197 258 208 236Z" fill="#b9606d" opacity=".16"/>
         <g opacity=".24" fill="none" stroke="#7b463f" stroke-width="2.2" stroke-linecap="round">
           <path d="M254 219 Q260 223 266 219"/><path d="M256 224 Q260 227 264 224"/><path d="M260 215v3"/>
@@ -476,6 +493,7 @@
           <path class="closed-seam" d="M260 243 C256 267 256 294 260 313" fill="none" stroke="#79364a" stroke-width="3.6" stroke-linecap="round"/>
           <ellipse class="clitoris" cx="260" cy="237" rx="7.5" ry="4.6" fill="#f2adb3"/>
           <path class="inner-left" d="M254 249 C250 267 251 289 255 302" fill="none" stroke="#ffd0d2" stroke-width="2.7" stroke-linecap="round"/>
+        </g>
         </g>
       </g>
     </svg>
@@ -509,7 +527,7 @@
       <ellipse cx="103" cy="50" rx="11" ry="7" fill="#fff3"/>
       <circle cx="106" cy="53" r="7" fill="#fff"/><circle cx="108" cy="54" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="53" r="7" fill="#fff"/><circle cx="132" cy="54" r="3.3" fill="#241d31"/>
-      <path d="M104 65 Q120 76 136 65" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      <g class="willy-mouth"><path class="mouth-smile" d="M104 65 Q120 76 136 65" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/><path class="mouth-frown" d="M104 75 Q120 61 136 75" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/></g>
       </g>
     </svg>
   </div>
@@ -557,7 +575,7 @@
 </div>
 
 <div id="winModal" class="modal win-modal hidden">
-  <div class="win-stage">
+  <div id="winStage" class="win-stage">
     <svg class="win-willy" viewBox="0 0 240 360" aria-hidden="true">
       <defs>
         <linearGradient id="shaftGradWin" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#efb07f"/><stop offset="100%" stop-color="#d99363"/></linearGradient>
@@ -582,6 +600,26 @@
       <circle cx="106" cy="50" r="7" fill="#fff"/><circle cx="108" cy="51" r="3.3" fill="#241d31"/>
       <circle cx="134" cy="50" r="7" fill="#fff"/><circle cx="132" cy="51" r="3.3" fill="#241d31"/>
       <path d="M104 62 Q120 73 136 62" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <svg class="win-anatomy" viewBox="0 0 520 620" aria-hidden="true">
+      <defs>
+        <linearGradient id="winAnatomySkin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5c39a"/><stop offset=".52" stop-color="#df9c75"/><stop offset="1" stop-color="#b96e57"/></linearGradient>
+        <linearGradient id="winAnatomyTorso" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd1aa"/><stop offset="1" stop-color="#d98b69"/></linearGradient>
+        <radialGradient id="winAnatomyRose" cx="50%" cy="44%" r="68%"><stop offset="0" stop-color="#e695a2"/><stop offset=".6" stop-color="#b64f69"/><stop offset="1" stop-color="#70344a"/></radialGradient>
+      </defs>
+      <path d="M145 -48 C142 42 153 112 139 176 C129 220 145 264 181 289 C205 306 231 314 260 314 C289 314 315 306 339 289 C375 264 391 220 381 176 C367 112 378 42 375 -48Z" fill="url(#winAnatomyTorso)" stroke="#814b3d" stroke-width="7"/>
+      <path d="M166 -34 C162 39 172 113 157 168" fill="none" stroke="#ffe3c8" stroke-width="11" stroke-linecap="round" opacity=".24"/>
+      <ellipse cx="260" cy="142" rx="13" ry="8" fill="#9c5a4b" opacity=".8"/><ellipse cx="257" cy="139" rx="5" ry="2.5" fill="#f6ba91" opacity=".72"/>
+      <path d="M218 226 C171 216 126 229 86 257 C35 293 -15 353 -78 438 L-106 507 C7 469 117 395 220 318 C239 304 247 280 247 255Z" fill="url(#winAnatomySkin)" stroke="#814b3d" stroke-width="7"/>
+      <path d="M302 226 C349 216 394 229 434 257 C485 293 535 353 598 438 L626 507 C513 469 403 395 300 318 C281 304 273 280 273 255Z" fill="url(#winAnatomySkin)" stroke="#814b3d" stroke-width="7"/>
+      <path d="M-12 357 C61 296 127 256 187 263" fill="none" stroke="#ffd7b7" stroke-width="12" stroke-linecap="round" opacity=".2"/><path d="M532 357 C459 296 393 256 333 263" fill="none" stroke="#ffd7b7" stroke-width="12" stroke-linecap="round" opacity=".2"/>
+      <g class="winner-vulva">
+        <path d="M260 218 C228 235 220 285 242 333 C248 346 254 355 260 361 C266 355 272 346 278 333 C300 285 292 235 260 218Z" fill="url(#winAnatomyRose)" stroke="#71364b" stroke-width="5"/>
+        <ellipse cx="260" cy="289" rx="25" ry="50" fill="#4e2136"/>
+        <path d="M253 239 C237 262 237 315 253 341 C246 309 246 270 253 239Z" fill="#f0a5ad"/><path d="M267 239 C283 262 283 315 267 341 C274 309 274 270 267 239Z" fill="#d97d91"/>
+        <ellipse cx="260" cy="229" rx="8" ry="5" fill="#f0adb5"/>
+        <path class="winner-glisten" d="M247 250 C239 275 241 310 249 327" fill="none" stroke="#fff8ef" stroke-width="3" stroke-linecap="round"/><path class="winner-glisten" d="M273 254 C280 278 278 305 272 321" fill="none" stroke="#ffe5e8" stroke-width="2.2" stroke-linecap="round"/>
       </g>
     </svg>
     <div id="confettiLayer" class="confetti-layer"></div>
@@ -632,7 +670,7 @@
 </div>
 
 <script>
-const VERSION='v35';
+const VERSION='v36';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -1250,6 +1288,7 @@ function retractWilly(){
 }
 function spin(power=1,dir=1){
   if(state.spinning) return;
+  spinnerWilly.classList.remove('bust-face');
   spinnerWilly.classList.remove('balls-pulse','head-pulse','shaft-pulse');
   const target=document.getElementById('mainAnatomy');
   if(target) target.classList.remove('vulva-pulse');
@@ -1305,6 +1344,7 @@ function spin(power=1,dir=1){
   },duration*1000+20);
 }
 function resolveResult(cat){
+  spinnerWilly.classList.toggle('bust-face',cat==='Bust');
   vibrate([30,40,30]); if(cat==='Bust') bustSting(); else successSting(cat);
   resultModal.classList.remove('hidden'); resultHead.textContent=cat;
   stopChallengeTimer();
@@ -1318,7 +1358,7 @@ function resolveResult(cat){
       ? `BUST! 0 inches gained this turn. Play passes to ${state.active}.`
       : `BUST! ${lost} inch${lost===1?'':'es'} lost this turn. Play passes to ${state.active}.`;
     resultActions.innerHTML='<button id="bustContinue" class="smallbtn done" style="grid-column:1/-1">Carry on</button>';
-    bindPress(document.getElementById('bustContinue'),()=>{retractWilly();resultModal.classList.add('hidden');resultActions.innerHTML='<button id="completeBtn" class="smallbtn done">Completed +1″</button><button id="skipBtn" class="smallbtn skip">Not completed</button>';bindResultButtons();updateHUD();});
+    bindPress(document.getElementById('bustContinue'),()=>{spinnerWilly.classList.remove('bust-face');retractWilly();resultModal.classList.add('hidden');resultActions.innerHTML='<button id="completeBtn" class="smallbtn done">Completed +1″</button><button id="skipBtn" class="smallbtn skip">Not completed</button>';bindResultButtons();updateHUD();});
     updateHUD(); return;
   }
   const challenge=randomCard(cat);
@@ -1358,6 +1398,7 @@ function finishCard(done){
   resultModal.classList.add('hidden'); updateHUD();
 }
 let winConfettiTimer=null;
+let winnerSequenceTimer=null;
 let winnerMusicTimer=null;
 let winnerMusicBus=null;
 const winnerMusicSources=new Set();
@@ -1456,6 +1497,15 @@ function stopRepeatingConfetti(){
   if(confettiRepeatTimer){clearInterval(confettiRepeatTimer);confettiRepeatTimer=null;}
 }
 let winContactTimer=null;
+function finishWinnerSequence(){
+  if(winModal.classList.contains('hidden')) return;
+  winnerSequenceTimer=null;
+  winModal.classList.add('winner-sequence-complete');
+  claimPrizeBtn.disabled=false;
+  launchWinConfetti();
+  if(winConfettiTimer) clearInterval(winConfettiTimer);
+  winConfettiTimer=setInterval(()=>{ if(!winModal.classList.contains('hidden')) launchWinConfetti(); },3200);
+}
 function showWinner(w){
   state.spinning=false;
   const target=document.getElementById('mainAnatomy');
@@ -1463,10 +1513,17 @@ function showWinner(w){
   spinnerWilly.classList.remove('winner-contact');
   winTitle.textContent=w==='Emma' ? 'Emma took all 7 inches, lucky girl' : "Jim’s got 7 inches, it’s official";
   winSub.textContent='';
+  if(winnerSequenceTimer){clearTimeout(winnerSequenceTimer);winnerSequenceTimer=null;}
+  if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;}
+  const confettiLayer=document.getElementById('confettiLayer');
+  if(confettiLayer) confettiLayer.innerHTML='';
+  const stage=document.getElementById('winStage');
+  if(stage){stage.classList.remove('ingesting');void stage.getBoundingClientRect();stage.classList.add('ingesting');}
+  winModal.classList.remove('winner-sequence-complete');
+  claimPrizeBtn.disabled=true;
   winModal.classList.remove('hidden');
-  launchWinConfetti();
-  if(winConfettiTimer) clearInterval(winConfettiTimer);
-  winConfettiTimer=setInterval(()=>{ if(!winModal.classList.contains('hidden')) launchWinConfetti(); },3000);
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) finishWinnerSequence();
+  else winnerSequenceTimer=setTimeout(finishWinnerSequence,3750);
   fanfare();
   startWinnerMusic();
   vibrate([80,70,80,70,120]);
@@ -1509,10 +1566,10 @@ function reset(){
   state.lastCardThemes=[];
   wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
   spinnerWilly.style.transition='none'; spinnerWilly.style.transform='rotate(0deg) scaleY(.95)';
-  spinnerWilly.classList.remove('winner-contact');
+  spinnerWilly.classList.remove('winner-contact','bust-face');
   const target=document.getElementById('mainAnatomy');
   if(target) target.classList.remove('winner-contact','vulva-pulse','close-target');
-  winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
+  if(winnerSequenceTimer){clearTimeout(winnerSequenceTimer);winnerSequenceTimer=null;} const winStage=document.getElementById('winStage');if(winStage)winStage.classList.remove('ingesting');winModal.classList.remove('winner-sequence-complete');claimPrizeBtn.disabled=false;winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
 }
 
 let bankPearlRun=0;
@@ -1534,7 +1591,7 @@ function flyPearl(run){
   if(run!==bankPearlRun) return;
   const anatomy=document.getElementById('mainAnatomy');
   const start=screenPoint(spinnerWilly,120,27);
-  const finish=screenPoint(anatomy,260,276);
+  const finish=screenPoint(anatomy,260,288);
   if(!start||!finish) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){pearlSparkle(finish);return;}
   const drop=document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -1578,7 +1635,7 @@ bindPress(startBtn,()=>{unlockAudio();start.classList.add('hidden');game.classLi
 bindPress(howBtn,()=>howModal.classList.remove('hidden'));
 bindPress(closeHow,()=>howModal.classList.add('hidden'));
 bindPress(vsRestart,()=>{ if(confirm('Restart Silly Willy?')) reset(); });
-bindPress(claimPrizeBtn,()=>{ unlockAudio(); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} winModal.classList.add('hidden'); game.classList.add('hidden'); prizeScreen.classList.remove('hidden'); prizeResult.classList.add('hidden'); });
+bindPress(claimPrizeBtn,()=>{ unlockAudio(); if(winnerSequenceTimer){clearTimeout(winnerSequenceTimer);winnerSequenceTimer=null;}if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;}const stage=document.getElementById('winStage');if(stage)stage.classList.remove('ingesting');winModal.classList.remove('winner-sequence-complete');winModal.classList.add('hidden'); game.classList.add('hidden'); prizeScreen.classList.remove('hidden'); prizeResult.classList.add('hidden'); });
 bindPress(prizePlayAgain,()=>{ stopWinnerMusic(); prizeResult.classList.add('hidden'); prizeScreen.classList.add('hidden'); game.classList.remove('hidden'); reset(); });
 
 
