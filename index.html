@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v38</title>
+<title>Silly Willy v39</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -362,7 +362,7 @@
   @media(max-height:700px){.main-anatomy{width:150%;bottom:94%}}
   @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
-  /* v38: lower, proportioned target and curved inner-thigh joins based on anatomical reference. */
+  /* v39: separated thighs create a clearer, naturally framed central gap. */
   .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.02));opacity:var(--opening-opacity,0);transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left{transform:translateX(var(--left-fold,0px))}
@@ -388,7 +388,7 @@
 </style>
 </head>
 <body>
-<div class="version">v38</div>
+<div class="version">v39</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -470,13 +470,17 @@
         <ellipse cx="257" cy="152" rx="5" ry="2.5" fill="#f4b68d" opacity=".72"/>
         </g>
         <g class="thigh-anatomy" transform="translate(0 40)">
+        <g class="left-thigh" transform="translate(-16 0)">
         <path d="M230 218 C185 214 145 223 110 239 C65 260 24 294 -36 350 L-64 426 C27 414 122 368 217 316 C238 304 249 286 250 260Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
-        <path d="M290 218 C335 214 375 223 410 239 C455 260 496 294 556 350 L584 426 C493 414 398 368 303 316 C282 304 271 286 270 260Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
         <path d="M-4 305 C45 268 105 241 163 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+        </g>
+        <g class="right-thigh" transform="translate(16 0)">
+        <path d="M290 218 C335 214 375 223 410 239 C455 260 496 294 556 350 L584 426 C493 414 398 368 303 316 C282 304 271 286 270 260Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
         <path d="M524 305 C475 268 415 241 357 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
         </g>
+        </g>
         <g class="pelvic-anatomy" transform="translate(0 12)">
-        <path d="M202 244 C216 220 238 211 260 211 C282 211 304 220 318 244 C330 266 323 305 302 329 C289 344 274 351 260 351 C246 351 231 344 218 329 C197 305 190 266 202 244Z" fill="#b9606d" opacity=".14"/>
+        <path d="M214 247 C225 227 242 218 260 218 C278 218 295 227 306 247 C317 268 311 302 294 326 C283 341 271 348 260 348 C249 348 237 341 226 326 C209 302 203 268 214 247Z" fill="#b9606d" opacity=".13"/>
         <g opacity=".24" fill="none" stroke="#7b463f" stroke-width="2.2" stroke-linecap="round">
           <path d="M254 219 Q260 223 266 219"/><path d="M256 224 Q260 227 264 224"/><path d="M260 215v3"/>
         </g>
@@ -677,7 +681,7 @@
 </div>
 
 <script>
-const VERSION='v38';
+const VERSION='v39';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
