@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v28</title>
+<title>Silly Willy v29</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -326,44 +326,32 @@
     #prizeScreen > .prize-wheel-shell{width:min(100%,76vw,390px)}
   }
 
-  /* v28: playful animated prize-result background scene. */
-  .prize-result{overflow:hidden;isolation:isolate}
-  .prize-result > h2,.prize-result > .prize-position,.prize-result > .btn{position:relative;z-index:4}
-  .prize-result > h2{padding:7px 13px;border-radius:999px;background:#120d19a6;box-shadow:0 0 24px #100b18c9;backdrop-filter:blur(5px)}
-  .prize-result > .prize-position{max-width:min(92vw,620px);padding:4px 10px;text-shadow:0 5px 18px #08050ddd,0 0 28px #120d19}
-  .prize-result > .btn{box-shadow:inset 0 1px 0 #fff9,0 6px 0 var(--accent-deep),0 14px 32px #000b,0 0 34px #e9c85b42}
-  .prize-couple-scene{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;opacity:.78}
-  .prize-couple-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#17111f10 0,#17111f00 28%,#100b1880 47%,#0b0811a8 62%,#0b081138 100%);z-index:2}
-  .prize-couple-scene svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 18px 24px #000a)}
-  .prize-anatomy{transform-box:fill-box;transform-origin:50% 50%;animation:prizeDescend 7.6s cubic-bezier(.48,.02,.36,1) infinite}
-  .prize-scene-willy{transform-box:fill-box;transform-origin:50% 94%;animation:prizeWillyReact 7.6s ease-in-out infinite}
-  .prize-impact{transform-box:fill-box;transform-origin:50% 50%;animation:prizeImpact 7.6s ease-out infinite}
-  @keyframes prizeDescend{
-    0%,10%{transform:translateY(-305px)}
-    31%{transform:translateY(202px)}
-    36%{transform:translateY(188px)}
-    42%,68%{transform:translateY(196px)}
-    74%{transform:translateY(176px)}
-    92%,100%{transform:translateY(-305px)}
-  }
-  @keyframes prizeWillyReact{
-    0%,27%,72%,100%{transform:scale(1)}
-    32%{transform:scaleX(1.055) scaleY(.94)}
-    38%{transform:scaleX(.99) scaleY(1.035)}
-    44%,68%{transform:scale(1)}
-  }
-  @keyframes prizeImpact{
-    0%,29%,45%,100%{opacity:0;transform:scale(.55)}
-    33%{opacity:.72;transform:scale(1.18)}
-    40%{opacity:0;transform:scale(1.45)}
-  }
-  @media(max-height:700px){.prize-couple-scene{opacity:.66}.prize-couple-scene svg{transform:scale(.9);transform-origin:50% 56%}}
-  @media(prefers-reduced-motion:reduce){.prize-anatomy,.prize-scene-willy,.prize-impact{animation:none}.prize-anatomy{transform:translateY(196px)}}
+  /* v29: the main wheel now grows toward a fixed cartoon target. */
+  #game{overflow-x:hidden}
+  #game > .wheel-shell{z-index:1;overflow:visible}
+  #game .wheel{z-index:1}
+  .main-anatomy{position:absolute;left:50%;bottom:86%;width:160%;height:auto;z-index:0;transform:translateX(-50%);pointer-events:none;opacity:.82;filter:drop-shadow(0 14px 22px #050208a8);transition:opacity .3s ease;will-change:transform}
+  .main-anatomy svg{display:block;width:100%;height:auto;overflow:visible}
+  .main-anatomy .main-vulva{transform-box:fill-box;transform-origin:50% 50%;will-change:transform,filter}
+  .main-anatomy.vulva-pulse .main-vulva{animation:vulvaSwell 1.28s cubic-bezier(.2,.82,.25,1) both}
+  .main-anatomy.close-target{opacity:.94}
+  .main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 7px #f7a9b5a8) drop-shadow(0 0 16px #d86d8a70)}
+  .main-anatomy.close-target.vulva-pulse .main-vulva{animation:vulvaSwellClose 1.38s cubic-bezier(.2,.82,.25,1) both}
+  .main-anatomy.winner-contact{animation:targetContact .72s cubic-bezier(.2,.86,.25,1) both}
+  .main-anatomy.winner-contact .main-vulva{animation:vulvaContact .72s cubic-bezier(.2,.86,.25,1) both}
+  .spinner-willy.winner-contact .willy-head{animation:willyContact .72s cubic-bezier(.2,.86,.25,1) both}
+  @keyframes vulvaSwell{0%,100%{transform:scale(1);filter:brightness(1)}38%{transform:scale(1.075,1.105);filter:brightness(1.13)}67%{transform:scale(.995,1.01);filter:brightness(1.03)}}
+  @keyframes vulvaSwellClose{0%,100%{transform:scale(1)}38%{transform:scale(1.11,1.15);filter:brightness(1.2) saturate(1.12)}70%{transform:scale(1.015,1.03)}}
+  @keyframes targetContact{0%,100%{transform:translateX(-50%) translateY(0)}42%{transform:translateX(-50%) translateY(10px)}68%{transform:translateX(-50%) translateY(4px)}}
+  @keyframes vulvaContact{0%,100%{transform:scale(1)}40%{transform:scale(1.16,1.22);filter:brightness(1.25) saturate(1.18)}70%{transform:scale(1.04,1.07)}}
+  @keyframes willyContact{0%,100%{transform:scale(1)}42%{transform:scale(1.13,.94)}70%{transform:scale(.99,1.045)}}
+  @media(max-height:700px){.main-anatomy{width:150%;bottom:85%}}
+  @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
 </style>
 </head>
 <body>
-<div class="version">v28</div>
+<div class="version">v29</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -415,6 +403,42 @@
   </div>
 
   <div class="wheel-shell">
+    <svg id="mainAnatomy" class="main-anatomy" viewBox="0 0 520 360" aria-hidden="true">
+      <defs>
+        <linearGradient id="mainSkin" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f4bf92"/><stop offset=".5" stop-color="#df996f"/><stop offset="1" stop-color="#b96d55"/>
+        </linearGradient>
+        <linearGradient id="mainSkinLight" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffd2aa"/><stop offset="1" stop-color="#dc8d68"/>
+        </linearGradient>
+        <radialGradient id="mainRose" cx="50%" cy="44%" r="68%">
+          <stop offset="0" stop-color="#dc8190"/><stop offset=".58" stop-color="#b34f68"/><stop offset="1" stop-color="#71364b"/>
+        </radialGradient>
+        <filter id="mainBodyShadow" x="-30%" y="-30%" width="160%" height="190%">
+          <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#050208" flood-opacity=".66"/>
+        </filter>
+      </defs>
+      <g filter="url(#mainBodyShadow)">
+        <path d="M148 -38 C142 36 150 91 132 145 C119 184 121 224 151 254 C177 281 212 292 260 292 C308 292 343 281 369 254 C399 224 401 184 388 145 C370 91 378 36 372 -38Z" fill="url(#mainSkinLight)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M166 -28 C160 36 169 99 153 150" fill="none" stroke="#ffe0c3" stroke-width="10" stroke-linecap="round" opacity=".24"/>
+        <ellipse cx="260" cy="155" rx="13" ry="8" fill="#9d5b4b" opacity=".8"/>
+        <ellipse cx="257" cy="152" rx="5" ry="2.5" fill="#f4b68d" opacity=".72"/>
+
+        <path d="M216 227 C168 217 120 217 72 235 C22 254 -17 292 -38 340 L-38 390 L214 390 C229 354 239 315 236 273Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M304 227 C352 217 400 217 448 235 C498 254 537 292 558 340 L558 390 L306 390 C291 354 281 315 284 273Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
+        <path d="M-5 290 C47 252 111 247 164 270" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+        <path d="M525 290 C473 252 409 247 356 270" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+
+        <path d="M205 235 C217 213 238 201 260 201 C282 201 303 213 315 235 C327 258 322 298 302 324 C288 343 274 352 260 352 C246 352 232 343 218 324 C198 298 193 258 205 235Z" fill="#b9606d" opacity=".52"/>
+        <g class="main-vulva">
+          <path d="M260 224 C231 244 228 291 260 333 C292 291 289 244 260 224Z" fill="url(#mainRose)" stroke="#71364b" stroke-width="4.5"/>
+          <path d="M260 237 C246 260 247 300 260 322 C273 300 274 260 260 237Z" fill="#e79ba4" opacity=".9"/>
+          <path d="M260 242 C255 267 255 296 260 316" fill="none" stroke="#7b394d" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="260" cy="233" rx="8" ry="5" fill="#f2adb3"/>
+          <path d="M244 247 C237 266 238 290 245 304" fill="none" stroke="#f4b2b7" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+        </g>
+      </g>
+    </svg>
     <div id="wheel" class="wheel"><div id="labels" class="labels"></div></div>
     <svg id="spinnerWilly" class="spinner-willy" viewBox="0 0 240 280" aria-label="Flick the Willy to spin">
       <defs>
@@ -547,65 +571,13 @@
 </section>
 
 <div id="prizeResult" class="prize-result hidden" role="dialog" aria-modal="true" aria-labelledby="prizeResultTitle">
-  <div class="prize-couple-scene" aria-hidden="true">
-    <svg viewBox="0 0 360 700" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="sceneSkin" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#f4bf92"/><stop offset=".48" stop-color="#dc9167"/><stop offset="1" stop-color="#b96750"/>
-        </linearGradient>
-        <linearGradient id="sceneSkinLight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#ffd0a6"/><stop offset="1" stop-color="#db8a63"/>
-        </linearGradient>
-        <radialGradient id="sceneRose" cx="50%" cy="43%" r="65%">
-          <stop offset="0" stop-color="#d77988"/><stop offset=".55" stop-color="#ae4d65"/><stop offset="1" stop-color="#71364b"/>
-        </radialGradient>
-        <linearGradient id="sceneWilly" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#f3bd8c"/><stop offset=".55" stop-color="#dc9567"/><stop offset="1" stop-color="#bc6e50"/>
-        </linearGradient>
-        <filter id="sceneSoftShadow" x="-40%" y="-40%" width="180%" height="200%">
-          <feDropShadow dx="0" dy="14" stdDeviation="11" flood-color="#050208" flood-opacity=".72"/>
-        </filter>
-      </defs>
-
-      <g class="prize-scene-willy" filter="url(#sceneSoftShadow)">
-        <ellipse cx="180" cy="632" rx="104" ry="24" fill="#050208" opacity=".45"/>
-        <ellipse cx="126" cy="602" rx="62" ry="55" fill="url(#sceneWilly)" stroke="#714532" stroke-width="6"/>
-        <ellipse cx="234" cy="602" rx="62" ry="55" fill="url(#sceneWilly)" stroke="#714532" stroke-width="6"/>
-        <rect x="124" y="382" width="112" height="224" rx="55" fill="url(#sceneWilly)" stroke="#714532" stroke-width="7"/>
-        <ellipse cx="160" cy="478" rx="19" ry="80" fill="#ffd0a6" opacity=".22"/>
-        <path d="M123 401 C124 363 148 344 180 344 C212 344 236 363 237 401 C237 429 212 445 180 445 C148 445 123 429 123 401Z" fill="url(#sceneSkinLight)" stroke="#714532" stroke-width="7"/>
-        <path d="M180 347 L180 356" fill="none" stroke="#9b5b47" stroke-width="4" stroke-linecap="round"/>
-        <ellipse cx="154" cy="395" rx="12" ry="8" fill="#fff"/><circle cx="157" cy="396" r="4" fill="#241d31"/>
-        <ellipse cx="206" cy="395" rx="12" ry="8" fill="#fff"/><circle cx="203" cy="396" r="4" fill="#241d31"/>
-        <path d="M155 418 Q180 439 205 418" fill="none" stroke="#8a3950" stroke-width="7" stroke-linecap="round"/>
-      </g>
-
-      <g class="prize-impact" opacity="0">
-        <ellipse cx="180" cy="346" rx="94" ry="28" fill="none" stroke="#f5e7c8" stroke-width="3" opacity=".58"/>
-        <ellipse cx="180" cy="346" rx="65" ry="18" fill="none" stroke="#e9c85b" stroke-width="2" opacity=".7"/>
-      </g>
-
-      <g class="prize-anatomy" filter="url(#sceneSoftShadow)">
-        <path d="M42 -8 C81 -24 128 5 143 66 C160 134 139 239 93 302 C64 342 23 334 12 287 C-1 232 15 168 9 105 C4 54 7 8 42 -8Z" fill="url(#sceneSkin)" stroke="#874f3f" stroke-width="7"/>
-        <path d="M318 -8 C279 -24 232 5 217 66 C200 134 221 239 267 302 C296 342 337 334 348 287 C361 232 345 168 351 105 C356 54 353 8 318 -8Z" fill="url(#sceneSkin)" stroke="#874f3f" stroke-width="7"/>
-        <path d="M107 -3 C127 -28 154 -40 180 -40 C206 -40 233 -28 253 -3 C269 18 265 64 244 95 C228 119 208 132 180 132 C152 132 132 119 116 95 C95 64 91 18 107 -3Z" fill="url(#sceneSkinLight)" stroke="#874f3f" stroke-width="7"/>
-        <path d="M136 56 C147 36 164 26 180 26 C196 26 213 36 224 56 C233 73 230 103 215 124 C204 140 192 150 180 150 C168 150 156 140 145 124 C130 103 127 73 136 56Z" fill="#b55f68" opacity=".54"/>
-        <path d="M180 47 C154 66 151 105 180 139 C209 105 206 66 180 47Z" fill="url(#sceneRose)" stroke="#74374b" stroke-width="4"/>
-        <path d="M180 58 C168 78 169 111 180 130 C191 111 192 78 180 58Z" fill="#e59aa0" opacity=".88"/>
-        <path d="M180 63 C176 83 176 107 180 125" fill="none" stroke="#79374b" stroke-width="3.5" stroke-linecap="round"/>
-        <ellipse cx="180" cy="54" rx="7" ry="4.5" fill="#f0a9ae"/>
-        <path d="M38 26 C64 10 90 31 96 81" fill="none" stroke="#ffd8b8" stroke-width="9" stroke-linecap="round" opacity=".26"/>
-        <path d="M322 26 C296 10 270 31 264 81" fill="none" stroke="#ffd8b8" stroke-width="9" stroke-linecap="round" opacity=".26"/>
-      </g>
-    </svg>
-  </div>
   <h2 id="prizeResultTitle">Your winning position</h2>
   <div id="prizePosition" class="prize-position">Missionary</div>
   <button id="prizePlayAgain" class="btn">Play Again</button>
 </div>
 
 <script>
-const VERSION='v28';
+const VERSION='v29';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -911,6 +883,11 @@ function updateHUD(){
   bankBtn.textContent=`Bank ${available}″`;
   bankBtn.disabled=state.spinning||available<=0;
   bankBtn.classList.toggle('ready',available>0&&!state.spinning);
+  const target=document.getElementById('mainAnatomy');
+  if(target){
+    const activeTotal=state.banked[state.active]+state.unbanked[state.active];
+    target.classList.toggle('close-target',activeTotal>=6);
+  }
   if(!state.spinning && resultModal.classList.contains('hidden')) applyRestingWillyLength(true);
 }
 function vibrate(p){ if(navigator.vibrate) navigator.vibrate(p) }
@@ -1202,6 +1179,8 @@ function retractWilly(){
 function spin(power=1,dir=1){
   if(state.spinning) return;
   spinnerWilly.classList.remove('balls-pulse','head-pulse','shaft-pulse');
+  const target=document.getElementById('mainAnatomy');
+  if(target) target.classList.remove('vulva-pulse');
   state.spinning=true; retractWilly(); updateHUD(); vibrate(20); whoosh(power,dir);
   const extraTurns=5+Math.floor(Math.random()*4)+Math.min(5,Math.floor(power*3));
   const idx=Math.floor(Math.random()*8);
@@ -1404,18 +1383,36 @@ function startRepeatingConfetti(){
 function stopRepeatingConfetti(){
   if(confettiRepeatTimer){clearInterval(confettiRepeatTimer);confettiRepeatTimer=null;}
 }
+let winContactTimer=null;
+function showWinner(w){
+  state.spinning=false;
+  const target=document.getElementById('mainAnatomy');
+  if(target) target.classList.remove('winner-contact','vulva-pulse');
+  spinnerWilly.classList.remove('winner-contact');
+  winTitle.textContent=w==='Emma' ? 'Emma took all 7 inches, lucky girl' : "Jim’s got 7 inches, it’s official";
+  winSub.textContent='';
+  winModal.classList.remove('hidden');
+  launchWinConfetti();
+  if(winConfettiTimer) clearInterval(winConfettiTimer);
+  winConfettiTimer=setInterval(()=>{ if(!winModal.classList.contains('hidden')) launchWinConfetti(); },3000);
+  fanfare();
+  startWinnerMusic();
+  vibrate([80,70,80,70,120]);
+}
 function checkWin(){
   if(state.banked.Emma>=7||state.banked.Jim>=7){
     const w=state.banked.Emma>=7?'Emma':'Jim';
-    winTitle.textContent=w==='Emma' ? 'Emma took all 7 inches, lucky girl' : "Jim’s got 7 inches, it’s official";
-    winSub.textContent='';
-    winModal.classList.remove('hidden');
-    launchWinConfetti();
-    if(winConfettiTimer) clearInterval(winConfettiTimer);
-    winConfettiTimer=setInterval(()=>{ if(!winModal.classList.contains('hidden')) launchWinConfetti(); },3000);
-    fanfare();
-    startWinnerMusic();
-    vibrate([80,70,80,70,120]);
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const target=document.getElementById('mainAnatomy');
+    if(!reduced&&target&&!document.hidden){
+      state.spinning=true;
+      target.classList.remove('vulva-pulse');
+      target.classList.add('winner-contact');
+      spinnerWilly.classList.add('winner-contact');
+      successSting('Both'); vibrate([45,30,75]);
+      if(winContactTimer) clearTimeout(winContactTimer);
+      winContactTimer=setTimeout(()=>{winContactTimer=null;showWinner(w);},720);
+    }else showWinner(w);
     return true;
   }
   return false;
@@ -1423,6 +1420,7 @@ function checkWin(){
 function reset(){
   stopChallengeTimer();
   stopWinnerMusic();
+  if(winContactTimer){clearTimeout(winContactTimer);winContactTimer=null;}
   game.classList.remove('hidden');
   state.active='Emma';
   state.banked={Emma:0,Jim:0};
@@ -1437,6 +1435,9 @@ function reset(){
   state.lastCardThemes=[];
   wheel.style.transition='none'; wheel.style.transform='rotate(0deg)';
   spinnerWilly.style.transition='none'; spinnerWilly.style.transform='rotate(0deg) scaleY(.95)';
+  spinnerWilly.classList.remove('winner-contact');
+  const target=document.getElementById('mainAnatomy');
+  if(target) target.classList.remove('winner-contact','vulva-pulse','close-target');
   winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
 }
 
@@ -1519,10 +1520,28 @@ function scheduleShaftPulse(delay=6200+Math.random()*5200){
     scheduleShaftPulse();
   },delay);
 }
+let vulvaPulseTimer=null;
+function scheduleVulvaPulse(delay){
+  if(vulvaPulseTimer) clearTimeout(vulvaPulseTimer);
+  const activeTotal=state.banked[state.active]+state.unbanked[state.active];
+  const wait=delay??(activeTotal>=6?2400+Math.random()*2200:4400+Math.random()*4300);
+  vulvaPulseTimer=setTimeout(()=>{
+    const target=document.getElementById('mainAnatomy');
+    const gameReady=howModal.classList.contains('hidden')&&resultModal.classList.contains('hidden')&&winModal.classList.contains('hidden')&&!game.classList.contains('hidden')&&!state.spinning;
+    if(target&&gameReady&&!document.hidden&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      target.classList.remove('vulva-pulse');
+      void target.getBoundingClientRect();
+      target.classList.add('vulva-pulse');
+      setTimeout(()=>target.classList.remove('vulva-pulse'),1450);
+    }
+    scheduleVulvaPulse();
+  },wait);
+}
 setupLabels();setupPrizeWheel();bindResultButtons();updateHUD();
 scheduleBallPulse(2800);
 scheduleHeadPulse(4300);
 scheduleShaftPulse(5900);
+scheduleVulvaPulse(3500);
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
