@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v32</title>
+<title>Silly Willy v33</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -348,7 +348,7 @@
   @media(max-height:700px){.main-anatomy{width:150%;bottom:98%}}
   @media(prefers-reduced-motion:reduce){.main-anatomy,.main-anatomy .main-vulva,.spinner-willy .willy-head{animation:none!important}.main-anatomy.close-target .main-vulva{filter:drop-shadow(0 0 8px #f7a9b58c)}}
 
-  /* v32: refined target details, raised anatomy, and banked-inch pearl animation. */
+  /* v33: anatomically aligned body layers and more leisurely multi-pearl banking. */
   .main-anatomy .vulva-opening{transform-box:fill-box;transform-origin:50% 50%;transform:scaleX(var(--opening-scale,.02));opacity:var(--opening-opacity,0);transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right{transform-box:fill-box;transform-origin:50% 50%;transition:transform .42s cubic-bezier(.2,.8,.25,1),opacity .38s ease}
   .main-anatomy .labia-left{transform:translateX(var(--left-fold,0px))}
@@ -374,7 +374,7 @@
 </style>
 </head>
 <body>
-<div class="version">v32</div>
+<div class="version">v33</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -447,6 +447,8 @@
         </filter>
       </defs>
       <g filter="url(#mainBodyShadow)">
+        <!-- Keep the target fixed beneath VS while lowering its surrounding body. -->
+        <g class="body-anatomy" transform="translate(0 40)">
         <path d="M148 -38 C142 36 150 91 132 145 C119 184 121 224 151 254 C177 281 212 292 260 292 C308 292 343 281 369 254 C399 224 401 184 388 145 C370 91 378 36 372 -38Z" fill="url(#mainSkinLight)" stroke="#824b3c" stroke-width="7"/>
         <path d="M166 -28 C160 36 169 99 153 150" fill="none" stroke="#ffe0c3" stroke-width="10" stroke-linecap="round" opacity=".24"/>
         <ellipse cx="260" cy="155" rx="13" ry="8" fill="#9d5b4b" opacity=".8"/>
@@ -456,6 +458,7 @@
         <path d="M298 226 C339 219 375 223 410 239 C455 260 496 294 556 350 L578 405 C489 390 401 341 309 292 C295 283 285 276 284 270Z" fill="url(#mainSkin)" stroke="#824b3c" stroke-width="7"/>
         <path d="M-4 305 C45 268 105 241 163 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
         <path d="M524 305 C475 268 415 241 357 251" fill="none" stroke="#ffd5b2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
+        </g>
 
         <path d="M208 236 C219 215 239 204 260 204 C281 204 301 215 312 236 C323 258 318 291 300 315 C287 332 273 340 260 340 C247 340 233 332 220 315 C202 291 197 258 208 236Z" fill="#b9606d" opacity=".45"/>
         <g opacity=".24" fill="none" stroke="#7b463f" stroke-width="2.2" stroke-linecap="round">
@@ -629,7 +632,7 @@
 </div>
 
 <script>
-const VERSION='v32';
+const VERSION='v33';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
@@ -1562,7 +1565,8 @@ function launchBankPearls(count,run){
   if(anatomy) anatomy.classList.remove('vulva-pulse');
   void spinnerWilly.getBoundingClientRect();
   spinnerWilly.classList.add('shaft-pulse');
-  const stagger=145;
+  // A single inch remains snappy; several inches arrive as a slower, readable sequence.
+  const stagger=count>1?285:145;
   for(let i=0;i<count;i++) setTimeout(()=>flyPearl(run),i*stagger);
   return new Promise(resolve=>setTimeout(()=>{
     spinnerWilly.classList.remove('shaft-pulse');
