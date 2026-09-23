@@ -385,9 +385,10 @@
   .prize-position{background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-shadow:0 2px 8px #0009;font-size:clamp(38px,10vw,64px)}
   @media(prefers-reduced-motion:reduce){.main-anatomy .vulva-opening,.main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right,.main-anatomy .closed-cover,.main-anatomy .closed-seam,.main-anatomy .clitoris,.main-anatomy .vulva-glisten{transition:none}.main-anatomy.glistening .vulva-glisten{animation:none}.pearl-flight{display:none}}
 
-  /* v41: slimmer prize opening with the original vertical span. */
-  #prizeScreen{display:block;position:absolute;inset:0;padding:0;overflow:hidden;background:radial-gradient(circle at 50% 36%,#422d50 0,#1a1422 57%,#0b0910 100%)}
+  /* v42: warm skin toned prize backdrop and subtle thigh contours. */
+  #prizeScreen{display:block;position:absolute;inset:0;padding:0;overflow:hidden;background:linear-gradient(to bottom,#46283a99 0%,transparent 27%,transparent 76%,#3c213277 100%),radial-gradient(ellipse at 50% 46%,#bd8492 0%,#a96c7e 52%,#78475f 100%)}
   #prizeScreen.hidden{display:none}
+  .prize-thigh-lines{position:absolute;z-index:1;inset:0;width:100%;height:100%;pointer-events:none}
   .prize-message{position:absolute;z-index:12;top:max(35px,calc(env(safe-area-inset-top) + 18px));left:26px;right:26px;text-align:center;color:#fff8e9;font-size:clamp(18px,5vw,22px);line-height:1.12;font-weight:900;text-shadow:0 4px 12px #000c}
   .prize-message em{display:block;margin-top:8px;color:#f2d45f;font-size:clamp(13px,3.7vw,16px);line-height:1.18;font-style:normal;letter-spacing:.15px}
   .bean-selector{position:absolute;z-index:2;left:50%;top:clamp(120px,14.8svh,125px);width:min(85.4vw,320px);aspect-ratio:320/510;transform:translateX(-50%);touch-action:none;user-select:none;-webkit-user-select:none}
@@ -416,7 +417,7 @@
 </style>
 </head>
 <body>
-<div class="version">v41</div>
+<div class="version">v42</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -668,6 +669,10 @@
 </div>
 
 <section id="prizeScreen" class="prize-screen hidden">
+  <svg class="prize-thigh-lines" viewBox="0 0 375 812" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-12 278 C37 343 65 433 47 520 C30 608 59 709 109 816 M387 278 C338 343 310 433 328 520 C345 608 316 709 266 816" fill="none" stroke="#5a3449" stroke-width="5" stroke-linecap="round" opacity=".43"/>
+    <path d="M-19 281 C26 355 50 438 33 526 C20 607 48 718 93 816 M394 281 C349 355 325 438 342 526 C355 607 327 718 282 816" fill="none" stroke="#e6aab0" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+  </svg>
   <div id="prizeMessage" class="prize-message">Congratulations Emma,<br>you took all 7 inches.<em>Now flick your bean to choose your scene.</em></div>
   <div class="bean-selector">
     <svg class="selector-rear" viewBox="0 38 370 264" preserveAspectRatio="none" aria-hidden="true">
@@ -700,7 +705,7 @@
 </section>
 
 <script>
-const VERSION='v41';
+const VERSION='v42';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
 const prizeState={spinning:false,index:0,x:0,frame:0};
