@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17131f" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<title>Silly Willy v39</title>
+<title>Silly Willy v40</title>
 <style>
   :root{
     --bg:#17131f; --bg-deep:#0d0a13; --panel:#241d2d; --panel2:#30263a;
@@ -385,10 +385,38 @@
   .prize-position{background:none;color:#fff8ea;-webkit-text-fill-color:#fff8ea;filter:none;text-shadow:0 2px 8px #0009;font-size:clamp(38px,10vw,64px)}
   @media(prefers-reduced-motion:reduce){.main-anatomy .vulva-opening,.main-anatomy .labia-left,.main-anatomy .labia-right,.main-anatomy .inner-left,.main-anatomy .inner-right,.main-anatomy .closed-cover,.main-anatomy .closed-seam,.main-anatomy .clitoris,.main-anatomy .vulva-glisten{transition:none}.main-anatomy.glistening .vulva-glisten{animation:none}.pearl-flight{display:none}}
 
+  /* v40: winner message and horizontal position reel share one polished screen. */
+  #prizeScreen{display:block;position:absolute;inset:0;padding:0;overflow:hidden;background:radial-gradient(circle at 50% 36%,#422d50 0,#1a1422 57%,#0b0910 100%)}
+  #prizeScreen.hidden{display:none}
+  .prize-message{position:absolute;z-index:12;top:max(35px,calc(env(safe-area-inset-top) + 18px));left:26px;right:26px;text-align:center;color:#fff8e9;font-size:clamp(18px,5vw,22px);line-height:1.12;font-weight:900;text-shadow:0 4px 12px #000c}
+  .prize-message em{display:block;margin-top:8px;color:#f2d45f;font-size:clamp(13px,3.7vw,16px);line-height:1.18;font-style:normal;letter-spacing:.15px}
+  .bean-selector{position:absolute;z-index:2;left:50%;top:clamp(120px,14.8svh,125px);width:min(85.4vw,320px);aspect-ratio:320/510;transform:translateX(-50%);touch-action:none;user-select:none;-webkit-user-select:none}
+  .bean-selector .selector-rear,.bean-selector .selector-front{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .bean-selector .selector-rear{z-index:1;filter:drop-shadow(0 17px 25px #050208cc)}
+  .bean-selector .selector-front{z-index:4;filter:drop-shadow(0 5px 8px #351522b0)}
+  .bean-window{position:absolute;z-index:2;left:50%;top:50%;width:40%;height:32.15%;transform:translate(-50%,-50%);overflow:hidden;clip-path:ellipse(50% 50% at 50% 50%);background:radial-gradient(ellipse at center,#643049 0,#3a192b 70%,#1b0b14 100%);box-shadow:inset 0 0 34px #000e,0 0 25px #e68ca870}
+  .bean-reel{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;will-change:transform}
+  .bean-position{flex:0 0 var(--prize-item-width,128px);box-sizing:border-box;padding:0 8px;text-align:center;color:#fff5d8;font-size:clamp(11px,3.2vw,13px);line-height:1.12;font-weight:900;letter-spacing:.25px;text-transform:uppercase;text-shadow:0 2px 5px #000,0 0 11px #f2d45f70}
+  .bean-position span{display:block;margin:2px 0}
+  .prize-bean{position:absolute;z-index:7;left:50%;top:14.3%;width:31.25%;height:12.55%;transform:translateX(-50%);border:0;padding:0;background:transparent;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  .prize-bean-shape{position:absolute;left:50%;top:50%;width:44%;height:39%;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(180deg,#f7bec6,#df8597);box-shadow:0 3px 0 #75364d,0 0 16px #ffbdca99;transition:transform .22s cubic-bezier(.2,.8,.25,1),filter .2s ease}
+  .prize-bean:active .prize-bean-shape,.prize-bean.is-spinning .prize-bean-shape{transform:translate(-50%,-50%) scale(1.15);filter:brightness(1.22) saturate(1.15);box-shadow:0 3px 0 #75364d,0 0 24px #ffd0d9d0}
+  .prize-result{position:absolute;z-index:10;top:auto;left:25px;right:25px;bottom:max(106px,calc(env(safe-area-inset-bottom) + 94px));height:auto;min-height:44px;text-align:center;background:none;display:block;padding:0;pointer-events:none}
+  .prize-result h2{display:none;margin:0;color:#f2d45f;font-size:12px;line-height:1.2;letter-spacing:1.8px;text-transform:uppercase;text-shadow:none}
+  .prize-position{display:block;margin:0;color:#d9cedd;-webkit-text-fill-color:currentColor;background:none;font-size:16px;line-height:1.25;font-weight:800;text-shadow:none;filter:none}
+  .prize-result::after{content:"";display:none}
+  #prizeScreen.has-result .prize-result h2{display:block}
+  #prizeScreen.has-result .prize-position{font-size:14px;color:#d9cedd}
+  #prizeScreen.has-result .prize-result::after{content:"Have fun";display:block;margin-top:4px;color:#d9cedd;font-size:14px;font-weight:800}
+  .prize-play-again{position:absolute;z-index:30;left:34px;right:34px;bottom:max(20px,env(safe-area-inset-bottom));height:58px;display:grid;place-items:center;border-radius:22px;background:linear-gradient(#fff080,#dfbe3c);border:2px solid #fff2a2;color:#2b2109;font-size:20px;font-weight:900;box-shadow:0 7px 0 #947414,0 12px 25px #0009;opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease;pointer-events:none}
+  #prizeScreen.has-result .prize-play-again{opacity:1;transform:none;pointer-events:auto}
+  @media(max-height:700px){.bean-selector{top:112px;width:min(74vw,280px)}.prize-message{top:max(22px,calc(env(safe-area-inset-top) + 10px));font-size:17px}.prize-message em{font-size:12px}.prize-result{bottom:max(92px,calc(env(safe-area-inset-bottom) + 82px))}}
+  @media(prefers-reduced-motion:reduce){.prize-bean-shape,.prize-play-again{transition:none}}
+
 </style>
 </head>
 <body>
-<div class="version">v39</div>
+<div class="version">v40</div>
 
 <section id="start" class="screen">
   <div class="start-sparkles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -571,8 +599,8 @@
       <li>Bust: if there are no unbanked inches, 0 inches are gained; otherwise all unbanked inches are lost. Play then swaps to the other player.</li>
       <li>The Willy gets longer as the active player builds their score. At 6 inches it reaches the outside of the wheel.</li>
       <li>The first player to bank 7 inches wins.</li>
-      <li>On the winner screen, tap Claim Your Prize and flick the Willy again to spin the full-size Prize Wheel. The position names read from the outside edge toward the centre, and the winning position becomes the prize.</li>
-      <li>The winner music keeps playing through the winner and prize screens and stops when Play Again is pressed.</li>
+      <li>When someone reaches 7 inches, tap the bean on the congratulations screen. The position names spin through the opening, slow down and stop on your winning scene.</li>
+      <li>The winner music starts as soon as the congratulations screen appears and stops when Play Again is pressed.</li>
       <li>Tap the VS between the score panels at any time to restart the game.</li>
     </ol>
     <button id="closeHow" class="btn close">Got it</button>
@@ -640,51 +668,39 @@
 </div>
 
 <section id="prizeScreen" class="prize-screen hidden">
-  <div class="prize-title">Claim Your Prize</div>
-  <div class="prize-sub">Flick the Willy and let fate decide.</div>
-  <div class="prize-wheel-shell">
-    <div id="prizeWheel" class="prize-wheel"><div id="prizeLabels" class="prize-labels"></div></div>
-    <svg id="prizeWilly" class="prize-willy" viewBox="0 0 240 280" aria-label="Flick the Willy to spin the prize wheel">
+  <div id="prizeMessage" class="prize-message">Congratulations Emma,<br>you took all 7 inches.<em>Now flick your bean to choose your scene.</em></div>
+  <div class="bean-selector">
+    <svg class="selector-rear" viewBox="0 38 370 264" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="shaftGradPrize" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#efb07f"/><stop offset="100%" stop-color="#d99363"/></linearGradient>
-        <linearGradient id="headGradPrize" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#f7c294"/><stop offset="100%" stop-color="#e6a474"/></linearGradient>
+        <linearGradient id="prizeOuter" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e18ba0"/><stop offset=".52" stop-color="#ad4d69"/><stop offset="1" stop-color="#6d314a"/></linearGradient>
+        <radialGradient id="prizeInner" cx="50%" cy="50%" r="70%"><stop offset="0" stop-color="#a84c68"/><stop offset=".72" stop-color="#713149"/><stop offset="1" stop-color="#4f2137"/></radialGradient>
       </defs>
-      <ellipse cx="120" cy="235" rx="82" ry="22" fill="#000" opacity=".16"/>
-      <ellipse class="willy-ball left" cx="81" cy="195" rx="45" ry="40" fill="#e7a06e" stroke="#7e4c36" stroke-width="5"/>
-      <ellipse class="willy-ball right" cx="159" cy="193" rx="42" ry="38" fill="#dda06f" stroke="#7e4c36" stroke-width="5"/>
-      <path d="M47 190 C59 174 74 169 89 173" fill="none" stroke="#f7c296" stroke-width="5" stroke-linecap="round" opacity=".28"/>
-      <path d="M151 171 C166 168 181 174 190 187" fill="none" stroke="#f5bd90" stroke-width="4" stroke-linecap="round" opacity=".23"/>
-      <g class="willy-shaft">
-      <path d="M87 68 C84 101 86 151 87 175 C88 199 100 211 120 212 C142 213 155 199 156 175 C158 139 159 99 153 67 C137 61 104 61 87 68Z" fill="url(#shaftGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M103 82 C99 112 100 158 105 183 C108 196 113 201 119 203" fill="none" stroke="#ffe1c2" stroke-width="11" stroke-linecap="round" opacity=".2"/>
-      <path class="willy-vein" d="M146 102 C138 118 146 135 139 151 C134 161 137 174 132 184" fill="none" stroke="#ad654f" stroke-width="2.2" stroke-linecap="round" opacity=".34"/>
-      <path class="willy-vein" d="M94 128 C101 139 95 151 101 164" fill="none" stroke="#f1b389" stroke-width="1.8" stroke-linecap="round" opacity=".3"/>
-      </g>
-      <g class="willy-head">
-      <path d="M78 68 C79 49 95 35 111 29 C117 27 123 27 129 29 C145 35 161 49 162 68 C161 85 144 94 120 94 C96 94 79 85 78 68Z" fill="url(#headGradPrize)" stroke="#7e4c36" stroke-width="5" stroke-linejoin="round"/>
-      <path class="willy-rim" d="M82 72 C98 87 142 87 158 72" fill="none" stroke="#b86f56" stroke-width="3" stroke-linecap="round" opacity=".72"/>
-      <path d="M120 31 L120 37" fill="none" stroke="#9b5b47" stroke-width="3.5" stroke-linecap="round"/>
-      <ellipse cx="103" cy="50" rx="11" ry="7" fill="#fff3"/>
-      <circle cx="106" cy="53" r="7" fill="#fff"/><circle cx="108" cy="54" r="3.3" fill="#241d31"/>
-      <circle cx="134" cy="53" r="7" fill="#fff"/><circle cx="132" cy="54" r="3.3" fill="#241d31"/>
-      <path d="M104 65 Q120 76 136 65" fill="none" stroke="#8a3950" stroke-width="5" stroke-linecap="round"/>
-      </g>
+      <path d="M15 170 C42 91 104 44 185 44 C266 44 328 91 355 170 C328 249 266 296 185 296 C104 296 42 249 15 170Z" fill="url(#prizeOuter)" stroke="#653047" stroke-width="8"/>
+      <path d="M44 170 C68 111 120 79 185 79 C250 79 302 111 326 170 C302 229 250 261 185 261 C120 261 68 229 44 170Z" fill="url(#prizeInner)" opacity=".92"/>
+      <ellipse cx="185" cy="170" rx="112" ry="57" fill="#321321"/>
+      <path d="M54 153 C88 88 145 64 185 64 C225 64 282 88 316 153" fill="none" stroke="#f0a5b4" stroke-width="11" stroke-linecap="round" opacity=".7"/>
+      <path d="M54 187 C88 252 145 276 185 276 C225 276 282 252 316 187" fill="none" stroke="#8b3b59" stroke-width="11" stroke-linecap="round" opacity=".8"/>
     </svg>
+    <div id="prizeWindow" class="bean-window"><div id="prizeReel" class="bean-reel"></div></div>
+    <svg class="selector-front" viewBox="0 38 370 264" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="prizeFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#db7d93"/><stop offset="1" stop-color="#8c3b58"/></linearGradient></defs>
+      <path d="M16 170 C49 107 111 82 185 82 C259 82 321 107 354 170 C315 137 261 126 185 126 C109 126 55 137 16 170Z" fill="url(#prizeFront)" stroke="#653047" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M16 170 C49 233 111 258 185 258 C259 258 321 233 354 170 C315 203 261 214 185 214 C109 214 55 203 16 170Z" fill="url(#prizeFront)" stroke="#653047" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M58 149 C95 115 139 102 185 102 C231 102 275 115 312 149" fill="none" stroke="#f4afbc" stroke-width="8" stroke-linecap="round" opacity=".84"/>
+      <path d="M58 191 C95 225 139 238 185 238 C231 238 275 225 312 191" fill="none" stroke="#d4748b" stroke-width="8" stroke-linecap="round" opacity=".82"/>
+      <path d="M78 136 C117 111 150 105 179 106" fill="none" stroke="#fff2e9" stroke-width="3" stroke-linecap="round" opacity=".68"/>
+    </svg>
+    <button id="prizeBean" type="button" class="prize-bean" aria-label="Tap the bean to spin the prize positions"><span class="prize-bean-shape" aria-hidden="true"></span></button>
   </div>
-  <div class="hint">Flick the Willy to spin for your prize</div>
+  <div id="prizeResult" class="prize-result" aria-live="polite"><h2 id="prizeResultTitle">Your winning position</h2><div id="prizePosition" class="prize-position">Tap the bean to spin</div></div>
+  <button id="prizePlayAgain" class="prize-play-again">Play Again</button>
 </section>
 
-<div id="prizeResult" class="prize-result hidden" role="dialog" aria-modal="true" aria-labelledby="prizeResultTitle">
-  <h2 id="prizeResultTitle">Your winning position</h2>
-  <div id="prizePosition" class="prize-position">Missionary</div>
-  <button id="prizePlayAgain" class="btn">Play Again</button>
-</div>
-
 <script>
-const VERSION='v39';
+const VERSION='v40';
 const CATEGORIES=['Emma','Both','Jim','Bust','Emma','Both','Jim','Bust'];
 const PRIZES=['Missionary','Cowgirl','Reverse Cowgirl','Doggy','Spooning','Standing','Edge of the Bed','Seated / Lap Ride','Legs Up','Side-by-Side','The Throne','Winner’s Choice'];
-const prizeState={spinning:false,wheelRotation:0,willyRotation:0};
+const prizeState={spinning:false,index:0,x:0,frame:0};
 const state={active:'Emma', banked:{Emma:0,Jim:0}, unbanked:{Emma:0,Jim:0}, spinning:false, wheelRotation:0, willyRotation:0, currentCategory:null, currentCard:null, completedCards:{Emma:new Set(),Jim:new Set(),Both:new Set()}, lastSkipped:{Emma:null,Jim:null,Both:null}, lastCardThemes:[]};
 let challengeTimer=null;
 let challengeTickTimer=null;
@@ -920,44 +936,71 @@ function setupLabels(){
   wheel.appendChild(labels);
 }
 function setupPrizeWheel(){
-  const step=360/PRIZES.length;
-  const colors=['#f05f98','#55c66d','#429ee8','#ff8248','#a86dec','#25b9aa','#f15f57','#6678ed','#e9ad32','#e56e3e','#d95bab','#43b979'];
-  prizeWheel.style.background=`conic-gradient(${PRIZES.map((_,i)=>`${colors[i]} ${i*step}deg ${(i+1)*step}deg`).join(',')})`;
-  prizeLabels.innerHTML='';
-  PRIZES.forEach((name,i)=>{
-    const d=document.createElement('div');
-    d.className='prize-label';
-    const angle=i*step+step/2;
-    const radius=47.2;
-    const rad=angle*Math.PI/180;
-    d.style.left=`${50+Math.sin(rad)*radius}%`;
-    d.style.top=`${50-Math.cos(rad)*radius}%`;
-    // The text begins at the outside edge and reads radially inward toward the centre.
-    d.style.transform=`translate(0,-50%) rotate(${angle+90}deg)`;
-    d.style.fontSize = name.length>16 ? '6.8px' : name.length>13 ? '7.4px' : name.length>10 ? '8.2px' : '9.2px';
-    d.textContent=name;
-    prizeLabels.appendChild(d);
+  const lines={
+    'Reverse Cowgirl':['REVERSE','COWGIRL'],
+    'Edge of the Bed':['EDGE','OF THE','BED'],
+    'Seated / Lap Ride':['SEATED','LAP','RIDE'],
+    'Side-by-Side':['SIDE','BY','SIDE'],
+    'Winner’s Choice':['WINNER’S','CHOICE']
+  };
+  const repeated=[...PRIZES,...PRIZES,...PRIZES,...PRIZES,...PRIZES];
+  prizeReel.innerHTML=repeated.map(name=>{
+    const parts=lines[name]||name.toUpperCase().split(' ');
+    return `<div class="bean-position">${parts.map(part=>`<span>${part}</span>`).join('')}</div>`;
+  }).join('');
+  prizeState.index=PRIZES.length*2;
+  requestAnimationFrame(()=>{
+    const width=prizeWindow.getBoundingClientRect().width||128;
+    prizeReel.style.setProperty('--prize-item-width',`${width}px`);
+    prizeState.x=-prizeState.index*width;
+    prizeReel.style.transform=`translate3d(${prizeState.x}px,0,0)`;
   });
 }
-function spinPrize(power=1,dir=1){
+function spinPrize(){
   if(prizeState.spinning) return;
-  prizeWilly.classList.remove('balls-pulse','head-pulse','shaft-pulse');
-  prizeState.spinning=true; whoosh(power,dir); vibrate(20);
-  const step=360/PRIZES.length, idx=Math.floor(Math.random()*PRIZES.length), center=idx*step+step/2;
-  const turns=6+Math.floor(Math.random()*3)+Math.min(4,Math.floor(power*2)), duration=3.8+Math.min(1.6,power*.55), wheelDir=-dir;
-  const currentRel=((prizeState.willyRotation-prizeState.wheelRotation)%360+360)%360;
-  const required=((currentRel-center)%360+360)%360;
-  let wheelDelta;
-  if(wheelDir>0) wheelDelta=360*turns+required; else wheelDelta=-(360*turns+((360-required)%360));
-  const willyDelta=dir*(360*(4+Math.min(4,Math.floor(power*2))));
-  prizeState.wheelRotation+=wheelDelta; prizeState.willyRotation+=willyDelta;
-  prizeWheel.style.transition=`transform ${duration}s cubic-bezier(.08,.74,.12,1)`;
-  prizeWheel.style.transform=`rotate(${prizeState.wheelRotation}deg)`;
-  prizeWilly.style.transition=`transform ${duration*.9}s cubic-bezier(.08,.74,.12,1)`;
-  prizeWilly.style.transform=`rotate(${prizeState.willyRotation}deg) scaleY(1.12)`;
-  const started=performance.now(); let timer=null;
-  const tick=()=>{ if(!prizeState.spinning)return; const p=Math.min(1,(performance.now()-started)/(duration*1000)); rouletteClick(Math.max(.25,1-p*.65)); timer=setTimeout(tick,55+(1-Math.pow(1-p,2.4))*285); }; tick();
-  setTimeout(()=>{ if(timer)clearTimeout(timer); prizeWilly.style.transition='transform .34s cubic-bezier(.2,.9,.25,1.15)'; prizeWilly.style.transform=`rotate(${prizeState.willyRotation}deg) scaleY(1.34)`; vibrate([30,40,30]); setTimeout(()=>{ prizeState.spinning=false; successSting('Both'); prizePosition.textContent=PRIZES[idx]; prizeResult.classList.remove('hidden'); },340); },duration*1000+20);
+  const width=prizeWindow.getBoundingClientRect().width||128;
+  prizeReel.style.setProperty('--prize-item-width',`${width}px`);
+  const logical=((prizeState.index%PRIZES.length)+PRIZES.length)%PRIZES.length;
+  prizeState.index=PRIZES.length*2+logical;
+  prizeState.x=-prizeState.index*width;
+  prizeReel.style.transform=`translate3d(${prizeState.x}px,0,0)`;
+  const direction=Math.random()<.5?-1:1;
+  const travel=10+Math.floor(Math.random()*8);
+  const targetIndex=Math.max(2,Math.min(PRIZES.length*5-3,prizeState.index+direction*travel));
+  const startX=prizeState.x;
+  const targetX=-targetIndex*width;
+  const started=performance.now();
+  const duration=3000+Math.random()*450;
+  let lastTick=0;
+  prizeState.spinning=true;
+  prizeBean.disabled=true;
+  prizeBean.classList.add('is-spinning');
+  prizeScreen.classList.remove('has-result');
+  prizePosition.textContent='Spinning…';
+  whoosh(1.35,direction);
+  vibrate(20);
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease=t=>1-Math.pow(1-t,4);
+  const step=now=>{
+    const p=reduced?1:Math.min(1,(now-started)/duration);
+    prizeState.x=startX+(targetX-startX)*ease(p);
+    prizeReel.style.transform=`translate3d(${prizeState.x}px,0,0)`;
+    if(now-lastTick>55+p*210){rouletteClick(Math.max(.25,1-p*.65));lastTick=now;}
+    if(p<1) prizeState.frame=requestAnimationFrame(step);
+    else{
+      prizeState.index=targetIndex;
+      prizeState.x=targetX;
+      prizeState.spinning=false;
+      prizeBean.disabled=false;
+      prizeBean.classList.remove('is-spinning');
+      const idx=((targetIndex%PRIZES.length)+PRIZES.length)%PRIZES.length;
+      prizePosition.textContent=PRIZES[idx];
+      prizeScreen.classList.add('has-result');
+      successSting('Both');
+      vibrate([30,40,30]);
+    }
+  };
+  prizeState.frame=requestAnimationFrame(step);
 }
 function ruler(id,banked,unbanked){
   const el=document.getElementById(id);
@@ -1549,21 +1592,19 @@ function showWinner(w){
   const target=document.getElementById('mainAnatomy');
   if(target) target.classList.remove('winner-contact','vulva-pulse');
   spinnerWilly.classList.remove('winner-contact');
-  winTitle.textContent=w==='Emma' ? 'Emma took all 7 inches, lucky girl' : "Jim’s got 7 inches, it’s official";
-  winSub.textContent='';
   if(winnerSequenceTimer){clearTimeout(winnerSequenceTimer);winnerSequenceTimer=null;}
   if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;}
-  const confettiLayer=document.getElementById('confettiLayer');
-  if(confettiLayer) confettiLayer.innerHTML='';
-  const stage=document.getElementById('winStage');
-  if(stage){stage.classList.remove('ingesting');void stage.getBoundingClientRect();stage.classList.add('ingesting');}
-  winModal.classList.remove('winner-sequence-complete');
-  claimPrizeBtn.disabled=true;
-  winModal.classList.remove('hidden');
-  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  animateWinnerMask(reduced);
-  if(reduced) finishWinnerSequence();
-  else winnerSequenceTimer=setTimeout(finishWinnerSequence,3750);
+  winModal.classList.add('hidden');
+  game.classList.add('hidden');
+  prizeMessage.innerHTML=w==='Emma'
+    ? 'Congratulations Emma,<br>you took all 7 inches.<em>Now flick your bean to choose your scene.</em>'
+    : 'Congratulations Jim,<br>you’ve officially got 7 inches.<em>Now flick her bean to choose your scene.</em>';
+  prizeScreen.classList.remove('has-result','hidden');
+  prizePosition.textContent='Tap the bean to spin';
+  prizeState.spinning=false;
+  prizeBean.disabled=false;
+  prizeBean.classList.remove('is-spinning');
+  setupPrizeWheel();
   fanfare();
   startWinnerMusic();
   vibrate([80,70,80,70,120]);
@@ -1610,7 +1651,7 @@ function reset(){
   spinnerWilly.classList.remove('winner-contact','bust-face');
   const target=document.getElementById('mainAnatomy');
   if(target) target.classList.remove('winner-contact','vulva-pulse','close-target');
-  if(winnerSequenceTimer){clearTimeout(winnerSequenceTimer);winnerSequenceTimer=null;} const winStage=document.getElementById('winStage');if(winStage)winStage.classList.remove('ingesting');winModal.classList.remove('winner-sequence-complete');claimPrizeBtn.disabled=false;winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.add('hidden'); prizeResult.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; prizeState.spinning=false; prizeState.wheelRotation=0; prizeState.willyRotation=0; prizeWheel.style.transition='none'; prizeWheel.style.transform='rotate(0deg)'; prizeWilly.style.transition='none'; prizeWilly.style.transform='rotate(0deg) scaleY(1.12)'; updateHUD();
+  if(winnerSequenceTimer){clearTimeout(winnerSequenceTimer);winnerSequenceTimer=null;} const winStage=document.getElementById('winStage');if(winStage)winStage.classList.remove('ingesting');winModal.classList.remove('winner-sequence-complete');claimPrizeBtn.disabled=false;winModal.classList.add('hidden'); resultModal.classList.add('hidden'); prizeScreen.classList.remove('has-result');prizeScreen.classList.add('hidden'); if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;} const c=document.getElementById('confettiLayer');if(c)c.innerHTML=''; if(prizeState.frame)cancelAnimationFrame(prizeState.frame);prizeState.spinning=false;prizeBean.disabled=false;prizeBean.classList.remove('is-spinning');updateHUD();
 }
 
 let bankPearlRun=0;
@@ -1676,8 +1717,9 @@ bindPress(startBtn,()=>{unlockAudio();start.classList.add('hidden');game.classLi
 bindPress(howBtn,()=>howModal.classList.remove('hidden'));
 bindPress(closeHow,()=>howModal.classList.add('hidden'));
 bindPress(vsRestart,()=>{ if(confirm('Restart Silly Willy?')) reset(); });
-bindPress(claimPrizeBtn,()=>{ unlockAudio(); stopWinnerMask(true);if(winnerSequenceTimer){clearTimeout(winnerSequenceTimer);winnerSequenceTimer=null;}if(winConfettiTimer){clearInterval(winConfettiTimer);winConfettiTimer=null;}const stage=document.getElementById('winStage');if(stage)stage.classList.remove('ingesting');winModal.classList.remove('winner-sequence-complete');winModal.classList.add('hidden'); game.classList.add('hidden'); prizeScreen.classList.remove('hidden'); prizeResult.classList.add('hidden'); });
-bindPress(prizePlayAgain,()=>{ stopWinnerMusic(); prizeResult.classList.add('hidden'); prizeScreen.classList.add('hidden'); game.classList.remove('hidden'); reset(); });
+bindPress(claimPrizeBtn,()=>{ winModal.classList.add('hidden'); });
+bindPress(prizePlayAgain,()=>{ stopWinnerMusic(); prizeScreen.classList.remove('has-result');prizeScreen.classList.add('hidden'); game.classList.remove('hidden'); reset(); });
+bindPress(prizeBean,()=>spinPrize());
 
 
 bindPress(bankBtn,async()=>{
@@ -1702,17 +1744,11 @@ let pStart=null;
 spinnerWilly.addEventListener('pointerdown',e=>{if(state.spinning)return;pStart={x:e.clientX,y:e.clientY,t:performance.now()};spinnerWilly.setPointerCapture(e.pointerId)});
 spinnerWilly.addEventListener('pointerup',e=>{if(!pStart||state.spinning)return;const dt=Math.max(1,performance.now()-pStart.t);const dx=e.clientX-pStart.x,dy=e.clientY-pStart.y;const dist=Math.hypot(dx,dy);const velocity=dist/dt;const power=Math.max(.5,Math.min(2.8,velocity*1.8+dist/180));const dir=(Math.abs(dx)>=Math.abs(dy)?Math.sign(dx||1):-Math.sign(dy||1));pStart=null;spin(power,dir)});
 spinnerWilly.addEventListener('click',()=>{if(!state.spinning)spin(.7,1)});
-let prizePStart=null;
-prizeWilly.addEventListener('pointerdown',e=>{if(prizeState.spinning)return;prizePStart={x:e.clientX,y:e.clientY,t:performance.now()};prizeWilly.setPointerCapture(e.pointerId)});
-prizeWilly.addEventListener('pointerup',e=>{if(!prizePStart||prizeState.spinning)return;const dt=Math.max(1,performance.now()-prizePStart.t);const dx=e.clientX-prizePStart.x,dy=e.clientY-prizePStart.y;const dist=Math.hypot(dx,dy);const velocity=dist/dt;const power=Math.max(.5,Math.min(2.8,velocity*1.8+dist/180));const dir=(Math.abs(dx)>=Math.abs(dy)?Math.sign(dx||1):-Math.sign(dy||1));prizePStart=null;spinPrize(power,dir)});
-prizeWilly.addEventListener('click',()=>{if(!prizeState.spinning)spinPrize(.7,1)});
-
 let ballPulseTimer=null;
 let headPulseTimer=null;
 function stationaryWillyTarget(){
   const startScreen=document.getElementById('start');
   if(!winModal.classList.contains('hidden')) return document.querySelector('.win-willy');
-  if(prizeResult.classList.contains('hidden')&&!prizeScreen.classList.contains('hidden')&&!prizeState.spinning) return prizeWilly;
   if(howModal.classList.contains('hidden')&&!startScreen.classList.contains('hidden')) return startScreen.querySelector('.willy');
   if(howModal.classList.contains('hidden')&&resultModal.classList.contains('hidden')&&!game.classList.contains('hidden')&&!state.spinning) return spinnerWilly;
   return null;
